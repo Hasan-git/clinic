@@ -1,0 +1,192 @@
+
+<div class="row wrapper border-bottom white-bg page-heading animated fadeInRight">
+    <div class="col-sm-4">
+        <h2>New Assistant</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            
+            <li class="active">
+                <strong>Create new Assistant</strong>
+            </li>
+        </ol>
+
+
+
+    </div>
+    <!-- <div class="col-sm-7">
+        <div class="title-action">
+            <a href="" class="btn btn-primary">This is action area</a>
+        </div>
+    </div>
+    -->
+</div>
+
+
+<div class="row"  ><!--ng-controller="newAssistant"-->
+    
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content">
+            <div class=" text-center animated fadeInRightBig">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>
+                            Assistant file
+                            <small> Fields with (*) are required .</small>
+                        </h5>
+                        <!-- <div ibox-tools></div> -->
+                        <div ibox-tools-full-screen></div>
+                    </div>
+                    <div class="ibox-content">
+                        <form method="get" class="form-horizontal" name="newAssistantForm" novalidate>
+                            <div class="form-group" ng-class="{'has-error':newAssistantForm.inputAssistantName.$invalid && newAssistantForm.inputAssistantName.$dirty}">
+                                <label class="col-sm-2 control-label">First name <small>*</small></label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="inputAssistantName" class="form-control" placeholder="Enter First Name" ng-model="vm.assistant.firstName" required ng-minlength="3" ng-maxlength="30" ng-pattern="main.validation.numeric">
+                                </div>
+                                <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs"><!-- Validation -->
+                                    <div class="help-block m-b-n m-t-none display-box" ng-messages="newAssistantForm.inputAssistantName.$error" ng-if="newAssistantForm.inputAssistantName.$dirty" ng-messages-include="ngmessages.html">
+                                        <div ng-show="newAssistantForm.inputAssistantName.$error.pattern">Only letters are allowed !</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group" ng-class="{'has-error': newAssistantForm.inputAssistantMiddelName.$error && newAssistantForm.inputAssistantLastName.$dirty}">
+                                <label class="col-sm-2 control-label">Middel Name </label>
+
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="inputAssistantMiddelName" placeholder="Enter Middel Name" ng-model="vm.assistant.middelName" required ng-minlength="3" ng-maxlength="20" ng-pattern="main.validation.numeric"/>
+                                </div>
+                                <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                    <div class="help-block m-b-n m-t-none" ng-messages="newAssistantForm.inputAssistantMiddelName.$error" ng-if="newAssistantForm.inputAssistantMiddelName.$dirty" ng-messages-include="ngmessages.html">
+                                        <div ng-show="newAssistantForm.inputAssistantMiddelName.$error.pattern">Only letters are allowed !</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group" ng-class="{'has-error':newAssistantForm.inputAssistantLastName.$invalid && newAssistantForm.inputAssistantLastName.$dirty}">
+                                <label class="col-sm-2 control-label">Last Name <small>*</small></label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="inputAssistantLastName" placeholder="Enter Last Name" ng-model="vm.assistant.lastName" required ng-minlength="3" ng-maxlength="20" ng-pattern="main.validation.numeric">
+                                </div>
+                                <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                    <div class="help-block m-b-n m-t-none display-box" ng-messages="newAssistantForm.inputAssistantLastName.$error" ng-if="newAssistantForm.inputAssistantLastName.$dirty" ng-messages-include="ngmessages.html">
+                                        <div ng-show="newAssistantForm.inputAssistantLastName.$error.pattern">Only letters are allowed !</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group" ng-class="{'has-error':newAssistantForm.inputAssistantUsername.$invalid && newAssistantForm.inputAssistantUsername.$dirty}">
+                                <label class="col-sm-2 control-label">Username <small>*</small></label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="inputAssistantUsername" class="form-control" placeholder="Enter Username" ng-model="vm.assistant.username" required ng-minlength="6" ng-maxlength="30" ng-pattern="main.validation.alpha_d">
+                                </div>
+                                <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                    <!-- Validation -->
+                                    <div class="help-block m-b-n m-t-none display-box" ng-messages="newAssistantForm.inputAssistantUsername.$error" ng-if="newAssistantForm.inputAssistantUsername.$dirty && newAssistantForm.inputAssistantUsername.$dirty" ng-messages-include="ngmessages.html">
+                                        <div ng-show="newAssistantForm.inputAssistantUsername.$error.pattern">Only alphanumeric and (- _ .) are allowed !</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group" ng-class="{'has-error':newAssistantForm.inputAssistantPassword.$invalid && newAssistantForm.inputAssistantPassword.$dirty}">
+                                <label class="col-sm-2 control-label">Password <small>*</small></label>
+                                <div class="col-sm-8">
+                                    <input type="password" name="inputAssistantPassword" class="form-control" placeholder="Enter Password" ng-model="vm.assistant.password" required ng-minlength="6" ng-maxlength="30" ng-pattern="main.validation.alpha_d">
+                                </div>
+                                <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                    <!-- Validation -->
+                                    <div class="help-block m-b-n m-t-none display-box" ng-messages="newAssistantForm.inputAssistantPassword.$error" ng-if="newAssistantForm.inputAssistantPassword.$dirty && newAssistantForm.inputAssistantPassword.$dirty" ng-messages-include="ngmessages.html">
+                                        <div ng-show="newAssistantForm.inputAssistantPassword.$error.pattern">Only alphanumeric and (- _ .) are allowed !</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group" ng-class="{'has-error':newAssistantForm.inputAssistantPassword_c.$invalid && newAssistantForm.inputAssistantPassword_c.$dirty}">
+                                <label class="col-sm-2 control-label">Password Conf <small>*</small></label>
+                                <div class="col-sm-8">
+                                    <input type="password" name="inputAssistantPassword_c" class="form-control" placeholder="Retype Password" ng-model="vm.assistant.password_c" required ng-minlength="6" ng-maxlength="30" ng-pattern="main.validation.alpha_d" compare-to="vm.assistant.password">
+                                </div>
+                                <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                    <!-- Validation -->
+                                    <div class="help-block m-b-n m-t-none display-box" ng-messages="newAssistantForm.inputAssistantPassword_c.$error" ng-if="newAssistantForm.inputAssistantPassword_c.$dirty" ng-messages-include="ngmessages.html">
+                                        <div ng-show="newAssistantForm.inputAssistantPassword_c.$error.pattern">Only alphanumeric and (- _ .) are allowed !</div>
+                                    </div>
+                                </div>
+                            </div>
+                          
+                            <!--<div class="hr-line-dashed"></div>
+                            <div class="form-group datepick" ng-class="{'has-error':newAssistantForm.inputAssistantBirthday.$invalid && newAssistantForm.inputAssistantBirthday.$dirty}">
+                                <label class="col-sm-2 control-label">Birthday <small>*</small></label>
+
+                                <div class="input-group date col-sm-4" style="padding-left: 15px;"> 
+                                    <input type="text" class="form-control" date-time id="datepick" min-date="main.datepickeroptions.mindate" max-date="main.datepickeroptions.maxdate" min-view="{{main.datepickeroptions.minview}}" max-view="{{main.datepickeroptions.maxview}}" format="{{main.datepickeroptions.format1}}" ng-model="vm.assistant.birthday" ng-required="true" />
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                                <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                    <div class="help-block m-b-n m-t-none display-box" ng-messages="newAssistantForm.inputAssistantBirthday.$error" ng-if="newAssistantForm.inputAssistantBirthday.$dirty" ng-messages-include="ngmessages.html">
+                                    </div>
+                                </div>
+                            </div>-->
+                            
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group" ng-class="{'has-error':newAssistantForm.inputAssistantMobile.$invalid && newAssistantForm.inputAssistantMobile.$dirty }">
+                                <label class="col-sm-2 control-label">Mobile <small>*</small></label>
+
+                                <div class="col-sm-8">
+                                    <input type="text" name="inputAssistantMobile" class="form-control" data-mask="99999999" placeholder="03 999999" ng-model="vm.assistant.mobile" required ng-minlength="6" ng-maxlength="20">
+                                </div>
+                                <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                    <div class="help-block m-b-n m-t-none display-box" ng-messages="newAssistantForm.inputAssistantMobile.$error" ng-if="newAssistantForm.inputAssistantMobile.$dirty" ng-messages-include="ngmessages.html"></div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group" ng-class="{'has-error':newAssistantForm.inputAssistantPhone.$invalid && newAssistantForm.inputAssistantPhone.$dirty }">
+                                <label class="col-sm-2 control-label">Phone</label>
+
+                                <div class="col-sm-8">
+                                    <input type="text" name="inputAssistantPhone" ng-model="vm.assistant.phone" class="form-control" data-mask="99999999" placeholder="01 999999" ng-minlength="6" ng-maxlength="20">
+                                </div>
+                                <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                    <div class="help-block m-b-n m-t-none display-box" ng-messages="newAssistantForm.inputAssistantPhone.$error" ng-if="newAssistantForm.inputAssistantPhone.$dirty" ng-messages-include="ngmessages.html"></div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group" ng-class="{'has-error':newAssistantForm.email.$invalid && newAssistantForm.email.$dirty }">
+                                <label class="col-sm-2 control-label">Email</label>
+                                <div class="col-sm-8">
+                                    <input type="email" name="email" ng-model="vm.assistant.email" class="form-control" placeholder="Enter valid email" ng-minlength="6">
+                                </div>
+                                <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                    <div class="help-block m-b-n m-t-none display-box" ng-messages="newAssistantForm.email.$error" ng-if="newAssistantForm.email.$dirty" ng-messages-include="ngmessages.html"></div>
+                                </div>
+
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Additional Information</label>
+
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" ng-model="vm.assistant.additionalInformation"></textarea>
+                                </div>
+                            </div>
+                           
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2">
+                                    <button class="btn btn-white" type="submit">Cancel</button>
+                                    <button class="ladda-button btn btn-primary" type="submit" ladda="vm.loading" data-style="expand-right" ng-click="vm.submit()" ng-disabled="newAssistantForm.$invalid">Save changes</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

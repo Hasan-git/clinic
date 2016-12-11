@@ -1,0 +1,227 @@
+<div class="row wrapper border-bottom white-bg page-heading animated fadeInRight">
+	<div class="col-sm-4">
+		<h2>Patient list</h2>
+		<ol class="breadcrumb">
+			<li>
+				<a href="index.html">home</a>
+			</li>
+			<li class="active">
+				<strong>Patient list</strong>
+			</li>
+		</ol>
+	</div>
+<!--     <div class="col-sm-8">
+		<div class="title-action">
+			<a href="" class="btn btn-primary">This is action area</a>
+		</div>
+	</div> -->
+</div>
+<div class="row" >
+	<div class="col-lg-12">
+	    <div class="wrapper wrapper-content">
+	        <div class="animated fadeInRight">
+
+
+                <form enctype="multipart/form-data">
+                    <label>
+                        Using JQuery
+                    </label>
+                    <input name="name" type="text" id="name"  />
+                    <input name="file" type="file" id="me" multiple/>
+                    <input type="button" id="Upload" value="Upload" />
+                </form>
+
+                <script type="text/javascript">
+    $(function () {
+        $('#Upload').click(function () {
+
+            var formData = new FormData();
+            var opmlFile = $('#me');
+            console.log(opmlFile)
+
+            
+            formData.append('name', $('#me'));
+
+            jQuery.each(jQuery('#me')[0].files, function (i, file) {
+                formData.append('image' + i, file);
+            });
+
+
+            $.ajax({
+                url: 'http://localhost:63392/api/uploadTest',
+                type: 'POST',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        });
+    });
+                </script>
+
+
+
+                <form method="POST" class="form-horizontal" name="newPatientForm" enctype="multipart/form-data">
+                    <div class="form-group" ng-class="{'has-error':newPatientForm.inputPatientName.$invalid && newPatientForm.inputPatientName.$dirty}">
+                        <label class="col-sm-2 control-label">First name <small>*</small></label>
+                        <div class="col-sm-8">
+                            <input type="text" name="inputPatientName" class="form-control" id="id" placeholder="Enter First Name" ng-model="patlist.patient.id" required ng-minlength="3" ng-maxlength="30" ng-pattern="main.validation.numeric">
+                        </div>
+                        <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                            <!-- Validation -->
+                            <div class="help-block m-b-n m-t-none display-box" ng-messages="newPatientForm.inputPatientName.$error" ng-if="newPatientForm.inputPatientName.$touched" ng-messages-include="ngmessages.html">
+                                <div ng-show="newPatientForm.inputPatientName.$error.pattern">Only letters are allowed</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group" ng-class="{'has-error':newPatientForm.inputPatientMiddelName.$invalid && newPatientForm.inputPatientMiddelName.$dirty && newPatientForm.inputPatientLastName.$touched}">
+                        <label class="col-sm-2 control-label">Middel Name </label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="inputPatientMiddelName" id="inputPatientMiddelName" placeholder="Enter Middel Name" ng-model="patlist.patient.middelName" />
+                        </div>
+                        <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                            <div class="help-block m-b-n m-t-none" ng-messages="newPatientForm.inputPatientMiddelName.$error" ng-if="newPatientForm.inputPatientMiddelName.$touched" ng-messages-include="ngmessages.html">
+                                <div ng-show="newPatientForm.inputPatientMiddelName.$error.pattern">Only letters are allowed</div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="file" class="form-control" name="file" id="file" placeholder="Enter Middel Name" ng-model="patlist.patient.img"  />
+
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <div class="col-sm-4re col-sm-offset-2">
+                            <!--<button class="btn btn-white" type="submit">Cancel</button>-->
+                            <button class="ladda-button btn btn-primary" type="submit"  data-style="expand-right" ng-click="patlist.submit(patlist.patient)" >Save changes</button>
+                        </div>
+                    </div>
+                  </form>
+
+
+
+                    <div class="wrapper wrapper-content ecommerce">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>Search</h5>
+                                <div ibox-tools></div>
+                            </div>
+                            <div class="ibox-content m-b-sm border-bottom">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="Email">Email</label>
+                                            <input type="text" id="Email" name="Email" value="" placeholder="Email address" class="form-control" ng-model="patlist.searching.email">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="customer">Birthday</label>
+                                            <div class="input-group date">
+                                                <input type="text" class="form-control" date-time id="datepick" min-date="main.datepickeroptions.mindate" max-date="main.datepickeroptions.maxdate" min-view="{{main.datepickeroptions.minview}}" max-view="{{main.datepickeroptions.maxview}}" format="{{main.datepickeroptions.format1}}" ng-model="patlist.searching.birthday" />
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="amount">Mobile</label>
+                                            <input type="text" id="mobile" name="mobile" class="form-control" data-mask="99999999" placeholder="(999) 999-9999" ng-model="patlist.searching.mobile">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="status">First name</label>
+                                            <input type="text" id="firstName" name="firstName" value="" placeholder="First name" class="form-control" ng-model="patlist.searching.firstName">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="customer">Middel name</label>
+                                            <input type="text" id="MiddelName" name="MiddelName" value="" placeholder="Middel name" class="form-control" ng-model="patlist.searching.middelName">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="customer">Last name</label>
+                                            <input type="text" id="LastName" name="LastName" value="" placeholder="Last name" class="form-control" ng-model="patlist.searching.lastName">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12" style="margin-top: 15px;">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>Patients</h5>
+                                        <span class=" label label-primary col-sm-offset-5"><i class="fa fa-user fa-1x"></i>&nbsp;{{patlist.patients.length}}</span>
+                                        <!-- <div ibox-tools></div> -->
+                                        <div ibox-tools-full-screen></div>
+                                    </div>
+                                    <div class="ibox-content ibox-table">
+                                        <div class="table-responsive">
+                                            <table datatable="ng" dt-options="patlist.dtOptions" class="table table-striped  table-hover dataTables-example">
+                                                <thead>
+                                                    <tr>
+                                                        <!--<th>ID</th>-->
+                                                        <th>FirstName</th>
+                                                        <th>MiddelName</th>
+                                                        <th>LastName</th>
+                                                        <th>Mobile</th>
+                                                        <th class="fooo"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="pat in patlist.patients | filter : patlist.searching:strict">
+
+                                                        <!--<td>{{ pat.id }}</td>-->
+                                                        <td>{{ pat.firstName }}</td>
+                                                        <td>{{ pat.middelName }}</td>
+                                                        <td>{{ pat.lastName }}</td>
+                                                        <td style="border-right: 0px;">{{ pat.mobile }}</td>
+                                                        <td class="text-center fooo" style="border-left: 0px;">
+                                                            <div class="btn-group" dropdown>
+                                                                <button id="split-button" type="button" class="btn btn-primary btn-xs">Action</button>
+                                                                <button type="button" class="btn btn-primary btn-xs" dropdown-toggle>
+                                                                    <span class="caret"></span>
+                                                                    <span class="sr-only">Split button!</span>
+                                                                </button>
+                                                                <ul class="dropdown-menu" role="menu">
+                                                                    <li><a ui-sref="patient.edit_patient({patientid: pat.id})">Edit</a></li>
+                                                                    <li><a ui-sref="patient.view_patient({patientid: pat.id })">View</a></li>
+                                                                    <li><a ui-sref="dates.appointment">Assign date</a></li>
+                                                                    <li><a>Print</a></li>
+                                                                    <li class="divider"></li>
+                                                                    <li><a ui-sref="consultation.new_consultation({patientid: pat.id })">New consultation</a></li>
+                                                                    <li><a ui-sref="consultation.consultation_list({patientid: pat.id })">Consultations</a></li>
+                                                                </ul>
+                                                            </div>
+
+
+
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+</div>
+	    </div>
+		</div>
+</div>
+		<script >
+			$('.dropdown input,.dropdown-menu,.btn-group, .dropdown label').click(function(e) {
+				e.stopPropagation();
+			});
+
+		</script>

@@ -1,0 +1,223 @@
+
+<div class="row wrapper border-bottom white-bg page-heading animated fadeInRight">
+    <div class="col-sm-4">
+        <h2>New Doctor</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            
+            <li class="active">
+                <strong>Create new Doctor</strong>
+            </li>
+        </ol>
+
+
+
+    </div>
+    <!-- <div class="col-sm-7">
+        <div class="title-action">
+            <a href="" class="btn btn-primary">This is action area</a>
+        </div>
+    </div>
+    -->
+</div>
+
+
+<div class="row"  ><!--ng-controller="newDoctor"-->
+    
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content">
+            <div class=" text-center animated fadeInRightBig">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>
+                            Doctor file
+                            <small> Fields with (*) are required .</small>
+                        </h5>
+                        <!-- <div ibox-tools></div> -->
+                        <div ibox-tools-full-screen></div>
+                    </div>
+                    <div class="ibox-content">
+                        <form method="get" class="form-horizontal" name="newDoctorForm" novalidate>
+                            <div class="form-group" ng-class="{'has-error':newDoctorForm.inputDoctorName.$invalid && newDoctorForm.inputDoctorName.$dirty}">
+                                <label class="col-sm-2 control-label">First name <small>*</small></label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="inputDoctorName" class="form-control" placeholder="Enter First Name" ng-model="vm.doctor.firstName" required ng-minlength="3" ng-maxlength="30" ng-pattern="main.validation.numeric">
+                                </div>
+                                <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs"><!-- Validation -->
+                                    <div class="help-block m-b-n m-t-none display-box" ng-messages="newDoctorForm.inputDoctorName.$error" ng-if="newDoctorForm.inputDoctorName.$dirty" ng-messages-include="ngmessages.html">
+                                        <div ng-show="newDoctorForm.inputDoctorName.$error.pattern">Only letters are allowed !</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group" ng-class="{'has-error':newDoctorForm.inputDoctorMiddelName.$invalid && newDoctorForm.inputDoctorMiddelName.$dirty && newDoctorForm.inputDoctorLastName.$dirty}">
+                                <label class="col-sm-2 control-label">Middel Name </label>
+
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="inputDoctorMiddelName" placeholder="Enter Middel Name" ng-model="vm.doctor.middelName" required ng-minlength="3" ng-maxlength="20" ng-pattern="main.validation.numeric"/>
+                                </div>
+                                <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                    <div class="help-block m-b-n m-t-none" ng-messages="newDoctorForm.inputDoctorMiddelName.$error" ng-if="newDoctorForm.inputDoctorMiddelName.$dirty" ng-messages-include="ngmessages.html">
+                                        <div ng-show="newDoctorForm.inputDoctorMiddelName.$error.pattern">Only letters are allowed !</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group" ng-class="{'has-error':newDoctorForm.inputDoctorLastName.$invalid && newDoctorForm.inputDoctorLastName.$dirty}">
+                                <label class="col-sm-2 control-label">Last Name <small>*</small></label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="inputDoctorLastName" placeholder="Enter Last Name" ng-model="vm.doctor.lastName" required ng-minlength="3" ng-maxlength="20" ng-pattern="main.validation.numeric">
+                                </div>
+                                <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                    <div class="help-block m-b-n m-t-none display-box" ng-messages="newDoctorForm.inputDoctorLastName.$error" ng-if="newDoctorForm.inputDoctorLastName.$dirty" ng-messages-include="ngmessages.html">
+                                        <div ng-show="newDoctorForm.inputDoctorLastName.$error.pattern">Only letters are allowed !</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group" ng-class="{'has-error':newDoctorForm.inputDoctorUsername.$invalid && newDoctorForm.inputDoctorUsername.$dirty}">
+                                <label class="col-sm-2 control-label">Username <small>*</small></label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="inputDoctorUsername" class="form-control" placeholder="Enter Username" ng-model="vm.doctor.username" required ng-minlength="6" ng-maxlength="30" ng-pattern="main.validation.alpha_d">
+                                </div>
+                                <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                    <!-- Validation -->
+                                    <div class="help-block m-b-n m-t-none display-box" ng-messages="newDoctorForm.inputDoctorUsername.$error" ng-if="newDoctorForm.inputDoctorUsername.$dirty && newDoctorForm.inputDoctorUsername.$dirty" ng-messages-include="ngmessages.html">
+                                        <div ng-show="newDoctorForm.inputDoctorUsername.$error.pattern">Only alphanumeric and (- _ .) are allowed !</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group" ng-class="{'has-error':newDoctorForm.inputDoctorPassword.$invalid && newDoctorForm.inputDoctorPassword.$dirty}">
+                                <label class="col-sm-2 control-label">Password <small>*</small></label>
+                                <div class="col-sm-8">
+                                    <input type="password" name="inputDoctorPassword" class="form-control" placeholder="Enter Password" ng-model="vm.doctor.password" required ng-minlength="6" ng-maxlength="30" ng-pattern="main.validation.alpha_d">
+                                </div>
+                                <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                    <!-- Validation -->
+                                    <div class="help-block m-b-n m-t-none display-box" ng-messages="newDoctorForm.inputDoctorPassword.$error" ng-if="newDoctorForm.inputDoctorPassword.$dirty && newDoctorForm.inputDoctorPassword.$dirty" ng-messages-include="ngmessages.html">
+                                        <div ng-show="newDoctorForm.inputDoctorPassword.$error.pattern">Only alphanumeric and (- _ .) are allowed !</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group" ng-class="{'has-error':newDoctorForm.inputDoctorPassword_c.$invalid && newDoctorForm.inputDoctorPassword_c.$dirty}">
+                                <label class="col-sm-2 control-label">Password Conf <small>*</small></label>
+                                <div class="col-sm-8">
+                                    <input type="password" name="inputDoctorPassword_c" class="form-control" placeholder="Retype Password" ng-model="vm.doctor.password_c" required ng-minlength="6" ng-maxlength="30" ng-pattern="main.validation.alpha_d" compare-to="vm.doctor.password">
+                                </div>
+                                <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                    <!-- Validation -->
+                                    <div class="help-block m-b-n m-t-none display-box" ng-messages="newDoctorForm.inputDoctorPassword_c.$error" ng-if="newDoctorForm.inputDoctorPassword_c.$dirty" ng-messages-include="ngmessages.html">
+                                        <div ng-show="newDoctorForm.inputDoctorPassword_c.$error.pattern">Only alphanumeric and (- _ .) are allowed !</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group" ng-class="{'has-error':newDoctorForm.inputDoctorSpeciality.$invalid && newDoctorForm.inputDoctorSpeciality.$dirty}">
+                                <label class="col-sm-2 control-label">Speciality <small>*</small></label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="inputDoctorSpeciality" class="form-control" placeholder="Enter Speciality" ng-model="vm.doctor.speciality" required ng-minlength="4" ng-maxlength="30" ng-pattern="main.validation.alpha_d">
+                                </div>
+                                <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                    <!-- Validation -->
+                                    <div class="help-block m-b-n m-t-none display-box" ng-messages="newDoctorForm.inputDoctorSpeciality.$error" ng-if="newDoctorForm.inputDoctorSpeciality.$dirty" ng-messages-include="ngmessages.html">
+                                        <div ng-show="newDoctorForm.inputDoctorSpeciality.$error.pattern">Only alphanumeric and (- _ .) are allowed !</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group datepick" ng-class="{'has-error':newDoctorForm.inputDoctorBirthday.$invalid && newDoctorForm.inputDoctorBirthday.$dirty}">
+                                <label class="col-sm-2 control-label">Birthday <small>*</small></label>
+
+                                <div class="input-group date col-sm-4" style="padding-left: 15px;"> 
+                                    <input type="text" class="form-control" date-time id="datepick" min-date="main.datepickeroptions.mindate" max-date="main.datepickeroptions.maxdate" min-view="{{main.datepickeroptions.minview}}" max-view="{{main.datepickeroptions.maxview}}" format="{{main.datepickeroptions.format1}}" ng-model="vm.doctor.birthday" ng-required="true" />
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                                <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                    <div class="help-block m-b-n m-t-none display-box" ng-messages="newDoctorForm.inputDoctorBirthday.$error" ng-if="newDoctorForm.inputDoctorBirthday.$dirty" ng-messages-include="ngmessages.html">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group" ng-class="{'has-error':newDoctorForm.gender.$invalid && newDoctorForm.gender.$dirty }">
+                                <label class="col-sm-2 control-label">Gender <small>*</small></label>
+                                <div class="radio col-sm-2">
+                                    <label> <input icheck type="radio" name="gender" value="male" ng-model="vm.doctor.gender" ng-required="!vm.doctor.gender"> Male</label>
+                                </div>
+                                <div class="radio col-sm-2">
+                                    <label> <input icheck type="radio" name="gender" value="female" ng-model="vm.doctor.gender" ng-required="!vm.doctor.gender"> Female </label>
+                                </div>
+                                <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                    <div class="help-block m-b-n m-t-none display-box" ng-messages="newDoctorForm.gender.$error" ng-if="newDoctorForm.gender.$dirty" ng-messages-include="ngmessages.html"></div>
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group" ng-class="{'has-error':newDoctorForm.inputDoctorMobile.$invalid && newDoctorForm.inputDoctorMobile.$dirty }">
+                                <label class="col-sm-2 control-label">Mobile <small>*</small></label>
+
+                                <div class="col-sm-8">
+                                    <input type="text" name="inputDoctorMobile" class="form-control" data-mask="99999999" placeholder="03 999999" ng-model="vm.doctor.mobile" required ng-minlength="6" ng-maxlength="20">
+                                </div>
+                                <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                    <div class="help-block m-b-n m-t-none display-box" ng-messages="newDoctorForm.inputDoctorMobile.$error" ng-if="newDoctorForm.inputDoctorMobile.$dirty" ng-messages-include="ngmessages.html"></div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group" ng-class="{'has-error':newDoctorForm.inputDoctorPhone.$invalid && newDoctorForm.inputDoctorPhone.$dirty }">
+                                <label class="col-sm-2 control-label">Phone</label>
+
+                                <div class="col-sm-8">
+                                    <input type="text" name="inputDoctorPhone" ng-model="vm.doctor.phone" class="form-control" data-mask="99999999" placeholder="01 999999" ng-minlength="6" ng-maxlength="20">
+                                </div>
+                                <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                    <div class="help-block m-b-n m-t-none display-box" ng-messages="newDoctorForm.inputDoctorPhone.$error" ng-if="newDoctorForm.inputDoctorPhone.$dirty" ng-messages-include="ngmessages.html"></div>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group" ng-class="{'has-error':newDoctorForm.email.$invalid && newDoctorForm.email.$dirty }">
+                                <label class="col-sm-2 control-label">Email</label>
+                                <div class="col-sm-8">
+                                    <input type="email" name="email" ng-model="vm.doctor.email" class="form-control" placeholder="Enter valid email" ng-minlength="6">
+                                </div>
+                                <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                    <div class="help-block m-b-n m-t-none display-box" ng-messages="newDoctorForm.email.$error" ng-if="newDoctorForm.email.$dirty" ng-messages-include="ngmessages.html"></div>
+                                </div>
+
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Address</label>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" ng-model="vm.doctor.address"></textarea>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Additional Information</label>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" ng-model="vm.doctor.additionalInformation"></textarea>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2">
+                                    <button class="btn btn-white" type="submit">Cancel</button>
+                                    <button class="ladda-button btn btn-primary" type="submit" ladda="vm.loading" data-style="expand-right" ng-click="vm.submit()" ng-disabled="newDoctorForm.$invalid">Save changes</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

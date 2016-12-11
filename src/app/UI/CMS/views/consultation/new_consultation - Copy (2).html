@@ -1,0 +1,134 @@
+<div class="row wrapper border-bottom white-bg page-heading animated fadeInRight">
+    <div class="col-sm-5">
+        <h2>Consultation config</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a ui-sref="patient.patients_configuration">Patient configuration</a>
+            </li>
+            <li class="active">
+                <strong>Consultation config</strong>
+            </li>
+        </ol>
+    </div>
+    
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content">
+            <div class=" animated fadeInRightBig">
+                <div class="tabs-container">
+                    <tabset>
+                        <tab heading="Main" >
+                            <form method="get" class="form-horizontal" style="margin-top:15px;">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Title <small>*</small></label>
+
+                                    <div class="col-sm-8"><input type="text" class="form-control" placeholder="Enter First Name"></div>
+
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Blood pressure</label>
+
+                                    <div class="col-sm-8 text-center">
+                                        <div class="m-r-md inline">
+                                            <div class="well" style="background-color:rgba(245, 245, 245, 0.22);margin-bottom: 5px;padding: 10px;">
+                                                <h5 class="text-center">Systolic</h5>
+                                                <knob knob-data="main.knobSystolic" class="m-r-sm" data-fgColor="#ED5565" data- data-width="85" data-height="85" data-angleOffset=-125 data-angleArc=250 knob-options="" data-min="90" data-max="250">                                               
+                                                </knob>
+                                            </div>
+                                        </div>
+                                        <div class="m-r-md inline">
+                                            <div class="well" style="background-color:rgba(245, 245, 245, 0.22);margin-bottom: 5px;padding: 10px;">
+                                                <h5 class="text-center">Diastolic</h5>
+                                                <knob knob-data="main.knobDiastolic" class="m-r-sm" data-fgColor="#59B0F7" data- data-width="85" data-height="85" data-angleOffset=-125 data-angleArc=250 knob-options="" data-min="60" data-max="140">
+                                                </knob>
+                                            </div>
+                                        </div>
+                                        <div class="m-r-md inline">
+                                            <div class="well" style="background-color:rgba(245, 245, 245, 0.22);margin-bottom: 5px;padding: 10px;">
+                                                <h5 class="text-center">Heart Rate<small>/min</small></h5>
+                                                <knob knob-data="main.KnobHeartRate" class="m-r-sm" data-fgColor="#59B0F7" data- data-width="85" data-height="85" data-angleOffset=-125 data-angleArc=250 knob-options="" data-min="50" data-max="200">
+                                                </knob>
+                                            </div>
+                                        </div>
+                                        <div class="m-r-md inline">
+                                            <div class="well" style="background-color:rgba(245, 245, 245, 0.22);margin-bottom: 5px;padding: 10px;">
+                                                <h5 class="text-center">Temprature<small>°</small></h5>
+                                                <knob knob-data="main.KnobTemperature" class="m-r-sm" data-fgColor="#ED5565" data- data-width="85" data-height="85" data-angleOffset=-125 data-angleArc=250 knob-options="" data-min="30" data-max="41">
+                                                </knob>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group" >
+                                    <label class="col-sm-2 control-label">Subjective :</label>
+                                    <div class="col-sm-8">
+                                        <textarea class="form-control" rows="6"></textarea>                                         
+                                    </div>
+                                </div> 
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group" >
+                                    <label class="col-sm-2 control-label">Objective :</label>
+                                    <div class="col-sm-8" ng-controller="modalDemoCtrl">
+                                        <textarea class="form-control" rows="6"></textarea>
+                                        <a  ng-click="main.labTabActive()" id="labo"><i class="fa fa-desktop"></i> Add laboratory Data </a> &nbsp; | &nbsp; 
+                                        <a  ng-click="mission()">
+                                            <i class="fa fa-plus"></i>&nbsp;Add Note
+                                        </a>
+
+                                    </div>
+                                </div> 
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group" >
+                                    <label class="col-sm-2 control-label">Assessment :</label>
+                                    <div class="col-sm-8">
+                                        <textarea class="form-control" rows="6"></textarea>
+                                    </div>
+                                </div> 
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group" >
+                                    <label class="col-sm-2 control-label">Plan–intended :</label>
+                                    <div class="col-sm-8">
+                                        <textarea class="form-control" rows="6"></textarea>
+                                    </div>
+                                </div> 
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Cost</label>
+                                    <div class="col-sm-6" data-ng-controller="ionSlider as slider">
+                                        <div ion-range-slider range-options="slider.ionSliderOptions8"></div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Paid</label>
+                                    <div class="col-sm-6" data-ng-controller="ionSlider as slider">
+                                        <div ion-range-slider range-options="slider.ionSliderOptions8"></div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <button class="btn btn-white" type="submit">Cancel</button>
+                                        <button class="btn btn-primary" type="submit">Save changes</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </tab>
+                        <tab heading="Objective - Media" active="main.isActive"  >
+                            <strong>Media</strong>
+                            <p>Video</p>
+                            <p>Pictures</p>
+                        </tab>
+
+                    </tabset>
+                </div>
+            </div>
+        </div>
+    </div>

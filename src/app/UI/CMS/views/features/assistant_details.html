@@ -1,0 +1,139 @@
+<div class="row wrapper border-bottom white-bg page-heading animated fadeInRight">
+    <div class="col-sm-4">
+        <h2>Assistant details</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a ui-sref="features.assistant_list">Assistant accounts</a>
+            </li>
+            <li class="active">
+                <strong>Assistant details</strong>
+            </li>
+        </ol>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content">
+            <div class=" animated fadeInRightBig">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="contact-box center-version">
+
+                            <a href="profile.html">
+
+                                <h2 class="m-b-md">Assistant</h2>
+
+
+                                <h3 class="m-b-md">Imad Marji</h3>
+
+                                <h4>Samah Ali Abadi</h4>
+                                <div><strong>Clinic<small>(s)</small>:</strong> Hamra-street1</div>
+                                <div><strong>Purchased:</strong> 22-10-2015</div>
+                                <div><strong>Expire:</strong> 22-10-2016</div>
+                                <div><strong>Status:</strong> Enabled</div>
+                                <div><strong>Type:</strong> Basic</div>
+                                <div class="m-b-md"><strong>Price:</strong> 220$</div>
+
+                                <div><strong>Package:</strong>
+                                    <ul style="font-size: 11px;list-style: none;padding-left: 0px;">
+                                        <li>Basic Clinic(Hamra)</li>
+                                        <li>Basic Assistant(Samah)</li>
+                                    </ul>
+                                </div>
+
+                                <div class="m-b-xs"><i class="fa fa-map-marker"></i> Lebanon , beirut - Hamra<br> Building 202
+                                </div>
+                                <div><abbr title="Phone">P:</abbr>(961) 3 060261</div>
+                                <div><abbr title="Phone">P:</abbr>(961) 1 060261</div>
+
+                            </a>
+                            <div class="contact-box-footer">
+                                <div class="m-t-xs btn-group">
+                                    <a class="btn btn-xs btn-white" ui-sref="features.assistant_edit"><i class="fa fa-edit"></i> Edit </a>
+                                    <a class="btn btn-xs btn-white"><i class="fa fa-calendar-o"></i> Renew</a>
+                                    <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">   
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <span class="label label-success pull-right">Monthly</span>
+                                        <h5>Income</h5>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <h1 class="no-margins">40 886,200</h1>
+
+                                        <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
+                                        <small>Total income</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <span class="label label-info pull-right">Monthly</span>
+                                        <h5>Visits</h5>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <h1 class="no-margins">275,800</h1>
+
+                                        <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
+                                        <small>Consultations</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <span class="label label-primary pull-right">Monthly</span>
+                                        <h5>Patients</h5>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <h1 class="no-margins">300</h1>
+
+                                        <div class="stat-percent font-bold text-navy">44% <i class="fa fa-level-up"></i></div>
+                                        <small>New visits</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">                            
+                            <div class="col-lg-12">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>Visits / Income</h5>
+
+                                        <div class="pull-right">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-xs btn-white active">Today</button>
+                                                <button type="button" class="btn btn-xs btn-white">Monthly</button>
+                                                <button type="button" class="btn btn-xs btn-white">Yearly</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="flot-chart" ng-controller="dashboardFlotTwo as chart">
+                                                    <div flot class="flot-chart-content" dataset="chart.flotData" options="chart.flotOptions"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>

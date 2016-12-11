@@ -1,0 +1,43 @@
+﻿<div class="col-lg-12">
+    <div class="hpanel hyellow contact-panel-p">
+        <div class="panel-body-p">
+            <div class="row" style="margin: 0;">
+                <div class="col-md-3 text-center p-xxs">
+                    <img alt="logo" class="img-circle m-b" width="45" height="45" src="../img/a2.jpg">
+                </div>
+                <div class="col-md-9 p-xxs">
+                    <h3>
+                        <a ng-if="s.existingPatient==true" ui-sref="patient.view_patient({patientid: s.id})" style="font-size: 90%; text-transform: capitalize;"> {{s.patientName}} </a>
+                        <a ng-if="s.existingPatient==false" style="font-size: 90%;text-transform: capitalize;"> {{s.patientName}} </a>
+                    </h3>
+                    <div class="text-muted font-bold m-b-xs"><i class="fa fa-2x fa-mobile-phone"></i>&nbsp;&nbsp;<span style="vertical-align:4px;">{{s.mobile}}</span></div>
+                    <div class="text-muted font-bold m-b-xs"><i class="fa fa-calendar-o"></i>&nbsp;&nbsp;{{s.start._i | date:'HH:mm'}}- {{s.end._i | date:'HH:mm'}}</div>
+                    <p style="min-height: 60px;">
+                       {{s.description}}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer-p contact-footer-p">
+            <!--<input type="button" class="btn btn-xs btn-warning" value="Delete"/>  -->
+            <div class="row">
+                <div class="col-md-4 border-right-p">
+                    <div class="contact-stat-p text-warning cursor-p" ><strong tooltip="Delete visit reservation ?" ng-click="remove(s._id,s.id)" >Delete</strong>
+                    </div>
+                </div>
+                <div class="col-md-4 border-right-p">
+                    <div class="contact-stat-p cursor-p"><span></span> <strong>Visit</strong>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="contact-stat-p cursor-p">
+                        <span ng-if="s.existingPatient==true" ui-sref="patient.view_patient({patientid: s.patientId})"><strong>Profile</strong></span>
+                        <span ng-if="s.existingPatient==false" ui-sref="patient.new_patient"><strong>New-File</strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

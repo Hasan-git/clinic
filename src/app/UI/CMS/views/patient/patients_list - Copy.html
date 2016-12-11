@@ -1,0 +1,201 @@
+<div class="row wrapper border-bottom white-bg page-heading animated fadeInRight">
+	<div class="col-sm-4">
+		<h2>Patient list</h2>
+		<ol class="breadcrumb">
+			<li>
+				<a href="index.html">home</a>
+			</li>
+			<li>
+				<a href="">Patient</a>
+			</li>
+			<li class="active">
+				<strong>Patient list</strong>
+			</li>
+		</ol>
+	</div>
+<!--     <div class="col-sm-8">
+		<div class="title-action">
+			<a href="" class="btn btn-primary">This is action area</a>
+		</div>
+	</div> -->
+</div>
+<div class="row" >
+	<div class="col-lg-12">
+		<div class="wrapper wrapper-content">
+			<div class=" animated fadeInRight">             
+				<div class="wrapper wrapper-content ecommerce">
+					<div class="ibox float-e-margins">
+						<div class="ibox-title">
+							<h5>Search</h5>                            
+							<div ibox-tools></div>
+						</div>
+						<div class="ibox-content m-b-sm border-bottom">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label class="control-label" for="order_id">Patient ID</label>
+										<input type="text" id="patient_id" name="patient_id" value="" placeholder="Patient ID" class="form-control" ng-model="patlist.searching.patientId">
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label class="control-label" for="customer">Birthday</label>
+										<div class="input-group date" >
+                                            <input type="text" class="form-control" data-mask="9999-99-99" custom-class="(date, mode)" date-disabled="disabled(date, mode)" datepicker-options="main.dateOptions" datepicker-popup="yyyy-MM-dd" ng-model="patlist.patlist.vm.patient.birthday" is-open="main.opened" min-date="main.datePicker.minDate" max-date="main.datePicker.maxDate" ng-required="true" close-text="Close" />
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default" ng-click="main.open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                            </span>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label class="control-label" for="amount">Mobile</label> 
+										<input type="text" id="mobile" name="mobile"  class="form-control" data-mask="99999999" placeholder="(999) 999-9999" ng-model="patlist.searching.mobile">
+									</div>
+								</div>                            
+
+							</div>
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label class="control-label" for="status">First name</label>
+										<input type="text" id="firstName" name="firstName" value="" placeholder="First name" class="form-control" ng-model="patlist.searching.firstName">
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label class="control-label" for="customer">Middel name</label>
+										<input type="text" id="MiddelName" name="MiddelName" value="" placeholder="Middel name" class="form-control" ng-model="patlist.searching.middelName">
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label class="control-label" for="customer">Last name</label>
+										<input type="text" id="LastName" name="LastName" value="" placeholder="Last name" class="form-control" ng-model="patlist.searching.lastName">
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-lg-12" style="margin-top: 15px;">
+							<div class="ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>Patients</h5>
+									<span class=" label label-primary col-sm-offset-5"><i class="fa fa-user fa-1x"></i>  217</span>
+									<!-- <div ibox-tools></div> -->
+									<div ibox-tools-full-screen></div>
+								</div>
+								<div class="ibox-content">
+									<div class="table-responsive">
+										<table datatable="ng" class="table table-striped  table-hover dataTables-example">
+											<thead>
+												<tr>
+													<th>ID
+														<div class="btn-group" dropdown="" style="z-index:99999;">
+															<button type="button" class="btn btn-white btn-xs dropdown-toggle" aria-haspopup="true" aria-expanded="false" style="border:0px;" >
+																<a class=" btn-bitbucket">
+																	<i class="fa fa-filter"></i>
+																</a>
+															</button>
+															<ul class="dropdown-menu pull-right" role="menu" style="padding:10px;margin-right: -185px;">
+																<div>
+																	<input type="text" class="form-control" placeholder="from" style="width:42%;"/> 
+																	<strong >To</strong>
+																	<input type="text" class="form-control" placeholder="to" style="width:42%;"> 
+																</div>
+																<li class="divider"></li>
+																<li><a>Reset</a></li>
+															</ul>
+														</div>
+													</th>
+													<th>FirstName
+														<div class="btn-group" dropdown="" style="z-index:99999;">
+															<button type="button" class="btn btn-white btn-xs dropdown-toggle" aria-haspopup="true" aria-expanded="false" style="border:0px;" >
+																<a class=" btn-bitbucket">
+																	<i class="fa fa-filter"></i>
+																</a>
+															</button>
+															<ul class="dropdown-menu pull-right" role="menu" style="padding:10px;margin-right: -185px;">
+																<div>
+																	<input type="text" class="form-control" placeholder="Name" ng-model="a" >
+																</div>
+																<li>
+																	<div class="m-xs">
+																		<div class="radio">
+																			<label>
+																				<input icheck type="radio" name="radioTest" ng-model="a">
+																				<strong>Contain&nbsp;</strong>
+																			</label>
+																		</div>		
+
+																		<div class="radio">
+																			<label> 
+																				<input icheck type="radio" name="radioTest" ng-model="a">
+																				<strong>Start&nbsp;</strong>
+																			</label>
+																		</div>
+																		<div class="radio">
+																			<label> 
+																				<input icheck type="radio" name="radioTest" ng-model="a">
+																				<strong>End</strong>
+																			</label>
+																		</div>
+																	</div>
+																</li>
+
+																
+																<li class="divider"></li>
+																<li><a>Reset</a></li>
+															</ul>
+														</div></th>
+														<th>MiddelName</th>
+														<th>LastName</th>
+														<th>Mobile</th>
+														<th></th>
+													</tr>
+												</thead>
+												<tbody>
+												<tr ng-repeat="pat in patlist.patients | filter : patlist.searching:strict">
+
+														<td>{{ pat.patientId }}</td>
+														<td>{{ pat.firstName }}</td>
+														<td>{{ pat.middelName }}</td>            
+														<td>{{ pat.lastName }}</td>
+														<td style="border-right: 0px;">{{ pat.mobile }}</td>
+														<td class="text-center" style="border-left: 0px;"><div class="btn-group" dropdown="">
+															<button type="button" class="btn btn-primary btn-xs dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+																Action <span class="caret"></span>
+															</button>
+															<ul class="dropdown-menu" role="menu">
+																<li><a ui-sref="patient.edit_patient">Edit</a></li>
+																<li><a ui-sref="patient.view_patient">View</a></li>
+																<li><a >Assign date</a></li>
+																<li><a >Print</a></li>
+																<li class="divider"></li>
+																<li><a ui-sref="consultation.new_consultation">New consultation</a></li>
+																<li><a ui-sref="consultation.consultation_list">Consultations</a></li>
+															</ul>
+														</div></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+		<script >
+			$('.dropdown input,.dropdown-menu,.btn-group, .dropdown label').click(function(e) {
+				e.stopPropagation();
+			});
+
+		</script>

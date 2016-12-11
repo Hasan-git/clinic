@@ -1,0 +1,83 @@
+ <div class="inmodal ">
+     <div class="modal-header">
+         <i class="fa fa-laptop modal-icon"></i>
+         <h4 class="modal-title">New appointment</h4>
+         <small class="font-bold"><strong >Description</strong> :Mobile number or patient name are required for appointment reservation .</small>
+     </div>
+     
+    <div class="modal-body">
+        <form method="get" class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Patient
+                </label>
+                <input type="hidden" ng-model="existingPatient"/>
+                <input type="hidden" ng-model="task.patientId" />
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" ng-model="task.patientName" ng-hide="checkbox"/>
+                    <input type="text" class="form-control" ng-model="task.patientName" ng-show="checkbox" typeahead="state as state.displayName for state in patients | filter:{displayName:$viewValue}" typeahead-template-url="customTemplate.html" typeahead-on-select="onSelect($item, $model, $label)"/>
+                </div>
+                
+                <label class="col-sm-1 text-center m-t-xs" tooltip="Existing patient">
+                    <div class="icheckbox_square-green" style="position: relative;" >
+                        <input icheck type="checkbox" ng-model="checkbox"  ng-change="checked()"  >
+                    </div> 
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    Mobile
+                </label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" ng-model="task.mobile"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    Clinic
+                </label>
+                <div class="col-sm-8">
+                    <select-clinic doctor-id="{{rootDoctorId}}" my-directive-var="consultation"></select-clinic>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="!selection">
+                <label class="col-sm-2 control-label">
+                    Duration
+                </label>
+                <div class="col-sm-8">
+                    <select class="form-control" name="duration" ng-model="task.duration">
+                        <option value="10">10 Min</option>
+                        <option value="15">15 Min</option>
+                        <option value="20">20 Min</option>
+                        <option value="30">30 Min</option>
+                        <option value="40">40 Min</option>
+                        <option value="70">60 Min</option>
+
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">
+                    Description
+                </label>
+                <div class="col-sm-8">
+                    <textarea class="form-control" name="duration" ng-model="task.description "></textarea>
+                </div>
+            </div>
+            <div ng-if="statetype" class="form-group">
+                <label class="col-sm-2 control-label" style="line-height: 90px;">
+                    Start
+                </label>
+                <div class="col-sm-8">
+                    <timepicker ng-model="task.tasktime" show-meridian="true"></timepicker>
+                </div>
+            </div>
+        </form>            
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">Close</button>
+        <button type="button" class="btn btn-primary" ng-click="ok()">Save changes</button>
+    </div>
+</div>
+

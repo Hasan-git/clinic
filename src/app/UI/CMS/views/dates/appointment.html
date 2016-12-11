@@ -1,0 +1,82 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-8">
+        <h2>Calendar</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>            
+            <li class="active">
+                <strong>Calendar</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content" ng-controller="modalDemoCtrl" >
+    <div class="row animated fadeInDown" ng-controller="CalendarCtrl">
+        <div class="col-lg-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title ">
+                    <h5>Events List</h5>
+                    <div ibox-tools></div>
+
+                </div>
+
+                <div class="ibox-content">
+                    
+                    <div id='external-events'>
+                        <strong>Click, Drop or Resize event on calendar!</strong>
+                        <br/>
+                        <div popover-template="dynamicPopover.templateUrl" class='external-event new' title="New">New Consultation</div>
+                        <div class='external-event followup'>Follow Up</div>
+                        <!--</p>-->
+                    </div>
+                </div>
+            </div>
+            <div class="ibox float-e-margins">
+                
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Appointments</h5>
+                    
+                    <div ibox-tools></div>
+                </div>
+
+                <div class="ibox-content ui-calendar" >
+                    <div class="btn-toolbar">
+                        <div class="spinner" style='display:none'>
+                            <div class="rect1"></div>
+                            <div class="rect2"></div>
+                            <div class="rect3"></div>
+                            <div class="rect4"></div>
+                            <div class="rect5"></div>
+                        </div>
+                    </div>
+                    <div ui-calendar="uiConfig.calendar" calendar="myCalendar1" id="calendar" class="calendar" data-ng-model="eventSources" ng-if="eventSources.length > 0"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script >
+    $(document).ready(function() {
+        $('#external-events div.external-event').each(function() {
+            var eventObject = {
+                title: $.trim($(this).text()+"Hello"), 
+                allDay:false
+            };                       
+            $(this).data('eventObject', eventObject);
+
+            $(this).draggable({
+                zIndex: 999,
+                revert: true,      // will cause the event to go back to its
+                revertDuration: 0  //  original position after the drag
+            });
+        });
+        
+    });
+   
+</script>

@@ -1,0 +1,60 @@
+﻿using System;
+using System.Web;
+using System.Web.Http;
+using Clinic.Common;
+using Clinic.UI.Common.Helpers;
+using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+using Ninject;
+using Ninject.Web.Common;
+
+namespace Clinic.UI.Common
+{
+    public static class NinjectWebCommon
+    {
+        private static readonly Bootstrapper Bootstrapper = new Bootstrapper();
+
+        /// <summary>
+        /// Starts the application
+        /// </summary>
+        public static void Start()
+        {
+            DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
+            DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
+            Bootstrapper.Initialize(CreateKernel);
+        }
+
+        /// <summary>
+        /// Stops the application.
+        /// </summary>
+        public static void Stop()
+        {
+            Bootstrapper.ShutDown();
+        }
+
+        /// <summary>
+        /// Creates the kernel that will manage your application.
+        /// </summary>
+        /// <returns>The created kernel.</returns>
+        private static IKernel CreateKernel()
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var kernel = BootstrapHelper.LoadNinjectKernel(assemblies);
+            try
+            {
+                kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
+                kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
+
+                IoC.Set(kernel);
+
+                //GlobalConfiguration.Configuration.DependencyResolver = kernel.Get<System.Web.Http.Dependencies.IDependencyResolver>();
+
+                return kernel;
+            }
+            catch
+            {
+                kernel.Dispose();
+                throw;
+            }
+        }
+    }
+}

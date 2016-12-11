@@ -1,0 +1,86 @@
+<div class="row wrapper border-bottom white-bg page-heading ">
+    <div class="col-sm-4">
+        <h2>Control panel</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li class="active">
+                <strong>Control panel</strong>
+            </li>
+        </ol>
+    </div>    
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content">
+            <div class=" animated fadeInRightBig">
+
+                <div class="tabs-container">
+                   <tabset>
+                    <tab heading="Dr. Ali Safa" >
+                        <div class="row " style="margin-bottom:30px;">                            
+
+                            <div class="col-sm-4" >
+                            <div class="widget style1 navy-bg widget-control-panel-list" style="cursor: pointer;" 
+                            ui-sref="assistant.control_panel.new_patient"> 
+                                    <div class="row vertical-align">
+                                        <div class="col-xs-2">
+                                            <i class="fa fa-user fa-2x"></i>
+                                        </div>
+                                        <div class="col-xs-9 text-center">
+                                            <!-- <a ui-sref="assistant.control_panel.new_patient"> -->
+                                                <h4 class="font-bold">New patient</h4>
+                                            <!-- </a> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4" >
+                                <div class="widget style1 yellow-bg widget-control-panel-list" style="cursor: pointer;"
+                                ui-sref="assistant.control_panel.patient_list">
+                                    <div class="row vertical-align">
+                                        <div class="col-xs-2">
+                                            <i class="fa fa-th-list fa-2x"></i>
+                                        </div>
+                                        <div class="col-xs-9 text-center">
+                                            <h4 class="font-bold">Patient list</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4" >
+                                <div class="widget style1 lazur-bg widget-control-panel-list" style="cursor: pointer;"
+                                ui-sref="assistant.control_panel.calendar">
+                                    <div class="row vertical-align">
+                                        <div class="col-xs-2">
+                                            <i class="fa fa-calendar-o fa-2x"></i>
+                                        </div>
+                                        <div class="col-xs-9 text-center">
+                                            <h4 class="font-bold">Calendar</h4>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>                            
+                        </div>
+                        
+                        <div class="row "> 
+                            <div ui-view ></div>
+                        </div>
+                    </tab>
+                    <tab heading="Dr. Imad Al-Rida"   >
+                        <strong>Media</strong>
+                        <p>Video</p>
+                        <p>Pictures</p>
+                    </tab>
+                    
+                </tabset>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>

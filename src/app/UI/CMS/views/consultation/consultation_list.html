@@ -1,0 +1,171 @@
+
+
+<div class="row wrapper border-bottom white-bg page-heading animated fadeInRight">
+    <div class="col-sm-4">
+        <h2>Consultation list</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a ui-sref="patient.patients_list">Patient list</a>
+            </li>
+            <li class="active">
+                <strong>Consultation list</strong>
+            </li>
+        </ol>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content">
+            <div class=" text-center animated fadeInRightBig">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Patient consultations , follow up</h5>
+                        <!-- <div ibox-tools></div> -->
+                        <div ibox-tools-full-screen></div>
+                    </div>
+
+                    <div class="ibox-content">
+                        <div class="panel-body">
+                            <div ng-if="consultations.length === 0"><i class="fa fa-briefcase"></i>&nbsp;No Consultations</div>
+                            <accordion close-others="false">
+                                <accordion-group is-open="status.open" ng-repeat="consultation in consultations">
+                                    <accordion-heading>
+                                        {{consultation.title || "UnNamed"}}
+                                        <small class="m-r-md">&nbsp;{{consultation.createdDate | date : format : 'MMM d ,yyyy'}}</small>
+
+                                            <span class="pull-right">
+                                                <span class="m-r-md ">
+                                                    <a class="btn-xs btn-white btn-bitbucket m-r-xs" ui-sref="consultation.new_followup({patientid:idOfpatient,consultationId:consultation.id})">
+                                                        <i class="fa fa-plus "></i>
+                                                    </a>
+                                                    <a class="btn-xs btn-white btn-bitbucket m-r-xs" ui-sref="consultation.edit_consultation({patientid:idOfpatient,consultationId:consultation.id})">
+                                                        <i class="fa fa-edit "></i>
+                                                    </a>
+                                                    <a class="btn-xs btn-white btn-bitbucket" ui-sref="consultation.view_consultation({consultationId:consultation.id})" ng-click="$event.stopPropagation()">
+                                                        <i class="fa fa-eye "></i>
+                                                    </a>
+                                                </span>
+                                                <i class="glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                                            </span>
+                                        </accordion-heading>
+                                    <span ng-if="consultation.followUps.length === 0"><i class="fa fa-briefcase"></i>&nbsp;&nbsp;No FollowUp Visits</span>
+                                    <accordion-group ng-repeat="var in consultation.followUps">
+                                        <accordion-heading>
+                                            {{var.title}}
+                                            <small class="m-r-md">&nbsp;{{consultation.createdDate | date : format : 'MMM d ,yyyy'}}</small>
+
+                                            <span class="pull-right">
+                                                <span class="m-r-md ">
+                                                    <a class="btn-xs btn-white btn-bitbucket m-r-xs" ui-sref="consultation.edit_followup({patientid:idOfpatient,followupId:var.id})">
+                                                        <i class="fa fa-edit "></i>
+                                                    </a>
+                                                    <a class="btn-xs btn-white btn-bitbucket " ui-sref="consultation.view_followup({patientid:idOfpatient,followupId:var.id})">
+                                                        <i class="fa fa-eye "></i>
+                                                    </a>
+                                                </span>
+                                            </span>
+                                        </accordion-heading>
+                                        <form method="get" class="form-horizontal" style="margin-top:15px;">
+                                            <div class="form-group col-xs-6">
+                                                <label class="col-sm-4 control-label">Subjective </label>
+                                                <div class="col-sm-6">
+                                                    <p class="form-control-static static">{{var.subjective}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-xs-6">
+                                                <label class="col-sm-4 control-label">Objective </label>
+                                                <div class="col-sm-6">
+                                                    <p class="form-control-static static">{{var.objective}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-xs-6">
+                                                <label class="col-sm-4 control-label">Assessment </label>
+                                                <div class="col-sm-6">
+                                                    <p class="form-control-static static">{{var.assessment}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-xs-6">
+                                                <label class="col-sm-4 control-label">Plan </label>
+                                                <div class="col-sm-6">
+                                                    <p class="form-control-static static">{{var.plan}}</p>
+                                                </div>
+                                            </div>
+                                         </form>
+                                    </accordion-group>
+                                </accordion-group>
+                            </accordion>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <!--<div class="ibox-content">
+                        <div class="panel-body">
+                            <accordion close-others="false">
+                                <accordion-group is-open="status.open" ng-repeat="group in main.groups">
+                                    <accordion-heading>
+                                        {{group.title}}
+                                        <span class="pull-right">
+                                            <span class="m-r-md ">
+                                                <a class="btn-xs btn-white btn-bitbucket m-r-xs" ui-sref="consultation.new_followup">
+                                                    <i class="fa fa-plus "></i>
+                                                </a>
+                                                <a class="btn-xs btn-white btn-bitbucket m-r-xs">
+                                                    <i class="fa fa-edit "></i>
+                                                </a>
+                                                <a class="btn-xs btn-white btn-bitbucket" ui-sref="consultation.view_consultation">
+                                                    <i class="fa fa-eye "></i>
+                                                </a>
+                                            </span>
+                                            <small class="m-r-md">{{group.date}}</small>
+                                            <i class="glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                                        </span>
+                                    </accordion-heading>
+                                    <accordion-group ng-repeat="var in group.content">
+                                        <accordion-heading>
+                                            {{var.title}}
+                                            <span class="pull-right">
+                                                <span class="m-r-md ">
+                                                    <a class="btn-xs btn-white btn-bitbucket m-r-xs" ui-sref="consultation.new_followup">
+                                                        <i class="fa fa-edit "></i>
+                                                    </a>
+                                                    <a class="btn-xs btn-white btn-bitbucket ">
+                                                        <i class="fa fa-eye "></i>
+                                                    </a>
+                                                </span>
+                                                <small class="m-r-md">{{var.date}}</small>
+                                            </span>
+                                        </accordion-heading>
+                                        {{var.content}}
+                                    </accordion-group>
+                            </accordion>
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <accordion-group heading="{{group.title}}" ng-repeat="group in main.groups" >
+                                     <accordion-group  ng-show="group.content" heading="{{var.title}}" ng-repeat="var in group.content">
+                                         {{var.content}}
+                                    </accordion-group>
+                        </accordion-group> -->
+
+
+<script type="">
+    $('.option').click(function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+    });
+    $('a').click(function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+    });
+</script>

@@ -1,0 +1,158 @@
+<div class="row wrapper border-bottom white-bg page-heading animated fadeInRight">
+    <div class="col-sm-4">
+        <h2>Edit Assistant</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a ui-sref="features.assistant_list">Assistant accounts</a>
+            </li>
+            <li class="active">
+                <strong>Edit assistant</strong>
+            </li>
+        </ol>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content">
+            <div class=" text-center animated fadeInRightBig">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Assistant file
+                            <small> Fields with (*) are required .</small>
+                        </h5>
+                        <!-- <div ibox-tools></div> -->
+                        <div ibox-tools-full-screen></div>
+                    </div>
+                    <div class="ibox-content">
+                        <form method="get" class="form-horizontal">
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">First name <small>*</small></label>
+                                <div class="col-sm-8">
+                                <input type="text" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">Middel name</label>
+                                <div class="col-sm-8">
+                                <input type="text" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">Last name <small>*</small></label>
+                                <div class="col-sm-8">
+                                <input type="text" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Clinic(s)</label>
+                                <div class="col-sm-8 text-left" >
+                                    <select multiple chosen class="chosen-select" style="width:350px;" tabindex="4" placeholder="Choose clinic(s)">                
+                                        <option value="1">Hamra-street1</option>
+                                        <option value="2">Tyre-street1</option>
+                                        <option value="2">Tyre-street2</option>
+                                        <option value="3">Saida-street1</option>
+                                        <option value="3">Saida-street2</option>
+                                        <option value="3">Ali-street1</option>                              
+                                    </select>
+                                    <a class="m-l-xs"><i class="fa fa-plus"></i> New assistant</a>
+                                </div>
+
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Phone </label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" data-mask="(999) 999-9999" placeholder="" ng-model='dataInput6' placeholder="(999) 999-9999">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Alternative Phone</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" data-mask="(999) 999-9999" placeholder="" ng-model="dataInput6" placeholder="(999) 999-9999">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Email</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control"  placeholder="" ng-model="dataInput6" placeholder="Email">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Address</label>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control"></textarea>
+                                </div>
+                            </div>                            
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Type</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static static">Basic</p>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Clinic link</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static static">Hamra-street1</p>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Price</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static static">200$</p>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Purchased date</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static static">22-01-2015</p>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">Expiry date</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static static">22-01-2016</p>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                            <label class="col-sm-2 control-label">Package</label>
+                                <div class="col-sm-8">
+                                <ul style="list-style:none;">
+                                    <li class="static">Basic clinic(Hamra)   </li>
+                                    <li class="static">Basic Assistant(Samah)</li>
+                                    <li class="static">Exta Assistant(Rida)  </li>
+                                    <li class="static">Exta Assistant(Hasan) </li>
+                                </ul>
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2">
+                                    <button class="btn btn-white" type="submit">Cancel</button>
+                                    <button class="btn btn-primary" type="submit">Save changes</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

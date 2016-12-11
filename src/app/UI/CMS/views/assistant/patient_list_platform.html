@@ -1,0 +1,107 @@
+                    
+<div class="animated fadeInDown">
+    <hr>
+    <div class="wrapper ">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Search</h5>                            
+                <div ibox-tools></div>
+            </div>
+            <div class="ibox-content m-b-sm border-bottom">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label" for="order_id">Patient ID</label>
+                            <input type="text" id="patient_id" name="patient_id" value="" placeholder="Patient ID" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label" for="customer">Birthday</label>
+                            <div class="input-group date" >
+                                <input type="datetime" class="form-control" date-time ng-model="sampleDate" view="date" placeholder="Enter Birthday">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label" for="amount">Mobile</label> 
+                            <input type="text" id="mobile" name="mobile"  class="form-control" data-mask="(999) 999-9999" placeholder="(999) 999-9999" ng-model="dataInput6">
+                        </div>
+                    </div>                            
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label" for="status">First name</label>
+                            <input type="text" id="firstName" name="firstName" value="" placeholder="First name" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label" for="customer">Middel name</label>
+                            <input type="text" id="MiddelName" name="MiddelName" value="" placeholder="Middel name" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label" for="customer">Last name</label>
+                            <input type="text" id="LastName" name="LastName" value="" placeholder="Last name" class="form-control">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row wrapper">
+        <div class="col-lg-12" style="margin-top: 15px;">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Patients</h5>
+                    <span class=" label label-primary col-sm-offset-5"><i class="fa fa-user fa-1x"></i>  217</span>
+                    <div ibox-tools></div>
+                </div>
+                <div class="ibox-content">
+                    <table datatable="ng" class="table table-striped  table-hover dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>FirstName</th>
+                                <th>MiddelName</th>
+                                <th>LastName</th>
+                                <th>Mobile</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="person in main.persons">
+                                <td>{{ person.id }}</td>
+                                <td>{{ person.firstName }}</td>
+                                <td>{{ person.middelName }}</td>            
+                                <td>{{ person.lastName }}</td>
+                                <td style="border-right: 0px;">{{ person.mobile }}</td>
+                                <td class="text-center" style="border-left: 0px;"><div class="btn-group" dropdown="">
+                                    <button type="button" class="btn btn-primary btn-xs dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                                        Action <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a ui-sref="patient.edit_patient">Edit</a></li>
+                                        <li><a ui-sref="patient.view_patient">View</a></li>
+                                        <li><a >Assign date</a></li>
+                                        <li><a >Print</a></li>
+                                        <!-- <li class="divider"></li> -->
+                                        
+                                    </ul>
+                                </div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

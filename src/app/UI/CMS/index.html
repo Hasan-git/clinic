@@ -1,0 +1,488 @@
+﻿<!DOCTYPE html>
+<html ng-app="inspinia">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Page title set in pageTitle directive -->
+    <title page-title></title>
+
+
+
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Lobster|Nunito|Bree+Serif|Pacifico|Oswald|Ubuntu|Fjalla+One|Noto+Serif|Anton|Libre+Baskerville|Francois+One|Righteous' rel='stylesheet' type='text/css'>
+    <!-- Summernote -->
+    <link href="css/plugins/summernote/summernote.css" rel="stylesheet">
+    <link href="css/plugins/summernote/summernote-bs3.css" rel="stylesheet">
+
+    <!-- footable DEMO -->
+    <link href="css/footable.core.css" rel="stylesheet">
+
+    <!-- datepicker css -->
+    <link href="js/plugins/datapicker/angular-datepicker.css" rel="stylesheet" />
+
+    <!-- Angular notify -->
+    <link href="css/plugins/angular-notify/angular-notify.min.css" rel="stylesheet">
+
+    <!-- Colorpicker -->
+    <link href="css/plugins/colorpicker/colorpicker.css" rel="stylesheet">
+
+    <!-- Font awesome -->
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <!-- Bootstrap and Fonts -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">-->
+    <!-- Full Calendar -->
+    <!--<link href="css/plugins/fullcalendar/fullcalendar.css" rel="stylesheet">-->
+    <link href="js/plugins/fullcalendar/fullcalendar.css" rel="stylesheet" />
+
+    <!-- Morris -->
+    <link href="css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
+
+    <!-- Style for wizard - based on Steps plugin-->
+    <link href="css/plugins/steps/jquery.steps.css" rel="stylesheet">
+
+    <!-- FancyBox -->
+    <link href="js/plugins/fancybox/jquery.fancybox.css" rel="stylesheet">
+
+    <!-- Data Tables -->
+    <link href="css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- iCheck -->
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+
+    <!-- Chosen Plugin -->
+    <link href="css/plugins/chosen/chosen.css" rel="stylesheet">
+
+    <!-- Dropzone style -->
+    <link href="css/plugins/dropzone/basic.css" rel="stylesheet">
+    <link href="css/plugins/dropzone/dropzone.css" rel="stylesheet">
+
+    <!-- Switchery iOS style -->
+    <link href="css/plugins/switchery/switchery.css" rel="stylesheet">
+
+    <!-- noUiSlider for Range Slider-->
+    <link href="css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
+
+    <!-- DataPicker -->
+    <link href="css/plugins/datapicker/angular-datapicker.css" rel="stylesheet">
+
+    <!-- Ion Range Slider -->
+    <link href="css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+    <link href="css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+
+    <!-- Ng-Grid -->
+    <link href="js/plugins/nggrid/ng-grid.css" rel="stylesheet">
+
+    <!-- Code Mirror -->
+    <link href="css/plugins/codemirror/codemirror.css" rel="stylesheet">
+    <link href="css/plugins/codemirror/ambiance.css" rel="stylesheet">
+
+    <!-- ui Tree -->
+    <link href="css/plugins/uiTree/angular-ui-tree.min.css" rel="stylesheet">
+
+    <!-- Main Inspinia CSS files -->
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/0.4.16/toaster.min.css" rel="stylesheet" />
+
+    <link href="js/plugins/loading-buttons/ladda-themeless.min.css" rel="stylesheet" />
+
+
+    <style>
+        /*  fullcalendar event popover content css */
+        .hpanel {
+            background-color: none;
+            border: none;
+            box-shadow: none;
+            margin-bottom: 0px;
+        }
+
+            .hpanel.hgreen .panel-body-p {
+                border-top: 2px solid #62cb31;
+            }
+
+            .hpanel.hyellow .panel-body-p {
+                border-top: 2px solid #ffb606;
+            }
+
+            .hpanel .panel-body-p {
+                background: #fff;
+                border: 1px solid #e4e5e7;
+                border-radius: 2px;
+                padding: 7px;
+                position: relative;
+            }
+
+        .panel-body-p {
+            padding: 7px;
+        }
+
+        .hpanel > .panel-footer-p, .hpanel > .panel-section {
+            color: inherit;
+            border: 1px solid #e4e5e7;
+            border-top: none;
+            font-size: 90%;
+            background: #f7f9fa;
+            padding: 0px 15px;
+        }
+
+        .contact-footer-p {
+            padding: 0 15px;
+        }
+
+        .panel-footer-p {
+            padding: 10px 15px;
+            background-color: #f5f5f5;
+            border-top: 1px solid #ddd;
+            border-bottom-right-radius: 3px;
+            border-bottom-left-radius: 3px;
+        }
+
+        .border-right-p {
+            border-right: 1px solid #e4e5e7;
+        }
+
+        .contact-stat-p {
+            padding: 8px 0px;
+            text-align: center;
+        }
+
+            .contact-stat-p span {
+                font-size: 10px;
+                font-weight: 500;
+                display: block;
+                color: #9d9fa2;
+                text-transform: uppercase;
+            }
+
+        .popover *, .popover *:before, .popover *:after {
+            -webkit-box-sizing: border-box !important;
+            -moz-box-sizing: border-box !important;
+            box-sizing: border-box !important;
+        }
+        /*  fullcalendar event popover content css */
+
+        /* Spinner */
+        .spinner {
+            margin: 5px auto;
+            width: 50px;
+            height: 40px;
+            text-align: center;
+            font-size: 10px;
+        }
+
+            .spinner > div {
+                background-color: #1AB394;
+                height: 100%;
+                width: 6px;
+                display: inline-block;
+                -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+                animation: sk-stretchdelay 1.2s infinite ease-in-out;
+            }
+
+            .spinner .rect2 {
+                -webkit-animation-delay: -1.1s;
+                animation-delay: -1.1s;
+            }
+
+            .spinner .rect3 {
+                -webkit-animation-delay: -1.0s;
+                animation-delay: -1.0s;
+            }
+
+            .spinner .rect4 {
+                -webkit-animation-delay: -0.9s;
+                animation-delay: -0.9s;
+            }
+
+            .spinner .rect5 {
+                -webkit-animation-delay: -0.8s;
+                animation-delay: -0.8s;
+            }
+
+        @-webkit-keyframes sk-stretchdelay {
+            0%, 40%, 100% {
+                -webkit-transform: scaleY(0.4);
+            }
+
+            20% {
+                -webkit-transform: scaleY(1.0);
+            }
+        }
+
+        @keyframes sk-stretchdelay {
+            0%, 40%, 100% {
+                transform: scaleY(0.4);
+                -webkit-transform: scaleY(0.4);
+            }
+
+            20% {
+                transform: scaleY(1.0);
+                -webkit-transform: scaleY(1.0);
+            }
+        }
+        /* Spinner */
+    </style>
+
+    <script type="text/ng-template" id="customTemplate.html">
+        <a tooltip="P: {{match.model.phone }} - B: {{match.model.birthday | date}}">
+            <span ng-bind-html="match.label | typeaheadHighlight:query"></span>
+
+        </a>
+    </script>
+
+</head>
+
+<!-- ControllerAs syntax -->
+<!-- Main controller with serveral data used in Inspinia theme on diferent view -->
+<body ng-controller="MainCtrl as main">
+
+    <!-- Wrapper-->
+    <div id="wrapper" class="">
+
+        <!-- Navigation -->
+        <div ng-include="'views/common/navigation.html'"></div>
+
+        <!-- Page wraper -->
+        <!-- ng-class with current state name give you the ability to extended customization your view -->
+        <div id="page-wrapper" class="gray-bg  {{$state.current.name}}">
+
+            <!-- Page wrapper -->
+            <div ng-include="'views/common/topnavbar.html'"></div>
+
+            <div class="sk-cube-grid" style="position: absolute; margin: 0 auto; z-index: 9999;">
+                <div class="sk-cube sk-cube1"></div>
+                <div class="sk-cube sk-cube2"></div>
+                <div class="sk-cube sk-cube3"></div>
+                <div class="sk-cube sk-cube4"></div>
+                <div class="sk-cube sk-cube5"></div>
+                <div class="sk-cube sk-cube6"></div>
+                <div class="sk-cube sk-cube7"></div>
+                <div class="sk-cube sk-cube8"></div>
+                <div class="sk-cube sk-cube9"></div>
+            </div>
+
+            <!-- toaster -->
+            <toaster-container toaster-options="{'close-button': true,'body-output-type': 'trustedHtml'}"></toaster-container>
+
+            <!-- Main view  -->
+            <div ui-view></div>
+
+            <!-- Footer -->
+            <div ng-include="'views/common/footer.html'"></div>
+
+        </div>
+        <!-- End page wrapper-->
+
+    </div>
+    <!-- End wrapper-->
+    <!-- jQuery and Bootstrap -->
+    <script src="js/jquery/jquery-2.1.1.min.js"></script>
+    <script src="js/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <!--<script src="js/plugins/fullcalendar/moment.js"></script>-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>-->
+    <script src="js/angular/moment.2.10.6.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.4.1/moment-timezone-with-data.js"></script>-->
+    <script src="js/angular/moment-timezone-with-data-0.4.1.js"></script>
+
+
+
+
+
+    <!-- MetsiMenu -->
+    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+    <!-- SlimScroll -->
+    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Flot -->
+    <script src="js/plugins/flot/jquery.flot.js"></script>
+    <script src="js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="js/plugins/flot/jquery.flot.spline.js"></script>
+    <script src="js/plugins/flot/jquery.flot.resize.js"></script>
+    <script src="js/plugins/flot/jquery.flot.pie.js"></script>
+    <script src="js/plugins/flot/curvedLines.js"></script>
+
+    <!-- Peity -->
+    <script src="js/plugins/peity/jquery.peity.min.js"></script>
+
+    <!-- Morris -->
+    <script src="js/plugins/morris/raphael-2.1.0.min.js"></script>
+    <script src="js/plugins/morris/morris.js"></script>
+
+    <!-- iCheck -->
+    <script src="js/plugins/iCheck/icheck.min.js"></script>
+
+    <!-- Chosen -->
+    <script src="js/plugins/chosen/chosen.jquery.js"></script>
+
+    <!-- Peace JS -->
+    <script src="js/plugins/pace/pace.min.js"></script>
+
+    <!-- Fancy box -->
+    <script src="js/plugins/fancybox/jquery.fancybox.js"></script>
+
+    <!-- Rickshaw -->
+    <script src="js/plugins/rickshaw/vendor/d3.v3.js"></script>
+    <script src="js/plugins/rickshaw/rickshaw.min.js"></script>
+
+    <!-- Ion Range Slider-->
+    <script src="js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+
+    <!-- NouSlider -->
+    <script src="js/plugins/nouslider/jquery.nouislider.min.js"></script>
+
+    <!-- Jvectormap -->
+    <script src="js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+
+    <!-- Input Mask-->
+    <script src="js/plugins/jasny/jasny-bootstrap.min.js"></script>
+
+    <!-- Switchery -->
+    <script src="js/plugins/switchery/switchery.js"></script>
+
+    <!-- Data Tables -->
+    <!--<script src="js/plugins/dataTables/jquery.dataTables.js"></script>-->
+    <script src="js/plugins/dataTables/datatables.min.js"></script>
+    <script src="js/plugins/dataTables/Plugins/buttons.colVis.js"></script>
+    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+
+    <!-- EasyPIE -->
+    <script src="js/plugins/easypiechart/easypiechart.js"></script>
+
+    <!-- Sparkline -->
+    <script src="js/plugins/sparkline/jquery.sparkline.min.js"></script>
+
+    <!-- Dropzone -->
+    <script src="js/plugins/dropzone/dropzone.js"></script>
+
+    <!-- Cahrt JS -->
+    <script src="js/plugins/chartJs/Chart.min.js"></script>
+
+    <!-- Knob -->
+    <script src="js/plugins/jsKnob/jquery.knob.js"></script>
+
+    <!-- SUMMERNOTE -->
+    <script src="js/plugins/summernote/summernote.min.js"></script>
+
+    <!-- Full Calendar -->
+    <!--<script src="js/plugins/fullcalendar/fullcalendar.min.js"></script>-->
+    <script src="js/plugins/fullcalendar/fullcalendar2.js"></script>
+    <!-- Code Mirror -->
+    <script src="js/plugins/codemirror/codemirror.js"></script>
+    <script src="js/plugins/codemirror/mode/javascript/javascript.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="js/inspinia.js"></script>
+
+    <!-- Angular scripts-->
+    <!--<script src="js/angular/angular.min.js"></script>-->
+    <script src="js/angular/angular-1.4.9.js"></script>
+    <script src="js/ui-router/angular-ui-router.min.js"></script>
+    <script src="js/angular/angular-cookies.min.js"></script>
+    <!--<script src="js/bootstrap/ui-bootstrap-tpls-0.11.0.min.js"></script>--> <!--OLD Version-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.4/ui-bootstrap-tpls.js"></script>-->
+    <script src="js/bootstrap/ui-bootstrap-tpls-0.13.4.js"></script> <!--New Version-->
+
+
+
+
+    <script src="js/angular/angular-resource.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular-animate.js"></script>-->
+    <!--<script src="https://code.angularjs.org/1.3.7/angular-animate.js"></script>-->
+    <script src="js/angular/angular-animate-1.4.9.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/0.4.16/toaster.min.js"></script>-->
+    <script src="js/toaster-0.4.16.min.js"></script>
+
+    <!-- footable DEMO -->
+    <script src="js/angular-footable.js"></script>
+    <script src="js/footable.all.min.js"></script>
+    <!-- Angular Dependiences -->
+
+    <script src="js/common/common.services.js"></script>
+    <script src="js/common/patientResource.js"></script>
+    <script src="js/common/doctorResource.js"></script>
+    <script src="js/common/assistantResource.js"></script>
+    <script src="js/common/appointmentResource.js"></script>
+    <script src="js/common/consultationResource .js"></script>
+    <script src="js/common/followupResource.js"></script>
+    <script src="js/common/clinicResource.js"></script>
+
+    <script src="js/angular/angular-messages.min.js"></script>
+    <script src="js/plugins/loading-buttons/spin.min.js"></script>
+    <script src="js/plugins/loading-buttons/ladda.min.js"></script>
+    <script src="js/plugins/loading-buttons/angular-ladda.min.js"></script>
+
+    <script src="js/plugins/peity/angular-peity.js"></script>
+    <script src="js/plugins/easypiechart/angular.easypiechart.js"></script>
+    <script src="js/plugins/flot/angular-flot.js"></script>
+    <script src="js/plugins/rickshaw/angular-rickshaw.js"></script>
+    <script src="js/plugins/summernote/angular-summernote.min.js"></script>
+    <script src="js/bootstrap/angular-bootstrap-checkbox.js"></script>
+    <script src="js/plugins/jsKnob/angular-knob.js"></script>
+    <script src="js/plugins/switchery/ng-switchery.js"></script>
+    <script src="js/plugins/nouslider/angular-nouislider.js"></script>
+    <!--<script src="js/plugins/datapicker/datePicker.js"></script>-->
+
+    <script src="js/plugins/datapicker/datePicker2.js"></script>
+    <script src="js/plugins/datapicker/datePickerUtils2.js"></script>
+    <script src="js/plugins/datapicker/angular-datepicker.js"></script>
+    <script src="js/plugins/datapicker/dateRange2.js"></script>
+    <script src="js/plugins/datapicker/input2.js"></script>
+    <script src="js/plugins/chosen/chosen.js"></script>
+    <!--<script src="js/plugins/dataTables/angular-datatables.min.js"></script>-->
+    <script src="js/plugins/dataTables/angular-datatables.js"></script>
+
+    <!--<script src="js/plugins/fullcalendar/calendar.js"></script>-->
+    <script src="js/plugins/fullcalendar/calendar2.js"></script>
+    <!--<script src="js/plugins/fullcalendar/gcal.js"></script>-->
+    <script src="js/plugins/fullcalendar/gcal2.js"></script>
+    <script src="js/plugins/chartJs/angles.js"></script>
+    <script src="js/plugins/uievents/event.js"></script>
+    <script src="js/plugins/nggrid/ng-grid-2.0.3.min.js"></script>
+    <script src="js/plugins/ui-codemirror/ui-codemirror.min.js"></script>
+    <script src="js/plugins/uiTree/angular-ui-tree.min.js"></script>
+    <script src="js/plugins/angular-notify/angular-notify.min.js"></script>
+    <script src="js/plugins/colorpicker/bootstrap-colorpicker-module.js"></script>
+
+    <script src="js/plugins/dataTables/Plugins/angular-datatables.buttons.min.js"></script>
+
+
+
+    <!--
+     You need to include this script on any page that has a Google Map.
+     When using Google Maps on your own site you MUST signup for your own API key at:
+     https://developers.google.com/maps/documentation/javascript/tutorial#api_key
+     After your sign up replace the key in the URL below..
+    -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQTpXj82d8UpCi97wzo_nKXL7nYrd4G70"></script>
+    <script src="js/plugins/uimaps/ui-map.js"></script>
+
+    <!-- Anglar App Script -->
+    <script src="js/app.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/directives.js"></script>
+    <script src="js/clinicController.js"></script>
+    <script src="js/controllers.js"></script>
+    <!-- Services -->
+    <script src="js/orders/order.js"></script>
+    <script src="js/services/services.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('.footable').footable();
+
+        });
+
+
+    </script>
+
+
+</body>
+</html>

@@ -22,11 +22,11 @@
 	        <div class="animated fadeInRight">
 
 
-                <form enctype="multipart/form-data">
+                <!--<form enctype="multipart/form-data">
                     <label>
                         Using JQuery
                     </label>
-                    <input name="name" type="text" id="name"  />
+                    <input name="name" type="text" id="name" value="hasanRifaii" />
                     <input name="file" type="file" id="me" multiple/>
                     <input type="button" id="Upload" value="Upload" />
                 </form>
@@ -40,7 +40,7 @@
             console.log(opmlFile)
 
             
-            formData.append('name', $('#me'));
+            formData.append('name', "asdasd");
 
             jQuery.each(jQuery('#me')[0].files, function (i, file) {
                 formData.append('image' + i, file);
@@ -53,52 +53,16 @@
                 data: formData,
                 cache: false,
                 contentType: false,
-                processData: false
+                processData: false,
+
+                headers: { 'Cache-Control': 'no-cache' },
+                dataType: "json"
+
+
             });
         });
-    });
+    });-->
                 </script>
-
-
-
-                <form method="POST" class="form-horizontal" name="newPatientForm" enctype="multipart/form-data">
-                    <div class="form-group" ng-class="{'has-error':newPatientForm.inputPatientName.$invalid && newPatientForm.inputPatientName.$dirty}">
-                        <label class="col-sm-2 control-label">First name <small>*</small></label>
-                        <div class="col-sm-8">
-                            <input type="text" name="inputPatientName" class="form-control" id="id" placeholder="Enter First Name" ng-model="patlist.patient.id" required ng-minlength="3" ng-maxlength="30" ng-pattern="main.validation.numeric">
-                        </div>
-                        <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
-                            <!-- Validation -->
-                            <div class="help-block m-b-n m-t-none display-box" ng-messages="newPatientForm.inputPatientName.$error" ng-if="newPatientForm.inputPatientName.$touched" ng-messages-include="ngmessages.html">
-                                <div ng-show="newPatientForm.inputPatientName.$error.pattern">Only letters are allowed</div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group" ng-class="{'has-error':newPatientForm.inputPatientMiddelName.$invalid && newPatientForm.inputPatientMiddelName.$dirty && newPatientForm.inputPatientLastName.$touched}">
-                        <label class="col-sm-2 control-label">Middel Name </label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" name="inputPatientMiddelName" id="inputPatientMiddelName" placeholder="Enter Middel Name" ng-model="patlist.patient.middelName" />
-                        </div>
-                        <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
-                            <div class="help-block m-b-n m-t-none" ng-messages="newPatientForm.inputPatientMiddelName.$error" ng-if="newPatientForm.inputPatientMiddelName.$touched" ng-messages-include="ngmessages.html">
-                                <div ng-show="newPatientForm.inputPatientMiddelName.$error.pattern">Only letters are allowed</div>
-                            </div>
-                        </div>
-                    </div>
-                    <input type="file" class="form-control" name="file" id="file" placeholder="Enter Middel Name" ng-model="patlist.patient.img"  />
-
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group">
-                        <div class="col-sm-4re col-sm-offset-2">
-                            <!--<button class="btn btn-white" type="submit">Cancel</button>-->
-                            <button class="ladda-button btn btn-primary" type="submit"  data-style="expand-right" ng-click="patlist.submit(patlist.patient)" >Save changes</button>
-                        </div>
-                    </div>
-                  </form>
-
-
 
                     <div class="wrapper wrapper-content ecommerce">
                         <div class="ibox float-e-margins">

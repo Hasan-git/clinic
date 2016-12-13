@@ -205,6 +205,8 @@
     <Content Include="js\directives.js" />
     <Content Include="js\footable.all.min.js" />
     <Content Include="js\inspinia.js" />
+    <Content Include="js\jquery\es5-sham.min.js" />
+    <Content Include="js\jquery\es5-shim.min.js" />
     <Content Include="js\jquery\jquery-2.1.1.min.js" />
     <Content Include="js\jquery\jquery-ui-1.10.4.min.js" />
     <Content Include="js\jquery\jquery-ui.custom.min.js" />
@@ -758,6 +760,10 @@
     <Content Include="js\plugins\uimaps\ui-map.js" />
     <Content Include="js\plugins\uiMask\masks.js" />
     <Content Include="js\plugins\uiTree\angular-ui-tree.min.js" />
+    <Content Include="js\plugins\upload\angular-file-upload.js" />
+    <Content Include="js\plugins\upload\angular-file-upload.min.js" />
+    <Content Include="js\plugins\upload\console-sham.js" />
+    <Content Include="js\plugins\upload\directives.js" />
     <Content Include="js\plugins\validate\jquery.validate.min.js" />
     <Content Include="js\services\services.js" />
     <Content Include="js\toaster-0.4.16.min.js" />
@@ -936,6 +942,7 @@
     <Content Include="js\plugins\nggrid\package.json" />
     <Content Include="js\plugins\nggrid\plugins\README.md" />
     <Content Include="js\plugins\nggrid\README.md" />
+    <Content Include="js\plugins\upload\angular-file-upload.min.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -18,15 +18,6 @@
                     method: 'GET',
                     isArray: true
                 }
-            }),
-            uploadTest: $resource(appSettings.serverPath + "/api/uploadTest", { id: "@id" },
-            {
-                'upload': {
-                    method: 'POST',
-                    transformRequest: angular.identity,
-                    headers: { 'Content-Type': undefined }
-                },
-                
             })
         }
         

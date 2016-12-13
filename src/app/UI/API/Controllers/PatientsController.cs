@@ -143,11 +143,17 @@ namespace Api.Controllers
 
         // PUT: api/Patients/5
         [Route("api/uploadTest"), HttpPost]
-        public HttpResponseMessage Postc(UploadTest name)
+        public HttpResponseMessage Postc()
         {
             HttpResponseMessage result = null;
             var httpRequest = HttpContext.Current.Request;
+            var value="1";
+            foreach (string key in HttpContext.Current.Request.Form.AllKeys)
+            {
+                 value = HttpContext.Current.Request.Form[key];
+            }
 
+            var a = value;
             // Check if files are available
             if (httpRequest.Files.Count > 0)
             {

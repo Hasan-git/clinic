@@ -206,43 +206,28 @@ function patientList(patientResource, DTOptionsBuilder, DTColumnBuilder, resolve
             }
         ]);
 
-    patlist.submit = function (dataz) {
+    //patlist.submit = function (dataz) {
 
-        var data = new FormData(dataz);
-        jQuery.each(jQuery('#file')[0].files, function (i, file) {
-            data.append('image', file);
-        });
-        angular.forEach(dataz, function (value, key) {
-            data.append(key, data[key]);
-        });
-        jQuery.ajax({
-            url: 'http://localhost:63392/api/uploadTest',
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function (data) {
-                alert(data);
-            }
-        });
+    //    var data = new FormData(dataz);
+    //    jQuery.each(jQuery('#file')[0].files, function (i, file) {
+    //        data.append('image', file);
+    //    });
+    //    angular.forEach(dataz, function (value, key) {
+    //        data.append(key, data[key]);
+    //    });
+    //    jQuery.ajax({
+    //        url: 'http://localhost:63392/api/uploadTest',
+    //        data: data,
+    //        cache: false,
+    //        contentType: false,
+    //        processData: false,
+    //        type: 'POST',
+    //        success: function (data) {
+    //            alert(data);
+    //        }
+    //    });
 
-        //var dataa = patlist.patient;
-        //var fd = new FormData();
 
-        //angular.forEach(data, function (value, key) {
-        //    fd.append(key, data[key]);
-        //    fd.append("username", "Groucho");
-        //});
-
-        //console.log(fd,data)
-        //patientResource.uploadTest.upload({}, fd).$promise.then(function (res) {
-        //    patlist.newPost = res;
-        //    console.log(res)
-        //}).catch(function (err) {
-        //    patlist.newPostError = true;
-        //    throw err;
-        //});
     };
 
 

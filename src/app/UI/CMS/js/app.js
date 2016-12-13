@@ -12,6 +12,7 @@
         "common.services",
         'ngMessages',
         'ngAnimate',
+        'angularFileUpload',            // Upload plugin
         'ui.router', // Routing
         'ui.calendar', // Calendar
         'ui.bootstrap', // Bootstrap
@@ -28,7 +29,6 @@
         'datatables', // Dynamic tables
         'localytics.directives', // Chosen select
         'angles', // Charts js
-        'ui.map', // Google maps
         'ngGrid', // ngGrid
         'ui.codemirror', // Code editor
         'ui.tree', // Nestable list

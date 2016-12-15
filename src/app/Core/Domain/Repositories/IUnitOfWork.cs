@@ -21,6 +21,7 @@ namespace Clinic.Core.Domain.Repositories
         IFollowUpRepository FollowUpRepository { get; }
         IPatientRepository PatientRepository { get; }
         IUserRepository UserRepository { get; }
+        IImageRepository ImageRepository { get; }
 
 
 

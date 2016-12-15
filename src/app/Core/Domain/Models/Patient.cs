@@ -44,6 +44,8 @@ namespace Clinic.Core.Domain.Models
         public virtual Clinic Clinic { get; set; }
 
         public virtual ICollection<Consultation> Consultations { get; set; }
+
+
         public bool Equals(Patient other)
         {
             return Id.Equals(other.Id);

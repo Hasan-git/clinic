@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
-using System.Web.Mvc;
 using Clinic.Core.Domain.Models;
+using System.Web;
+using System.Collections.Generic;
 
 namespace Api.Controllers
 {
@@ -14,7 +15,7 @@ namespace Api.Controllers
     public class ConsultationsController : BaseController
     {
         // GET: api/Consultations
-        [System.Web.Http.Authorize(Roles = "admin")]
+        //[System.Web.Http.Authorize(Roles = "admin")]
         [ResponseType(typeof(Consultation))]
         public async Task<IHttpActionResult> Get()
         {
@@ -112,16 +113,14 @@ namespace Api.Controllers
         {
             try
             {
-                if (consultation == null)
-                    return BadRequest("Consultation cannot be null");
-
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-                
+                consultation.Id = Guid.NewGuid();
+                // TODO: For testing 
+                //consultation.Id = new Guid("3CA2B3A2-187A-11E6-A930-005056C00008");
                 Uow.ConsultationRepository.Add(consultation);
                 await Uow.Commit();
-              
-                return Ok();
+                return Ok(new { consultationId = consultation.Id });
             }
             catch (Exception ex)
             {
@@ -155,7 +154,61 @@ namespace Api.Controllers
             }
         }
 
-        
+        [Route("api/consultations/uploadTest"), HttpPost]
+        // PUT: api/Patients/5
+        public async Task<IHttpActionResult> UploadConsultationImages()
+        {
+
+            try
+            {
+                var httpRequest = HttpContext.Current.Request;
+
+                if (httpRequest.Files.Count > 0)
+                {
+                    var files = new List<string>();
+
+                    var guid = HttpContext.Current.Request.Form["consultationId"];
+
+                    var conId = new Guid(guid);
+
+                    Consultation consultation = await Uow.ConsultationRepository.GetById(conId);
+                    var images = new List<Images>();
+
+                    // interate the files and save on the server
+                    foreach (string file in httpRequest.Files)
+                    {
+                        var imageId = Guid.NewGuid();
+                        var postedFile = httpRequest.Files[file];
+                        var filePath = HttpContext.Current.Server.MapPath("~/images/" + imageId + "@" + postedFile.FileName);
+
+                        postedFile.SaveAs(filePath);
+
+                        images.Add(new Images()
+                        {
+                            Id = imageId,
+                            ImageName = postedFile.FileName
+                        });
+
+                        files.Add(filePath);
+                    }
+                    consultation.Images = images;
+
+                    Uow.ConsultationRepository.Update(consultation);
+                    await Uow.Commit();
+                    return Ok("created");
+                }
+                else
+                {
+                    //result = Request.CreateResponse(HttpStatusCode.BadRequest);
+                    return BadRequest();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
 
         //// DELETE: api/Appointments/5
         //public void Delete(int id)

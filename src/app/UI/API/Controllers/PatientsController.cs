@@ -143,21 +143,25 @@ namespace Api.Controllers
 
         // PUT: api/Patients/5
         [Route("api/uploadTest"), HttpPost]
-        public HttpResponseMessage Postc()
+        public async Task<HttpResponseMessage> Postc()
         {
+
+
             HttpResponseMessage result = null;
             var httpRequest = HttpContext.Current.Request;
-            var value="1";
-            foreach (string key in HttpContext.Current.Request.Form.AllKeys)
-            {
-                 value = HttpContext.Current.Request.Form[key];
-            }
+          
 
-            var a = value;
-            // Check if files are available
             if (httpRequest.Files.Count > 0)
             {
                 var files = new List<string>();
+
+                var input = HttpContext.Current.Request.Form["consultationId"];
+                //var followUp = HttpContext.Current.Request.Form["followUpId"];
+
+                var conId = new Guid(input);
+
+                Consultation consultation = await Uow.ConsultationRepository.GetById(conId);
+                var images = new List<Images>();
 
                 // interate the files and save on the server
                 foreach (string file in httpRequest.Files)
@@ -167,11 +171,20 @@ namespace Api.Controllers
                     var filePath = HttpContext.Current.Server.MapPath("~/images/"+ idx +"@"+ postedFile.FileName);
                     postedFile.SaveAs(filePath);
 
+                    images.Add(new Images()
+                    {
+                        Id= idx,
+                        ImageName = postedFile.FileName
+                    });
+
                     files.Add(filePath);
                 }
+                consultation.Images = images;
 
-                // return result
-                result = Request.CreateResponse(HttpStatusCode.Created, files);
+                Uow.ConsultationRepository.Update(consultation);
+                await Uow.Commit();
+                result = Request.CreateResponse(HttpStatusCode.Created, consultation);
+
             }
             else
             {

@@ -18,13 +18,13 @@ namespace Clinic.Infrastructure.Data.Repositories
         //Get all Followups
         public new async Task<List<FollowUp>> GetAll()
         {
-                return await DbSet.ToListAsync();
+                return await DbSet.Include(x => x.Images).ToListAsync();
 
         }
         //Get an followUp
         public new async Task<FollowUp> GetById(Guid id)
         {
-                return await DbSet.FirstOrDefaultAsync(f => f.Id == id);
+                return await DbSet.Include(x => x.Images).FirstOrDefaultAsync(f => f.Id == id);
         }
     }
 }

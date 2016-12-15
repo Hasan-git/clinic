@@ -7,7 +7,7 @@ namespace Clinic.Infrastructure.Data
     public class ClinicContext : DbContext
     {
         public ClinicContext()
-            : base("ClinicDb")
+            : base("Clinic")
         {
         }
 
@@ -24,6 +24,7 @@ namespace Clinic.Infrastructure.Data
             modelBuilder.Entity<Doctor>().ToTable("Doctor");
             modelBuilder.Entity<Assistant>().ToTable("Assistant");
             modelBuilder.Entity<Core.Domain.Models.Clinic>().ToTable("Clinic");
+            modelBuilder.Entity<Images>().ToTable("Images");
 
         }
 
@@ -35,6 +36,7 @@ namespace Clinic.Infrastructure.Data
         public virtual  DbSet<Doctor> Doctors { get; set; }
         public virtual DbSet<Assistant> Assistants { get; set; }
         public virtual DbSet<Core.Domain.Models.Clinic> Clinics { get; set; }
+        public virtual DbSet<Images> Images { get; set; }
 
     }
 }

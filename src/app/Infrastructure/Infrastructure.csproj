@@ -105,6 +105,7 @@
     <Compile Include="Data\Repositories\ConsultationRepository.cs" />
     <Compile Include="Data\Repositories\AppointmentRepository.cs" />
     <Compile Include="Data\Repositories\AssistantRepository.cs" />
+    <Compile Include="Data\Repositories\ImageRepository.cs" />
     <Compile Include="Data\Repositories\UserRepository.cs" />
     <Compile Include="Data\Repositories\EFRepository.cs" />
     <Compile Include="Data\Repositories\PatientRepository.cs" />
@@ -117,9 +118,9 @@
     <Compile Include="Helpers\RepositoryProvider.cs" />
     <Compile Include="InfrastructureBootstrapper.cs" />
     <Compile Include="InfrastructureModule.cs" />
-    <Compile Include="Migrations\201605091255421_Initial Migration.cs" />
-    <Compile Include="Migrations\201605091255421_Initial Migration.Designer.cs">
-      <DependentUpon>201605091255421_Initial Migration.cs</DependentUpon>
+    <Compile Include="Migrations\201612142206244_initial.cs" />
+    <Compile Include="Migrations\201612142206244_initial.Designer.cs">
+      <DependentUpon>201612142206244_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -141,8 +142,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201605091255421_Initial Migration.resx">
-      <DependentUpon>201605091255421_Initial Migration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201612142206244_initial.resx">
+      <DependentUpon>201612142206244_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

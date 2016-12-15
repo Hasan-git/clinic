@@ -16,6 +16,8 @@ namespace Clinic.Core.Domain.Models
             CreatedDate = DomainTime.Now();
             ModifiedDate = DomainTime.Now();
             FollowUps = new HashSet<FollowUp>();
+            Images = new HashSet<Images>();
+
         }
 
         [Key]
@@ -48,6 +50,8 @@ namespace Clinic.Core.Domain.Models
         public virtual Clinic Clinic { get; set; }
 
         public ICollection<FollowUp> FollowUps { get; set; }
+        public virtual ICollection<Images> Images { get; set; }
+
 
 
         public bool Equals(Consultation other)

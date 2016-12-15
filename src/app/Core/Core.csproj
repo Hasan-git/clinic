@@ -88,6 +88,7 @@
     <Compile Include="Domain\Models\Doctor.cs" />
     <Compile Include="Domain\Models\FollowUp.cs" />
     <Compile Include="Domain\Models\Consultation.cs" />
+    <Compile Include="Domain\Models\Images.cs" />
     <Compile Include="Domain\Models\User.cs" />
     <Compile Include="Domain\Models\Patient.cs" />
     <Compile Include="Domain\Repositories\IAppointmentRepository.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Domain\Repositories\IClinicRepository.cs" />
     <Compile Include="Domain\Repositories\IFollowUpRepository.cs" />
     <Compile Include="Domain\Repositories\IConsultationRepository.cs" />
+    <Compile Include="Domain\Repositories\IImageRepository.cs" />
     <Compile Include="Domain\Repositories\IPatientRepository.cs" />
     <Compile Include="Domain\Repositories\IPersistable.cs" />
     <Compile Include="Domain\Repositories\IRepository.cs" />

@@ -228,7 +228,7 @@ function patientList(patientResource, DTOptionsBuilder, DTColumnBuilder, resolve
     //    });
 
 
-    };
+    //};
 
 
 }// End patientList
@@ -239,9 +239,37 @@ function patientList(patientResource, DTOptionsBuilder, DTColumnBuilder, resolve
 //  |                                                                         |
 //  + ----------------------------------------------------------------------- +
 
-function newConsultation($scope, $stateParams, consultationResource, $rootScope, notify, toaster, $state) {
+function newConsultation($scope, $stateParams, consultationResource, $rootScope, notify, toaster, $state,FileUploader) {
 
     $scope.idOfpatient = $stateParams.patientid;
+
+    $scope.item = "Hasan"
+    //----------------------------
+    //      Uploader Settings
+    //----------------------------
+    var uploader = $scope.uploader = new FileUploader({
+        // url: 'upload.php'
+        url: 'http://localhost:63392/api/consultations/uploadTest',
+        formData: null,
+    });
+
+    // FILTERS
+    uploader.filters.push({
+        name: 'imageFilter',
+        fn: function(item /*{File|FileLikeObject}*/, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        }
+    });
+    uploader.onWhenAddingFileFailed = function (item /*{File|FileLikeObject}*/, filter, options) {
+        console.info('onWhenAddingFileFailed', item, filter, options);
+        toaster.pop('error', "Notification", "Invalid file type !", 40000);
+    };
+
+    
+    //----------------------------
+    //      Uploader Settings
+    //----------------------------
 
     $scope.consultation = new consultationResource.consultations;
     $scope.consultation.patientId = $stateParams.patientid;
@@ -252,11 +280,30 @@ function newConsultation($scope, $stateParams, consultationResource, $rootScope,
         $scope.consultation.doctorId = $rootScope.rootDoctorId;
         $scope.consultation.$save(
             function (data) {
-                $scope.loading = false;
-                console.log("aasda")
-                $state.go('consultation.consultation_list', { patientid: $scope.consultation.patientId });
-                toaster.pop('success', "Notification", "Consultation created successfully", 4000);
+                var response = JSON.parse(angular.toJson(data))
+                
+                if (uploader.queue.length) {
+                    uploader.onBeforeUploadItem = function (item) {
+                        var log = {
+                            consultationId: response.consultationId
+                        };
+                        item.formData = [{ consultationId: response.consultationId }];
+                    };
+                    $scope.uploader.uploadAll(); // Uncomment to upload
 
+                    uploader.onCompleteAll = function (item) {
+                        console.log(item)
+                        $scope.loading = false;
+                        $state.go('consultation.consultation_list', { patientid: $scope.consultation.patientId });
+                        toaster.pop('success', "Notification", "Consultation created successfully", 4000);
+
+                    }
+                } else if (!uploader.queue.length) {
+                    $scope.loading = false;
+                    $state.go('consultation.consultation_list', { patientid: $scope.consultation.patientId });
+                    toaster.pop('success', "Notification", "Consultation created successfully", 4000);
+                }
+                
             }, function (response) {
                 $scope.loading = false;
                 if (response.data.modelState) {

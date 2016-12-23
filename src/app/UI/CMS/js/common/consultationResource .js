@@ -16,7 +16,15 @@
                     params: {
                         consultationId: '@consultationId'
                     }
-                }
+                },
+                'deleteImage': {
+                    method: 'POST',
+                    url: appSettings.serverPath + '/api/Consultations/DeleteImage',
+                    params: {
+                        id: '@id'
+                    }
+                },
+                
             }),
             factory: $resource(appSettings.serverPath + "/api/Consultations/:doctorId/:patientId", null,
             {

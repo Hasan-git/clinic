@@ -943,6 +943,7 @@
     <Content Include="js\plugins\nggrid\plugins\README.md" />
     <Content Include="js\plugins\nggrid\README.md" />
     <Content Include="js\plugins\upload\angular-file-upload.min.js.map" />
+    <None Include="Properties\PublishProfiles\default Profile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

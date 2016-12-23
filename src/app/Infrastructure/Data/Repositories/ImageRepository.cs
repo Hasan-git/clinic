@@ -15,6 +15,10 @@ namespace Clinic.Infrastructure.Data.Repositories
             : base(dbcontext)
         {
         }
-        
+        public  async Task<Images> GetImageById(Guid id)
+        {
+            return await DbSet.FirstOrDefaultAsync(f => f.Id == id);
+        }
+
     }
 }

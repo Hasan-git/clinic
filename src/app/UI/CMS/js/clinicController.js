@@ -122,7 +122,8 @@ function newAssistant(assistantResource, toaster, notify) {
 //  |                                                                         |
 //  + ----------------------------------------------------------------------- +
 
-function newPatient(patientResource, toaster, notify, currentUser,$rootScope,$state) {
+function newPatient(patientResource, toaster, notify, currentUser, $rootScope, $state) {
+
     var vm = this;
     vm.patient = {};
     vm.patient = new patientResource.patient;

@@ -1,13 +1,11 @@
 ﻿var inspiniaTemplate = 'views/common/notify.html';
 
 
-
 //  + ----------------------------------------------------------------------- +
 //  |                                                                         |
 //  |                        newDoctor         
 //  |                                                                         |
 //  + ----------------------------------------------------------------------- +
-
 function newDoctor(doctorResource, toaster, notify) {
     var vm = this;
     vm.doctor = {};
@@ -28,6 +26,7 @@ function newDoctor(doctorResource, toaster, notify) {
 
     vm.submit = function () {
         vm.loading = true;
+        
         vm.doctor.$save(
             function (data) {
                 vm.loading = false;
@@ -58,7 +57,6 @@ function newDoctor(doctorResource, toaster, notify) {
     };
 
 }// end newdoctor controller
-
 
 //  + ----------------------------------------------------------------------- +
 //  |                                                                         |
@@ -118,34 +116,33 @@ function newAssistant(assistantResource, toaster, notify) {
 
 }// end newpatient controller
 
-
 //  + ----------------------------------------------------------------------- +
 //  |                                                                         |
 //  |                        newPatient         
 //  |                                                                         |
 //  + ----------------------------------------------------------------------- +
 
-function newPatient(patientResource, toaster, notify, currentUser,$rootScope) {
+function newPatient(patientResource, toaster, notify, currentUser,$rootScope,$state) {
     var vm = this;
     vm.patient = {};
     vm.patient = new patientResource.patient;
     vm.inspiniaTemplate = 'views/common/notify.html';
 
-
+    vm.patient.birthday = new Date();
 
     vm.submit = function () {
         vm.loading = true;
         vm.patient.doctorId = $rootScope.rootDoctorId;
-        vm.patient.clinicId = "ad1148de-1ebd-11e6-9bfc-642737e47955";
-        vm.patient.entryDate = new Date("2016-03-03");
-        vm.patient.additionalInformation = "Note 1";
+        vm.patient.clinicId = "0aa75235-15d1-11e6-9663-005056c00111";
+        vm.patient.entryDate = new Date();
 
         vm.patient.$save(
             function (data) {
                 vm.loading = false;
-                //vm.originalProduct = angular.copy(data);
+                //TODO : handle Id from data and redirect to patient's consultations list
+                var patientId = JSON.parse(angular.toJson(data)).patientId
+                $state.go('consultation.consultation_list', { patientid: patientId });
                 toaster.pop('success', "Notification", "Patient created successfully", 4000);
-
             }, function (response) {
                 vm.loading = false;
                 if (response.data.modelState) {
@@ -169,7 +166,6 @@ function newPatient(patientResource, toaster, notify, currentUser,$rootScope) {
         startingDay: 1
     };
 }// end newpatient controller
-
 
 //  + ----------------------------------------------------------------------- +
 //  |                                                                         |
@@ -243,7 +239,6 @@ function newConsultation($scope, $stateParams, consultationResource, $rootScope,
 
     $scope.idOfpatient = $stateParams.patientid;
 
-    $scope.item = "Hasan"
     //----------------------------
     //      Uploader Settings
     //----------------------------
@@ -265,8 +260,6 @@ function newConsultation($scope, $stateParams, consultationResource, $rootScope,
         console.info('onWhenAddingFileFailed', item, filter, options);
         toaster.pop('error', "Notification", "Invalid file type !", 40000);
     };
-
-    
     //----------------------------
     //      Uploader Settings
     //----------------------------
@@ -284,9 +277,6 @@ function newConsultation($scope, $stateParams, consultationResource, $rootScope,
                 
                 if (uploader.queue.length) {
                     uploader.onBeforeUploadItem = function (item) {
-                        var log = {
-                            consultationId: response.consultationId
-                        };
                         item.formData = [{ consultationId: response.consultationId }];
                     };
                     $scope.uploader.uploadAll(); // Uncomment to upload
@@ -294,13 +284,13 @@ function newConsultation($scope, $stateParams, consultationResource, $rootScope,
                     uploader.onCompleteAll = function (item) {
                         console.log(item)
                         $scope.loading = false;
-                        $state.go('consultation.consultation_list', { patientid: $scope.consultation.patientId });
+                        $state.go('consultation.consultation_list', { patientid: $scope.idOfpatient });
                         toaster.pop('success', "Notification", "Consultation created successfully", 4000);
 
                     }
                 } else if (!uploader.queue.length) {
                     $scope.loading = false;
-                    $state.go('consultation.consultation_list', { patientid: $scope.consultation.patientId });
+                    $state.go('consultation.consultation_list', { patientid: $scope.idOfpatient });
                     toaster.pop('success', "Notification", "Consultation created successfully", 4000);
                 }
                 
@@ -341,7 +331,6 @@ function newConsultation($scope, $stateParams, consultationResource, $rootScope,
 
 }
 
-
 //  + ----------------------------------------------------------------------- +
 //  |                                                                         |
 //  |                        consultationList         
@@ -362,12 +351,16 @@ function consultationList($scope, resolvedData,$stateParams) {
 //  + ----------------------------------------------------------------------- +
 
 
-function consultationView($scope, resolvedData) {
+function consultationView($scope, resolvedData, consultationResource, toaster) {
     $scope.consultation = resolvedData;
     $scope.idOfpatient = resolvedData.patientId;
+    $scope.deleteImage = function (imgId, index) {
+        consultationResource.consultations.deleteImage({ id: imgId }).$promise.then(function () {
+            $scope.consultation.images.splice(index, 1)
+            toaster.pop('success', "Notification", "Image deleted successfully", 4000);
+        })
+    }
 }
-
-
 
 //  + ----------------------------------------------------------------------- +
 //  |                                                                         |
@@ -375,12 +368,37 @@ function consultationView($scope, resolvedData) {
 //  |                                                                         |
 //  + ----------------------------------------------------------------------- +
 
-function editConsultation($scope, $stateParams, resolvedData, consultationResource, toaster, notify, $state) {
+function editConsultation($scope, $stateParams, resolvedData, consultationResource, toaster, notify, $state, FileUploader) {
 
     $scope.consultation = {};
     $scope.consultation = resolvedData;
     this.clinicId = $scope.consultation.clinicId;
-   
+    console.log($scope.consultation)
+    //----------------------------
+    //      Uploader Settings
+    //----------------------------
+    var uploader = $scope.uploader = new FileUploader({
+        // url: 'upload.php'
+        url: 'http://localhost:63392/api/consultations/uploadTest',
+        formData: null,
+    });
+
+    // FILTERS
+    uploader.filters.push({
+        name: 'imageFilter',
+        fn: function (item /*{File|FileLikeObject}*/, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        }
+    });
+    uploader.onWhenAddingFileFailed = function (item /*{File|FileLikeObject}*/, filter, options) {
+        console.info('onWhenAddingFileFailed', item, filter, options);
+        toaster.pop('error', "Notification", "Invalid file type !", 40000);
+    };
+    //----------------------------
+    //      Uploader Settings
+    //----------------------------
+
     if (resolvedData) {
         $scope.originalconsultation = angular.copy(resolvedData);
     }
@@ -388,6 +406,27 @@ function editConsultation($scope, $stateParams, resolvedData, consultationResour
         $scope.loading = true;
         $scope.consultation.clinicId  = this.clinicId.value;
         consultationResource.consultations.update($scope.consultation).$promise.then(function (data) {
+
+            if (uploader.queue.length) {
+                uploader.onBeforeUploadItem = function (item) {
+                    
+                    item.formData = [{ consultationId: $scope.consultation.id }];
+                };
+                $scope.uploader.uploadAll(); // Uncomment to upload
+
+                uploader.onCompleteAll = function (item) {
+                    $scope.loading = false;
+                    $state.go('consultation.consultation_list', { patientid: $scope.consultation.patientId });
+                    toaster.pop('success', "Notification", "Consultation updated successfully", 4000);
+
+                }
+            } else if (!uploader.queue.length) {
+                $scope.loading = false;
+                $state.go('consultation.consultation_list', { patientid: $scope.consultation.patientId });
+                toaster.pop('success', "Notification", "Consultation updated successfully", 4000);
+            }
+
+
             $scope.loading = false;
             $state.go('consultation.consultation_list', { patientid: $scope.consultation.patientId });
             toaster.pop('success', "Notification", "Consultation updated successfully", 4000);
@@ -403,13 +442,18 @@ function editConsultation($scope, $stateParams, resolvedData, consultationResour
                 }
         });
         
-};
+    };
     $scope.cancel = function (editForm) {
         editForm.$setPristine();
         $scope.consultation = angular.copy($scope.originalconsultation);
-       
     };
 
+    $scope.deleteImage = function (imgId,index) {
+        consultationResource.consultations.deleteImage({ id: imgId }).$promise.then(function () {
+            $scope.consultation.images.splice(index, 1)
+            toaster.pop('success', "Notification", "Image deleted successfully", 4000);
+        })
+    }
 
     $scope.SliderCost = {
              grid: true,
@@ -421,6 +465,7 @@ function editConsultation($scope, $stateParams, resolvedData, consultationResour
             onFinish: function (data) {  $scope.consultation.cost = data.fromNumber }
            // onChange: function (data) { console.log(data); }
     };
+
     $scope.SliderPaid = {
         grid: true,
         min: 0,
@@ -433,14 +478,13 @@ function editConsultation($scope, $stateParams, resolvedData, consultationResour
     };
 };
 
-
 //  + ----------------------------------------------------------------------- +
 //  |                                                                         |
 //  |                        newFollowUp         
 //  |                                                                         |
 //  + ----------------------------------------------------------------------- +
 
-function newFollowUp($scope, $stateParams, followUpResource, $rootScope, toaster, $state) {
+function newFollowUp($scope, $stateParams, followUpResource, $rootScope, toaster, $state, FileUploader) {
 
    
 
@@ -450,6 +494,31 @@ function newFollowUp($scope, $stateParams, followUpResource, $rootScope, toaster
     $scope.inspiniaTemplate = 'views/common/notify.html';
     
     $scope.followUp = new followUpResource;
+
+    //----------------------------
+    //      Uploader Settings
+    //----------------------------
+    var uploader = $scope.uploader = new FileUploader({
+        // url: 'upload.php'
+        url: 'http://localhost:63392/api/followup/uploadTest',
+        formData: null,
+    });
+
+    // FILTERS
+    uploader.filters.push({
+        name: 'imageFilter',
+        fn: function (item /*{File|FileLikeObject}*/, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        }
+    });
+    uploader.onWhenAddingFileFailed = function (item /*{File|FileLikeObject}*/, filter, options) {
+        console.info('onWhenAddingFileFailed', item, filter, options);
+        toaster.pop('error', "Notification", "Invalid file type !", 40000);
+    };
+    //----------------------------
+    //      Uploader Settings
+    //----------------------------
 
     //$scope.followUp = {
     //    "systolic": 99,
@@ -468,10 +537,26 @@ function newFollowUp($scope, $stateParams, followUpResource, $rootScope, toaster
         $scope.followUp.clinicId = this.clinicId.value;
         $scope.followUp.$save(
             function (data) {
-                $scope.loading = false;
-                //vm.originalProduct = angular.copy(data);
-                $state.go('consultation.consultation_list', { patientid: $scope.idOfpatient });
-                toaster.pop('success', "Notification", "FollowUp created successfully", 4000);
+                var response = JSON.parse(angular.toJson(data))
+
+                if (uploader.queue.length) {
+                    uploader.onBeforeUploadItem = function (item) {
+                        item.formData = [{ followupId: response.followUpId }];
+                    };
+                    $scope.uploader.uploadAll(); // Uncomment to upload
+
+                    uploader.onCompleteAll = function (item) {
+                        console.log(item)
+                        $scope.loading = false;
+                        $state.go('consultation.consultation_list', { patientid: $scope.idOfpatient });
+                        toaster.pop('success', "Notification", "Follow up created successfully", 4000);
+
+                    }
+                } else if (!uploader.queue.length) {
+                    $scope.loading = false;
+                    $state.go('consultation.consultation_list', { patientid: $scope.idOfpatient });
+                    toaster.pop('success', "Notification", "Follow up created successfully", 4000);
+                }
 
             }, function (response) {
                 $scope.loading = false;
@@ -515,7 +600,7 @@ function newFollowUp($scope, $stateParams, followUpResource, $rootScope, toaster
 //  |                                                                         |
 //  + ----------------------------------------------------------------------- +
 
-function editFollowUp($scope, $stateParams, resolvedData, followUpResource, toaster, notify, $state) {
+function editFollowUp($scope, $stateParams, resolvedData, followUpResource, toaster, notify, $state, FileUploader, consultationResource) {
 
     $scope.followUp = {};
     $scope.followUp = resolvedData;
@@ -525,12 +610,58 @@ function editFollowUp($scope, $stateParams, resolvedData, followUpResource, toas
     if (resolvedData) {
         $scope.originalfollowUp = angular.copy(resolvedData);
     }
-    
+    //----------------------------
+    //      Uploader Settings
+    //----------------------------
+    var uploader = $scope.uploader = new FileUploader({
+        // url: 'upload.php'
+        url: 'http://localhost:63392/api/followup/uploadTest',
+        formData: null,
+    });
+
+    // FILTERS
+    uploader.filters.push({
+        name: 'imageFilter',
+        fn: function (item /*{File|FileLikeObject}*/, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        }
+    });
+    uploader.onWhenAddingFileFailed = function (item /*{File|FileLikeObject}*/, filter, options) {
+        console.info('onWhenAddingFileFailed', item, filter, options);
+        toaster.pop('error', "Notification", "Invalid file type !", 40000);
+    };
+    //----------------------------
+    //      Uploader Settings
+    //----------------------------
+
+
     $scope.submit = function () {
         console.log($scope.followUp);
         $scope.loading = true;
         $scope.followUp.clinicId = this.clinicId.value;
         followUpResource.update($scope.followUp).$promise.then(function (data) {
+
+            if (uploader.queue.length) {
+                uploader.onBeforeUploadItem = function (item) {
+
+                    item.formData = [{ followupId: $scope.followUp.id }];
+                };
+                $scope.uploader.uploadAll(); // Uncomment to upload
+
+                uploader.onCompleteAll = function (item) {
+                    $scope.loading = false;
+                    $state.go('consultation.consultation_list', { patientid: $scope.followUp.patientId });
+                    toaster.pop('success', "Notification", "Follow up updated successfully", 4000);
+
+                }
+            } else if (!uploader.queue.length) {
+                $scope.loading = false;
+                $state.go('consultation.consultation_list', { patientid: $scope.followUp.patientId });
+                toaster.pop('success', "Notification", "Follow up updated successfully", 4000);
+            }
+
+
             $scope.loading = false;
             $state.go('consultation.consultation_list', { patientid: $scope.idOfpatient });
             toaster.pop('success', "Notification", "FollowUp updated successfully", 4000);
@@ -550,9 +681,14 @@ function editFollowUp($scope, $stateParams, resolvedData, followUpResource, toas
     $scope.cancel = function (editForm) {
         editForm.$setPristine();
         $scope.followUp = angular.copy($scope.originalfollowUp);
-
     };
 
+    $scope.deleteImage = function (imgId, index) {
+        consultationResource.consultations.deleteImage({ id: imgId }).$promise.then(function () {
+            $scope.followUp.images.splice(index, 1)
+            toaster.pop('success', "Notification", "Image deleted successfully", 4000);
+        })
+    }
 
     $scope.SliderCost = {
         grid: true,
@@ -583,9 +719,15 @@ function editFollowUp($scope, $stateParams, resolvedData, followUpResource, toas
 //  + ----------------------------------------------------------------------- +
 
 
-function viewFollowUp($scope, resolvedData,$stateParams) {
+function viewFollowUp($scope, resolvedData, $stateParams, consultationResource, toaster) {
     $scope.followup = resolvedData;
     $scope.idOfpatient = $stateParams.patientid;
+    $scope.deleteImage = function (imgId, index) {
+        consultationResource.consultations.deleteImage({ id: imgId }).$promise.then(function () {
+            $scope.followup.images.splice(index, 1)
+            toaster.pop('success', "Notification", "Image deleted successfully", 4000);
+        })
+    }
 }
 
 

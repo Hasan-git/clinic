@@ -116,8 +116,6 @@ namespace Api.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
                 consultation.Id = Guid.NewGuid();
-                // TODO: For testing 
-                //consultation.Id = new Guid("3CA2B3A2-187A-11E6-A930-005056C00008");
                 Uow.ConsultationRepository.Add(consultation);
                 await Uow.Commit();
                 return Ok(new { consultationId = consultation.Id });
@@ -179,19 +177,20 @@ namespace Api.Controllers
                     {
                         var imageId = Guid.NewGuid();
                         var postedFile = httpRequest.Files[file];
-                        var filePath = HttpContext.Current.Server.MapPath("~/images/" + imageId + "@" + postedFile.FileName);
+                        var imageName = imageId + "@" + postedFile.FileName;
+                        var filePath = HttpContext.Current.Server.MapPath("~/images/" + imageName);
 
                         postedFile.SaveAs(filePath);
+                        files.Add(filePath);
 
-                        images.Add(new Images()
+                        consultation.Images.Add(new Images()
                         {
                             Id = imageId,
-                            ImageName = postedFile.FileName
+                            ImageName = imageName
                         });
 
-                        files.Add(filePath);
                     }
-                    consultation.Images = images;
+                    //consultation.Images = images;
 
                     Uow.ConsultationRepository.Update(consultation);
                     await Uow.Commit();
@@ -209,7 +208,23 @@ namespace Api.Controllers
                 return InternalServerError(ex);
             }
         }
+        [Route("api/consultations/DeleteImage"), HttpPost]
+        // PUT: api/Patients/5
+        public async Task<IHttpActionResult> DeleteImage(Guid id)
+        {
 
+            try
+            {
+                var image = await Uow.ImageRepository.GetImageById(id);
+                Uow.ImageRepository.Delete(image);
+                await Uow.Commit();
+                return Ok("deleted");
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
         //// DELETE: api/Appointments/5
         //public void Delete(int id)
         //{

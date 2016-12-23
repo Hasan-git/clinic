@@ -102,6 +102,20 @@
                                         <a ng-click="main.labTabActive()" id="labo"><i class="fa fa-desktop"></i> Display laboratory Data</a>
                                     </div>
                                 </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Objective :</label>
+                                    <div class="col-sm-8 objective-media">
+
+                                        <div class="imgContainer" ng-repeat="i in followup.images">
+                                            <div><i class="fa fa-trash fa-lg m-b-sm text-danger pointer" ng-click="deleteImage(i.id,$index)"></i> </div>
+                                            <img ng-src="http://localhost:63392/images/{{i.imageName}}" onclick="window.open(this.src)" class="pointer" height="auto" width="200" />
+                                        </div>
+
+                                    </div>
+                                </div>
+
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Assessment :</label>

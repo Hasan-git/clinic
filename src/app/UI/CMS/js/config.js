@@ -8,7 +8,7 @@
  *
  */
 function config($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise("/dashboards/dashboard_1");
+    $urlRouterProvider.otherwise("/patient/new_patient");
     $stateProvider
         .state('dashboards', {
             abstract: true,

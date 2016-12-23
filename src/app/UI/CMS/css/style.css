@@ -4875,3 +4875,64 @@ ul.notes li div .note-edit {
 a:focus{
     outline-width:0;
 }
+
+    .my-drop-zone { border: dotted 3px lightgray; }
+    .nv-file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
+    .another-file-over-class { border: dotted 3px green; }
+
+    html, body { height: 100%; }
+
+    .objective-media canvas {
+        background-color: #f3f3f3;
+        -webkit-box-shadow: 3px 3px 3px 0 #e3e3e3;
+        -moz-box-shadow: 3px 3px 3px 0 #e3e3e3;
+        box-shadow: 3px 3px 3px 0 #e3e3e3;
+        border: 1px solid #c3c3c3;
+        height: 100px;
+        margin: 6px 0 0 6px;
+    }
+    .custom-file-input {
+  color: transparent;
+}
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.custom-file-input::before {
+  content: '\1f4e4  Select files';
+  color: white;
+  display: inline-block;
+  background: #1ab394;
+  border: 1px solid #1a9e84;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 10pt;
+}
+.custom-file-input:hover::before {
+  border-color: #1a9e84;
+      background: #1a9e84;
+}
+.custom-file-input:active {
+  outline: 0;
+}
+.custom-file-input:active::before {
+      background: #129077;
+}
+.pointer{
+    cursor:pointer;
+}
+    .objective-media img{
+        padding: 5px;
+        border: 1px solid #e2e0e0;
+        border-radius: 3px;
+    }
+    .imgContainer{
+        float:left;
+        padding:10px;
+        text-align:center;
+        height:210px;
+    }

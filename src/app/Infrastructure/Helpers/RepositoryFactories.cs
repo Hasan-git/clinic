@@ -39,9 +39,11 @@ namespace Clinic.Infrastructure.Helpers
                      {typeof(IFollowUpRepository), dbcontext => new FollowUpRepository(dbcontext)},
                      {typeof(IPatientRepository), dbcontext => new PatientRepository(dbcontext)},
                      {typeof(IUserRepository), dbcontext => new UserRepository(dbcontext)},
-                         
-                         
-                        
+                     {typeof(IImageRepository), dbcontext => new ImageRepository(dbcontext)},
+
+
+
+
 
                 };
         }

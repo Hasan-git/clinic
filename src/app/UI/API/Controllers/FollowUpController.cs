@@ -6,7 +6,8 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using Clinic.Core.Domain.Models;
-
+using System.Web;
+using System.Collections.Generic;
 
 namespace Api.Controllers
 {
@@ -64,11 +65,12 @@ namespace Api.Controllers
 
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-                
+                followUp.Id = Guid.NewGuid();
+
                 Uow.FollowUpRepository.Add(followUp);
                 await Uow.Commit();
               
-                return Ok();
+                return Ok(new { followUpId = followUp.Id });
             }
             catch (Exception ex)
             {
@@ -94,6 +96,79 @@ namespace Api.Controllers
                 await Uow.Commit();
                 
                 return Ok();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("api/followup/uploadTest"), HttpPost]
+        // PUT: api/Patients/5
+        public async Task<IHttpActionResult> UploadFollowUpImages()
+        {
+
+            try
+            {
+                var httpRequest = HttpContext.Current.Request;
+
+                if (httpRequest.Files.Count > 0)
+                {
+                    var files = new List<string>();
+
+                    var guid = HttpContext.Current.Request.Form["followupId"];
+
+                    var followupId = new Guid(guid);
+
+                    FollowUp followup = await Uow.FollowUpRepository.GetById(followupId);
+                    var images = new List<Images>();
+
+                    // interate the files and save on the server
+                    foreach (string file in httpRequest.Files)
+                    {
+                        var imageId = Guid.NewGuid();
+                        var postedFile = httpRequest.Files[file];
+                        var imageName = imageId + "@" + postedFile.FileName;
+                        var filePath = HttpContext.Current.Server.MapPath("~/images/" + imageName);
+
+                        postedFile.SaveAs(filePath);
+                        files.Add(filePath);
+
+                        followup.Images.Add(new Images()
+                        {
+                            Id = imageId,
+                            ImageName = imageName
+                        });
+                    }
+                    //followup.Images = images;
+
+                    Uow.FollowUpRepository.Update(followup);
+                    await Uow.Commit();
+                    return Ok("created");
+                }
+                else
+                {
+                    //result = Request.CreateResponse(HttpStatusCode.BadRequest);
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("api/followup/DeleteImage"), HttpPost]
+        // PUT: api/Patients/5
+        public async Task<IHttpActionResult> DeleteImage(Guid id)
+        {
+
+            try
+            {
+                var image = await Uow.ImageRepository.GetImageById(id);
+                Uow.ImageRepository.Delete(image);
+                await Uow.Commit();
+                return Ok("deleted");
             }
             catch (Exception ex)
             {

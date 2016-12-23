@@ -10,5 +10,7 @@ namespace Clinic.Core.Domain.Repositories
 {
     public interface IImageRepository : IRepository<Images>
     {
+         Task<Images> GetImageById(Guid id);
+
     }
 }

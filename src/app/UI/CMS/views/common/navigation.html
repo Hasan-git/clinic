@@ -24,7 +24,7 @@
                 </div>
 
             </li>
-            <li ng-class="{active: $state.includes('dashboards')}">
+            <li ng-class="{active: $state.includes('dashboards')}" ng-show="false">
                 <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" ng-class="{in: $state.includes('dashboards')}">
                     <li ui-sref-active="active"><a ui-sref="dashboards.dashboard_1">Dashboard </a></li>
@@ -54,14 +54,14 @@
                     <li ui-sref-active="active"><a ui-sref="dates.appointment">Appointment</a></li>
                 </ul>
             </li>
-            <li ng-class="{active: $state.includes('extra')}">
+            <li ng-class="{active: $state.includes('extra')}" ng-show="false">
                 <a href=""><i class="fa fa-flask"></i> <span class="nav-label">Extra</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" ng-class="{in: $state.includes('extra')}">
                     <li ui-sref-active="active"><a ui-sref="extra.note">Notes</a></li>
                  
                 </ul>
             </li>
-        <li ng-class="{active: $state.includes('features')}">
+        <li ng-class="{active: $state.includes('features')}" ng-show="false">
             <a href=""><i class="fa fa-eyedropper"></i> <span class="nav-label">Features</span><span class="fa arrow"></span></a>
             <ul class="nav nav-second-level" ng-class="{in: $state.includes('features')}">
                 <li ui-sref-active="active">
@@ -72,7 +72,7 @@
                 </li>
             </ul>
         </li>
-            <li ng-class="{active: $state.includes('admin')}">
+            <li ng-class="{active: $state.includes('admin')}" ng-show="false">
                 <a href=""><i class="fa fa-dropbox"></i> <span class="nav-label">Admin</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" ng-class="{in: $state.includes('admin')}">
                     <li>

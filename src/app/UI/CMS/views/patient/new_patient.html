@@ -45,7 +45,7 @@
                             <div class="form-group" ng-class="{'has-error':newPatientForm.inputPatientName.$invalid && newPatientForm.inputPatientName.$dirty}">
                                 <label class="col-sm-2 control-label">First name <small>*</small></label>
                                 <div class="col-sm-8">
-                                    <input type="text" name="inputPatientName" class="form-control" placeholder="Enter First Name" ng-model="vm.patient.firstName" required ng-minlength="3" ng-maxlength="30" ng-pattern="main.validation.numeric">
+                                    <input type="text" name="inputPatientName" class="form-control" placeholder="Enter First Name" ng-model="vm.patient.firstName" required ng-minlength="3" ng-maxlength="30" >
                                 </div>
                                 <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs"><!-- Validation -->
                                     <div class="help-block m-b-n m-t-none display-box" ng-messages="newPatientForm.inputPatientName.$error" ng-if="newPatientForm.inputPatientName.$touched" ng-messages-include="ngmessages.html">
@@ -59,7 +59,7 @@
                                 <label class="col-sm-2 control-label">Middel Name </label>
 
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" name="inputPatientMiddelName" placeholder="Enter Middel Name" ng-model="vm.patient.middelName" required ng-minlength="3" ng-maxlength="20" ng-pattern="main.validation.numeric"/>
+                                    <input type="text" class="form-control" name="inputPatientMiddelName" placeholder="Enter Middel Name" ng-model="vm.patient.middelName" required ng-minlength="3" ng-maxlength="20" />
                                 </div>
                                 <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
                                     <div class="help-block m-b-n m-t-none" ng-messages="newPatientForm.inputPatientMiddelName.$error" ng-if="newPatientForm.inputPatientMiddelName.$touched" ng-messages-include="ngmessages.html">
@@ -71,7 +71,7 @@
                             <div class="form-group" ng-class="{'has-error':newPatientForm.inputPatientLastName.$invalid && newPatientForm.inputPatientLastName.$dirty}">
                                 <label class="col-sm-2 control-label">Last Name <small>*</small></label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" name="inputPatientLastName" placeholder="Enter Last Name" ng-model="vm.patient.lastName" required ng-minlength="3" ng-maxlength="20" ng-pattern="main.validation.numeric">
+                                    <input type="text" class="form-control" name="inputPatientLastName" placeholder="Enter Last Name" ng-model="vm.patient.lastName" required ng-minlength="3" ng-maxlength="20">
                                 </div>
                                 <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
                                     <div class="help-block m-b-n m-t-none display-box" ng-messages="newPatientForm.inputPatientLastName.$error" ng-if="newPatientForm.inputPatientLastName.$dirty" ng-messages-include="ngmessages.html">
@@ -128,10 +128,12 @@
                                 <label class="col-sm-2 control-label">Mobile <small>*</small></label>
 
                                 <div class="col-sm-8">
-                                    <input type="text" name="inputPatientMobile" class="form-control" data-mask="99999999" placeholder="03 999999" ng-model="vm.patient.mobile" required ng-minlength="6" ng-maxlength="20">
+                                    <input type="text" name="inputPatientMobile" class="form-control" placeholder="03 999999" ng-model="vm.patient.mobile" required ng-minlength="6" ng-maxlength="20" ng-pattern="main.validation.number">
                                 </div>
                                 <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
-                                    <div class="help-block m-b-n m-t-none display-box" ng-messages="newPatientForm.inputPatientMobile.$error" ng-if="newPatientForm.inputPatientMobile.$dirty" ng-messages-include="ngmessages.html"></div>
+                                    <div class="help-block m-b-n m-t-none display-box" ng-messages="newPatientForm.inputPatientMobile.$error" ng-if="newPatientForm.inputPatientMobile.$dirty" ng-messages-include="ngmessages.html">
+                                        <div ng-show="newPatientForm.inputPatientMobile.$error.pattern">Only numbers are allowed</div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="hr-line-dashed"></div>
@@ -139,10 +141,13 @@
                                 <label class="col-sm-2 control-label">Phone</label>
 
                                 <div class="col-sm-8">
-                                    <input type="text" name="inputPatientPhone" ng-model="vm.patient.phone" class="form-control" data-mask="99999999" placeholder="01 999999" ng-minlength="6" ng-maxlength="20">
+                                    <input type="text" name="inputPatientPhone" ng-model="vm.patient.phone" class="form-control"  placeholder="01 999999" ng-minlength="6" ng-maxlength="20"  ng-pattern="main.validation.number">
                                 </div>
                                 <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
-                                    <div class="help-block m-b-n m-t-none display-box" ng-messages="newPatientForm.inputPatientPhone.$error" ng-if="newPatientForm.inputPatientPhone.$dirty" ng-messages-include="ngmessages.html"></div>
+                                    <div class="help-block m-b-n m-t-none display-box" ng-messages="newPatientForm.inputPatientPhone.$error" ng-if="newPatientForm.inputPatientPhone.$dirty" ng-messages-include="ngmessages.html">
+                                        <div ng-show="newPatientForm.inputPatientMobile.$error.pattern">Only numbers are allowed</div>
+
+                                    </div>
                                 </div>
                             </div>
                             <div class="hr-line-dashed"></div>

@@ -484,6 +484,62 @@ function fancyBox() {
         };
     };
 
+    function multiLine() {
+        return {
+            restrict: 'A',
+            priority: 450,
+            link: (scope, el, attr, ctrl) => {
+                scope.$watch(
+                    () => el[0].innerHTML,
+                    (newVal) => {
+                        let lineBreakIndex = newVal.indexOf('\n');
+                        if (lineBreakIndex > -1 && lineBreakIndex !== newVal.length - 1 && newVal.substr(lineBreakIndex + 1, 4) != '</p>') {
+                            let newHtml = `<p>${replaceAll(el[0].innerHTML, '\n\n', '\n').split('\n').join('</p><p>')}</p>`;
+                            el[0].innerHTML = newHtml;
+                        }
+                    }
+                )
+            }
+        };
+
+        function replaceAll(str, find, replace) {
+            return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+        }
+
+        function escapeRegExp(str) {
+            return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+        }
+    }
+
+
+    function textMultiLine() {
+        return {
+            restrict: 'A',
+            priority: 450,
+            link: function (scope, element, attrs) {         
+
+                element.bind('focus', function (e) {                
+                    element.bind("keydown keypress", function (event) {
+                        if (event.which === 13 || event.which === 8) {
+                            var data = $(element).val();
+                            var lines = data.split(/\r*\n/);
+                            var lineCount = lines.length;
+                            scope.$apply(function () {
+                                $(element).attr('rows', lineCount+1)
+                            });
+
+                            //event.preventDefault();
+                        } else {
+                            alert("eee")
+
+                        }
+                    });
+                });
+            }
+        };
+    }
+
+
 
 
 /**
@@ -509,6 +565,6 @@ angular
     .directive('responsiveVideo', responsiveVideo)
     .directive('iboxToolsFullScreen', iboxToolsFullScreen)
     .directive('selectClinic', selectClinic)
-    .directive('compareTo', compareTo);
-
-
+    .directive('compareTo', compareTo)
+    .directive('multiLine', multiLine)
+    .directive('textMultiLine', textMultiLine)

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Clinic.Common.Core.Dates;
+using System.ComponentModel;
 
 namespace Clinic.Core.Domain.Models
 {
@@ -22,18 +23,32 @@ namespace Clinic.Core.Domain.Models
         public Guid Id { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
+        public DateTime EntryDate { get; set; }
+        public string MartialStatus { get; set; }
+        public string InsuranceCompany { get; set; }
+        public string Occupation { get; set; }
         public string FirstName { get; set; }
         public string MiddelName { get; set; }
         public string LastName { get; set; }
         public DateTime Birthday { get; set; }
         public string BloodType { get; set; }
         public string Gender { get; set; }
-        public int Mobile { get; set; }
-        public int? Phone { get; set; }
+        public string Mobile { get; set; }
+        public string Phone { get; set; }
         public string Email { get; set; }
-        public string Address { get; set; }
+        public string Country { get; set; }
+        public string City { get; set; }
+        public string Street { get; set; }
+        public string Referrer { get; set; }
         public string AdditionalInformation { get; set; }
-        public DateTime EntryDate { get; set; }
+
+        public Guid MedicalStatusId { get; set; }
+
+        [ForeignKey("MedicalStatusId")]
+        public virtual MedicalStatus MedicalStatus { get; set; }
+
+        [DefaultValue(false)]
+        public bool IsDeleted { get; set; } 
         public Guid DoctorId { get; set; }
         public Guid ClinicId { get; set; }
 
@@ -43,8 +58,8 @@ namespace Clinic.Core.Domain.Models
         [ForeignKey("ClinicId")]
         public virtual Clinic Clinic { get; set; }
 
-        public virtual ICollection<Consultation> Consultations { get; set; }
 
+        public virtual ICollection<Consultation> Consultations { get; set; }
 
         public bool Equals(Patient other)
         {

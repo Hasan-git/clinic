@@ -24,6 +24,10 @@
                         id: '@id'
                     }
                 },
+                'deleteConsultation': {
+                    method: "DELETE",
+                    url: appSettings.serverPath + "/api/consultations/Delete",
+                }
                 
             }),
             factory: $resource(appSettings.serverPath + "/api/Consultations/:doctorId/:patientId", null,

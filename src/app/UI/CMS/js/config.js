@@ -125,7 +125,6 @@ function config($stateProvider, $urlRouterProvider) {
         })
         .state('consultation.consultation_list', {
             url: "/consultation_list/:patientid",
-           
             templateUrl: "views/consultation/consultation_list.html",
             data: { pageTitle: 'Consultation list' },
             controller: consultationList,
@@ -133,19 +132,16 @@ function config($stateProvider, $urlRouterProvider) {
                 resolvedData: function (consultationResource, $stateParams,$rootScope) {
                     if ($stateParams.patientid) {
                         var patientid = $stateParams.patientid;
-                        
                         //api/Consultations/{doctorId}/{patientId}   // get doctor-> patient's consultations
                         return consultationResource.factory.GetConsultations({ doctorId: $rootScope.rootDoctorId, patientId: patientid }).$promise.then(function (data) {
                             var res = JSON.parse(angular.toJson(data));
                            // console.log(res);
                             return JSON.parse(angular.toJson(data));
                         }, function(error) {
-
                         });
                     } else {
                         $state.go('patient.patients_list');
                     }
-                   
                 }
             }
         })

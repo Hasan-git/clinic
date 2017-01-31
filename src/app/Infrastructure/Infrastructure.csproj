@@ -106,6 +106,7 @@
     <Compile Include="Data\Repositories\AppointmentRepository.cs" />
     <Compile Include="Data\Repositories\AssistantRepository.cs" />
     <Compile Include="Data\Repositories\ImageRepository.cs" />
+    <Compile Include="Data\Repositories\MedicalStatusRepository.cs" />
     <Compile Include="Data\Repositories\UserRepository.cs" />
     <Compile Include="Data\Repositories\EFRepository.cs" />
     <Compile Include="Data\Repositories\PatientRepository.cs" />
@@ -118,10 +119,6 @@
     <Compile Include="Helpers\RepositoryProvider.cs" />
     <Compile Include="InfrastructureBootstrapper.cs" />
     <Compile Include="InfrastructureModule.cs" />
-    <Compile Include="Migrations\201612142206244_initial.cs" />
-    <Compile Include="Migrations\201612142206244_initial.Designer.cs">
-      <DependentUpon>201612142206244_initial.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -140,11 +137,6 @@
       <Project>{4a77b511-e687-4f81-9052-895efe74a33e}</Project>
       <Name>Core</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201612142206244_initial.resx">
-      <DependentUpon>201612142206244_initial.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

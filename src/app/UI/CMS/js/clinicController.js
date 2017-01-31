@@ -118,50 +118,76 @@ function newAssistant(assistantResource, toaster, notify) {
 
 //  + ----------------------------------------------------------------------- +
 //  |                                                                         |
-//  |                        newPatient         
+//  |                        newPatient                                       |
 //  |                                                                         |
 //  + ----------------------------------------------------------------------- +
-
-function newPatient(patientResource, toaster, notify, currentUser,$rootScope,$state) {
+function newPatient(patientResource, toaster, notify, currentUser, $rootScope, $state, $modal, $scope, $window) {
     var vm = this;
-    vm.patient = {};
-    vm.patient = new patientResource.patient;
-    vm.inspiniaTemplate = 'views/common/notify.html';
+    $scope.patient = {};
+    $scope.patient = new patientResource.patient;
+    $scope.inspiniaTemplate = 'views/common/notify.html';
+    $scope.patient.entryDate = new Date();
+    $scope.patient.birthday = new Date();
 
-    vm.patient.birthday = new Date();
+    $scope.submit = function (form) {
 
-    vm.submit = function () {
-        vm.loading = true;
-        vm.patient.doctorId = $rootScope.rootDoctorId;
-        vm.patient.clinicId = "0aa75235-15d1-11e6-9663-005056c00111";
-        vm.patient.entryDate = new Date();
 
-        vm.patient.$save(
+        $scope.loading = true;
+        $scope.patient.doctorId = $rootScope.rootDoctorId;
+        $scope.patient.clinicId = "0aa75235-15d1-11e6-9663-005056c00111";
+
+        $scope.patient.$save(
             function (data) {
-                vm.loading = false;
+                $scope.loading = false;
                 //TODO : handle Id from data and redirect to patient's consultations list
                 var patientId = JSON.parse(angular.toJson(data)).patientId
-                $state.go('consultation.consultation_list', { patientid: patientId });
+                //$state.go('consultation.consultation_list', { patientid: patientId });
                 toaster.pop('success', "Notification", "Patient created successfully", 4000);
+                openModal(patientId, form);
             }, function (response) {
-                vm.loading = false;
+                $scope.loading = false;
                 if (response.data.modelState) {
-                    vm.message = '';
+                    $scope.message = '';
+                    console.log(response.data.modelState)
                     for (var key in response.data.modelState) {
-                        vm.message += '<p>' + response.data.modelState[key] + "</p>";
+                        $scope.message += '<p>' + response.data.modelState[key] + "</p>";
                     }
-                    notify({ messageTemplate: vm.message, classes: 'alert-danger', templateUrl: vm.inspiniaTemplate, duration: '4000', position: 'left' });
+                    notify({ messageTemplate: $scope.message, classes: 'alert-danger', templateUrl: $scope.inspiniaTemplate, duration: '10000', position: 'left' });
                 }
 
             });
     };//end submit func
 
-    vm.open = function ($event) {
+    var openModal = function (patientId, form) {
+
+        var modalInstance = $modal.open({
+            animation: true,
+            templateUrl: 'newPatientConfirm.html',
+            scope: $scope,
+            size: 'lg',
+        });
+
+        $scope.ok = function () {
+            modalInstance.close();
+            $state.go('consultation.consultation_list', { patientid: patientId });
+        };
+
+        $scope.cancel = function () {
+            modalInstance.dismiss('cancel');
+            $window.location.reload();
+        };
+
+    }
+
+
+
+
+    $scope.open = function ($event) {
         $event.preventDefault();
         $event.stopPropagation();
         vm.opened = true;
     };
-    vm.dateOptions = {
+    $scope.dateOptions = {
         formatYear: 'yy',
         startingDay: 1
     };
@@ -177,6 +203,16 @@ function patientList(patientResource, DTOptionsBuilder, DTColumnBuilder, resolve
     var patlist = this;
     patlist.patients = {};
     patlist.patients = resolvedData;
+
+
+    function nl2br(str, is_xhtml) {
+        var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+        return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+    }
+    
+    
+    var a = nl2br(patlist.patients[0].medicalStatus.allergies)
+        $('.asd').html(a)
 
     patlist.dtOptions = DTOptionsBuilder.newOptions()
         .withDOM('<"html5buttons"B>lTfgtp<"bottom"i<"clear">>')
@@ -235,9 +271,19 @@ function patientList(patientResource, DTOptionsBuilder, DTColumnBuilder, resolve
 //  |                                                                         |
 //  + ----------------------------------------------------------------------- +
 
-function newConsultation($scope, $stateParams, consultationResource, $rootScope, notify, toaster, $state,FileUploader) {
+function newConsultation($scope, $stateParams, consultationResource, $rootScope, notify, toaster, $state, FileUploader, patientResource) {
 
     $scope.idOfpatient = $stateParams.patientid;
+    //$scope.patient.entryDate = new Date();
+    patientResource.patient.get({ id: $scope.idOfpatient }).$promise.then(function (data) {
+        console.log(data)
+        $scope.patientHistory = data.medicalStatus;
+        $scope.patientResolved = JSON.parse(angular.toJson(data))
+        $scope.$watch('consultation.entryDate', function (newVal, oldVal) {
+            var ageCalculated = moment(newVal).diff($scope.patientResolved.birthday, 'years', false);
+            $scope.age = ageCalculated >= 0 ? ageCalculated : "Unknown";
+        });
+    })
 
     //----------------------------
     //      Uploader Settings
@@ -266,6 +312,8 @@ function newConsultation($scope, $stateParams, consultationResource, $rootScope,
 
     $scope.consultation = new consultationResource.consultations;
     $scope.consultation.patientId = $stateParams.patientid;
+    $scope.consultation.entryDate = new Date();
+
     $scope.submit = function () {
         $scope.loading = true;
         //Get clinicId from Dropdown list 
@@ -306,7 +354,10 @@ function newConsultation($scope, $stateParams, consultationResource, $rootScope,
             });//end Save
     };//end submit func
 
-
+    // Next Tab
+    $scope.next = function () {
+        document.getElementById('topTab').scrollIntoView()
+    }
 
     $scope.SliderCost = {
         grid: true,
@@ -336,12 +387,68 @@ function newConsultation($scope, $stateParams, consultationResource, $rootScope,
 //  |                        consultationList         
 //  |                                                                         |
 //  + ----------------------------------------------------------------------- +
-
-function consultationList($scope, resolvedData,$stateParams) {
+function consultationList($scope, resolvedData, $stateParams,toaster, patientResource,followUpResource, consultationResource, $modal, $state, $rootScope) {
     $scope.consultations = resolvedData;
     $scope.idOfpatient = $stateParams.patientid;
+
+    patientResource.patient.get({ id: $scope.idOfpatient }).$promise.then(function (response) {
+        console.log(response)
+        $scope.patient = response;
+    })
+
     //alert(angular.toJson(patientdetails));
     //console.log(resolvedData);
+
+    $scope.deleteConsultation = function (idx) {
+        var modalInstance = $modal.open({
+            animation: true,
+            templateUrl: 'deleteConsultation.html',
+            scope: $scope,
+            size: 'lg',
+        });
+
+        $scope.yes = function () {
+            consultationResource.consultations.deleteConsultation({ id: idx }).$promise.then(function (data) {
+                consultationResource.factory.GetConsultations({ doctorId: $rootScope.rootDoctorId, patientId: $scope.idOfpatient }).$promise.then(function (response) {
+                    $scope.consultations = JSON.parse(angular.toJson(response));
+                    modalInstance.close();
+                    toaster.pop('success', "Notification", "Consultation deleted successfully", 4000);
+
+                })
+                //$state.go('consultation.consultation_list', { patientid: $scope.idOfpatient });
+            })
+        };
+        $scope.no = function () {
+            modalInstance.dismiss('cancel');
+        };
+    }
+
+
+    $scope.deleteFollowUp = function (idx) {
+        var modalInstance = $modal.open({
+            animation: true,
+            templateUrl: 'deleteFollowUp.html',
+            scope: $scope,
+            size: 'lg',
+        });
+
+        $scope.yesDelete = function () {
+            followUpResource.deleteFollowUp({ id: idx }).$promise.then(function (data) {
+                consultationResource.factory.GetConsultations({ doctorId: $rootScope.rootDoctorId, patientId: $scope.idOfpatient }).$promise.then(function (response) {
+                    $scope.consultations = JSON.parse(angular.toJson(response));
+                    modalInstance.close();
+                    toaster.pop('success', "Notification", "Consultation deleted successfully", 4000);
+
+                })
+                //$state.go('consultation.consultation_list', { patientid: $scope.idOfpatient });
+            })
+        };
+        $scope.noDelete = function () {
+            modalInstance.dismiss('cancel');
+        };
+    }
+    
+
 }
 
 //  + ----------------------------------------------------------------------- +
@@ -349,11 +456,19 @@ function consultationList($scope, resolvedData,$stateParams) {
 //  |                        consultationView         
 //  |                                                                         |
 //  + ----------------------------------------------------------------------- +
-
-
-function consultationView($scope, resolvedData, consultationResource, toaster) {
+function consultationView($scope, resolvedData, consultationResource, toaster, patientResource) {
     $scope.consultation = resolvedData;
     $scope.idOfpatient = resolvedData.patientId;
+
+    patientResource.patient.get({ id: $scope.idOfpatient }).$promise.then(function (data) {
+
+        $scope.patientResolved = JSON.parse(angular.toJson(data))
+        $scope.$watch('consultation.entryDate', function (newVal, oldVal) {
+            var ageCalculated = moment(newVal).diff($scope.patientResolved.birthday, 'years', false);
+            $scope.age = ageCalculated >= 0 ? ageCalculated : "Unknown";
+        });
+    })
+
     $scope.deleteImage = function (imgId, index) {
         consultationResource.consultations.deleteImage({ id: imgId }).$promise.then(function () {
             $scope.consultation.images.splice(index, 1)
@@ -367,11 +482,20 @@ function consultationView($scope, resolvedData, consultationResource, toaster) {
 //  |                        editConsultation         
 //  |                                                                         |
 //  + ----------------------------------------------------------------------- +
-
-function editConsultation($scope, $stateParams, resolvedData, consultationResource, toaster, notify, $state, FileUploader) {
+function editConsultation($scope, $stateParams, resolvedData, consultationResource, toaster, notify, $state, FileUploader, patientResource) {
 
     $scope.consultation = {};
     $scope.consultation = resolvedData;
+
+    patientResource.patient.get({ id: $scope.consultation.patientId }).$promise.then(function (data) {
+
+        $scope.patientResolved = JSON.parse(angular.toJson(data))
+        $scope.$watch('consultation.entryDate', function (newVal, oldVal) {
+            var ageCalculated = moment(newVal).diff($scope.patientResolved.birthday, 'years', false);
+            $scope.age = ageCalculated >= 0 ? ageCalculated : "Unknown";
+        });
+    })
+
     this.clinicId = $scope.consultation.clinicId;
     console.log($scope.consultation)
     //----------------------------
@@ -484,12 +608,19 @@ function editConsultation($scope, $stateParams, resolvedData, consultationResour
 //  |                                                                         |
 //  + ----------------------------------------------------------------------- +
 
-function newFollowUp($scope, $stateParams, followUpResource, $rootScope, toaster, $state, FileUploader) {
-
-   
+function newFollowUp($scope, $stateParams, followUpResource, $rootScope, toaster, $state, FileUploader, patientResource) {
 
     // idOfpatient used to inject in header menu
     $scope.idOfpatient = $stateParams.patientid;
+
+    patientResource.patient.get({ id: $scope.idOfpatient }).$promise.then(function (data) {
+
+        $scope.patientResolved = JSON.parse(angular.toJson(data))
+        $scope.$watch('followUp.entryDate', function (newVal, oldVal) {
+            var ageCalculated = moment(newVal).diff($scope.patientResolved.birthday, 'years', false);
+            $scope.age = ageCalculated >= 0 ? ageCalculated : "Unknown";
+        });
+    })
 
     $scope.inspiniaTemplate = 'views/common/notify.html';
     
@@ -570,8 +701,6 @@ function newFollowUp($scope, $stateParams, followUpResource, $rootScope, toaster
             });//end Save
     };//end submit func
 
-    
-   
     $scope.SliderCost = {
         grid: true,
         min: 0,
@@ -599,12 +728,20 @@ function newFollowUp($scope, $stateParams, followUpResource, $rootScope, toaster
 //  |                        editFollowUp         
 //  |                                                                         |
 //  + ----------------------------------------------------------------------- +
-
-function editFollowUp($scope, $stateParams, resolvedData, followUpResource, toaster, notify, $state, FileUploader, consultationResource) {
+function editFollowUp($scope, $stateParams, resolvedData, followUpResource, toaster, notify, $state, FileUploader, patientResource, consultationResource) {
 
     $scope.followUp = {};
     $scope.followUp = resolvedData;
     $scope.idOfpatient = $stateParams.patientid;
+    patientResource.patient.get({ id: $scope.idOfpatient }).$promise.then(function (data) {
+
+        $scope.patientResolved = JSON.parse(angular.toJson(data))
+        $scope.$watch('followUp.entryDate', function (newVal, oldVal) {
+            var ageCalculated = moment(newVal).diff($scope.patientResolved.birthday, 'years', false);
+            $scope.age = ageCalculated >= 0 ? ageCalculated : "Unknown";
+        });
+    })
+
     this.clinicId = $scope.followUp.clinicId ;
 
     if (resolvedData) {
@@ -719,9 +856,18 @@ function editFollowUp($scope, $stateParams, resolvedData, followUpResource, toas
 //  + ----------------------------------------------------------------------- +
 
 
-function viewFollowUp($scope, resolvedData, $stateParams, consultationResource, toaster) {
+function viewFollowUp($scope, resolvedData, $stateParams, consultationResource, toaster, patientResource) {
     $scope.followup = resolvedData;
+    console.log(resolvedData)
     $scope.idOfpatient = $stateParams.patientid;
+    patientResource.patient.get({ id: $scope.idOfpatient }).$promise.then(function (data) {
+
+        $scope.patientResolved = JSON.parse(angular.toJson(data))
+        $scope.$watch('followUp.entryDate', function (newVal, oldVal) {
+            var ageCalculated = moment(newVal).diff($scope.patientResolved.birthday, 'years', false);
+            $scope.age = ageCalculated >= 0 ? ageCalculated : "Unknown";
+        });
+    })
     $scope.deleteImage = function (imgId, index) {
         consultationResource.consultations.deleteImage({ id: imgId }).$promise.then(function () {
             $scope.followup.images.splice(index, 1)
@@ -737,11 +883,35 @@ function viewFollowUp($scope, resolvedData, $stateParams, consultationResource, 
 //  |                                                                         |
 //  + ----------------------------------------------------------------------- +
 
-function viewPatient($stateParams, patientdetails) {
+function viewPatient($stateParams, patientdetails, $modal, patientResource, $scope, $state) {
     //alert(angular.toJson(patientdetails));
     var patdetails = this;
 
-    patdetails.patientdetails = patientdetails;
+    $scope.patientdetails = patientdetails;
+
+    console.log(patientdetails)
+
+    $scope.openModal = function () {
+        var modalInstance = $modal.open({
+            animation: true,
+            templateUrl: 'deletePatient.html',
+            scope: $scope,
+            size: 'lg',
+        });
+
+        $scope.yes = function () {
+           
+            patientResource.patient.deletePatient({ id: $scope.patientdetails.id}).$promise.then(function (data) {
+                console.log(JSON.parse(angular.toJson(data)))
+                $state.go('patient.patients_list');
+                modalInstance.close();
+            })
+        };
+        $scope.no = function () {
+            modalInstance.dismiss('cancel');
+        };
+
+    }
 }
 
 //  + ----------------------------------------------------------------------- +
@@ -750,7 +920,7 @@ function viewPatient($stateParams, patientdetails) {
 //  |                                                                         |
 //  + ----------------------------------------------------------------------- +
 
-function editPatient(patientResource, toaster, notify, patientData) {
+function editPatient(patientResource, toaster, notify, patientData, $modal, patientResource) {
     var vm = this;
     vm.male = false;
     vm.female = false;
@@ -768,17 +938,13 @@ function editPatient(patientResource, toaster, notify, patientData) {
         vm.female = vm.patient.gender == "female" ? true : false;
         vm.originalPatient = angular.copy(patientData);
     }
-
-    
-
     vm.submit = function () {
         vm.loading = true;
         //vm.patient.$update({ id: vm.patient.patientId }).$promise.then(function (data) { alert("done"); vm.loading = false;}, function (error) { });
-        alert(angular.toJson(vm.patient));
+        //alert(angular.toJson(vm.patient));
         patientResource.patient.update(vm.patient).$promise.then(function (data) {
             vm.loading = false;
-            toaster.pop('success', "Notification", "patient updated successfully", 4000);
-
+            toaster.pop('success', "Notification", "Patient updated successfully", 4000);
         }, function (error) {
             vm.loading = false;
             if (response.data.modelState) {
@@ -809,8 +975,9 @@ function editPatient(patientResource, toaster, notify, patientData) {
     vm.cancel = function (editForm) {
         editForm.$setPristine();
         vm.patient = angular.copy(vm.originalPatient);
-
     };
+
+   
 }
 
 
@@ -1382,7 +1549,8 @@ function MainCtrl(patientResource, $scope) {
         numeric: /^[a-zA-Z]+$/,
         number: /^[0-9]*$/,
         alpha: /^[a-zA-Z0-9]*$/,
-        alpha_d: /^[a-zA-Z0-9-_.]+$/
+        alpha_d: /^[a-zA-Z0-9-_.]+$/,
+        date: /^((((19|[2-9]\d)\d{2})\-(0[13578]|1[02])\-(0[1-9]|[12]\d|3[01]))|(((19|[2-9]\d)\d{2})\-(0[13456789]|1[012])\-(0[1-9]|[12]\d|30))|(((19|[2-9]\d)\d{2})\-02\-(0[1-9]|1\d|2[0-8]))|(((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))\-02\-29))$/
 
     };
 

@@ -1,3 +1,10 @@
+<style>
+    .profile div i {
+        width:20px;
+        text-align:center;
+    }
+</style>
+
 <div class="row wrapper border-bottom white-bg page-heading animated fadeInRight">
     <div class="col-sm-4">
         <h2>Consultation list</h2>
@@ -27,8 +34,44 @@
                     </div>
                     <div class="ibox-content">
                         <div class="panel-body">
+
+                            <div class="col-lg-4">
+                                <div class="contact-box">
+                                    <a >
+                                        <div class="col-sm-4">
+                                            <div class="text-center">
+                                                <img alt="image" class="img-circle m-t-xs img-responsive" src="img/default.gif">
+                                                <div class="m-t-xs font-bold"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8 text-left profile">
+                                            <h3><strong>{{patient.displayName}}</strong></h3>
+
+                                            <p> <strong>Assigned </strong>{{patient.entryDate | date : formate :"LLLL"}}</p>
+                                            <div class="m-b-xxs">
+                                                <i class="fa fa-birthday-cake"></i>&nbsp;{{patient.birthday | date : formate :"LLLL"}}
+                                            </div>
+                                                <div class="m-b-xxs">
+                                                    <i class="fa fa-map-marker"></i>&nbsp;{{patient.country}} / {{ patient.city}}
+                                                </div>
+                                            <div class="m-b-xxs">
+                                                <i class="fa fa-phone"></i>&nbsp;{{patient.mobile}} / {{ patient.city}}
+                                            </div>    
+                                            <div class="m-b-xxs" >
+                                                    <i class="fa fa-user" tooltip="Referrer"></i>&nbsp;{{patient.referrer}}
+                                                </div>
+                                                <div ng-show="patient.additionalInformation" class="m-b-xxs">
+                                                    <label>Note</label>
+                                                    {{patient.additionalInformation}}
+                                                </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </a>
+                                </div>
+                            </div>
+
                             <div class="col-xs-12 m-b-lg">
-                                <button class="btn btn-primary col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4" ui-sref="consultation.new_consultation({patientid:idOfpatient})">New consultation</button>
+                                <button class="btn btn-primary col-xs-8  col-md-4 " ui-sref="consultation.new_consultation({patientid:idOfpatient})">New Condition</button>
                             </div>
 
                             <div class="m-t-lg" ng-if="consultations.length === 0"><i class="fa fa-briefcase"></i>&nbsp;No Consultations</div>
@@ -37,8 +80,7 @@
                                     <accordion-group is-open="status.open" ng-repeat="consultation in consultations">
                                         <accordion-heading>
                                             {{consultation.title || "UnNamed"}}
-                                            <small class="m-r-md">&nbsp;{{consultation.createdDate | date : format : 'MMM d ,yyyy'}}</small>
-
+                                            <small class="m-r-md">&nbsp;{{consultation.entryDate | date : format : 'MMM d ,yyyy'}}</small>
                                             <span class="pull-right">
                                                 <span class="m-r-md ">
                                                     <a class="btn-xs btn-white btn-bitbucket m-r-xs" ui-sref="consultation.new_followup({patientid:idOfpatient,consultationId:consultation.id})" ng-click="$event.stopPropagation()">
@@ -47,57 +89,96 @@
                                                     <a class="btn-xs btn-white btn-bitbucket m-r-xs" ui-sref="consultation.edit_consultation({patientid:idOfpatient,consultationId:consultation.id})" ng-click="$event.stopPropagation()">
                                                         <i class="fa fa-edit "></i>
                                                     </a>
-                                                    <a class="btn-xs btn-white btn-bitbucket" ui-sref="consultation.view_consultation({consultationId:consultation.id})" ng-click="$event.stopPropagation()">
+                                                    <a class="btn-xs btn-white btn-bitbucket m-r-xs" ui-sref="consultation.view_consultation({consultationId:consultation.id})" ng-click="$event.stopPropagation()">
                                                         <i class="fa fa-eye "></i>
+                                                    </a>
+                                                    <a class="btn-xs btn-white btn-bitbucket"   ng-click="$event.stopPropagation();deleteConsultation(consultation.id)">
+                                                        <i class="fa fa-trash "></i>
                                                     </a>
                                                 </span>
                                                 <i class="glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
                                             </span>
                                         </accordion-heading>
-                                        <span ng-if="consultation.followUps.length === 0"><i class="fa fa-briefcase"></i>&nbsp;&nbsp;No FollowUp Visits</span>
-                                        <accordion-group ng-repeat="var in consultation.followUps">
-                                            <accordion-heading>
-                                                {{var.title}}
-                                                <small class="m-r-md">&nbsp;{{consultation.createdDate | date : format : 'MMM d ,yyyy'}}</small>
 
-                                                <span class="pull-right">
-                                                    <span class="m-r-md ">
-                                                        <a class="btn-xs btn-white btn-bitbucket m-r-xs" ui-sref="consultation.edit_followup({patientid:idOfpatient,followupId:var.id})" ng-click="$event.stopPropagation()">
-                                                            <i class="fa fa-edit "></i>
-                                                        </a>
-                                                        <a class="btn-xs btn-white btn-bitbucket " ui-sref="consultation.view_followup({patientid:idOfpatient,followupId:var.id})" ng-click="$event.stopPropagation()">
-                                                            <i class="fa fa-eye "></i>
-                                                        </a>
+                                        <form method="get" class="form-horizontal" style="margin-top:0px;">
+                                            <div class="form-group col-xs-6">
+                                                <label class="col-sm-4 control-label">Subjective </label>
+                                                <div class="col-sm-6">
+                                                    <p class="form-control-static static">{{consultation.subjective}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-xs-6">
+                                                <label class="col-sm-4 control-label">Objective </label>
+                                                <div class="col-sm-6">
+                                                    <p class="form-control-static static">{{consultation.objective}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-xs-6">
+                                                <label class="col-sm-4 control-label">Assessment </label>
+                                                <div class="col-sm-6">
+                                                    <p class="form-control-static static">{{consultation.assessment}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-xs-6">
+                                                <label class="col-sm-4 control-label">Plan </label>
+                                                <div class="col-sm-6">
+                                                    <p class="form-control-static static">{{consultation.plan}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </form>
+                                        <div class="clearfix"></div>
+                                        <span ng-show="consultation.followUps.length === 0"><i class="fa fa-briefcase"></i>&nbsp;&nbsp;No FollowUp Visits</span>
+                                        <div ng-repeat="var in consultation.followUps" ng-show="var.isDeleted===false" class="m-t-xs">
+                                            <accordion-group >
+                                                <accordion-heading>
+                                                    {{var.title}}
+                                                    <small class="m-r-md">&nbsp;{{var.entryDate | date : format : 'MMM d ,yyyy'}}</small>
+
+                                                    <span class="pull-right">
+                                                        <span class="m-r-md ">
+                                                            <a class="btn-xs btn-white btn-bitbucket m-r-xs" ui-sref="consultation.edit_followup({patientid:idOfpatient,followupId:var.id})" ng-click="$event.stopPropagation()">
+                                                                <i class="fa fa-edit "></i>
+                                                            </a>
+                                                            <a class="btn-xs btn-white btn-bitbucket m-r-xs" ui-sref="consultation.view_followup({patientid:idOfpatient,followupId:var.id})" ng-click="$event.stopPropagation()">
+                                                                <i class="fa fa-eye "></i>
+                                                            </a>
+                                                            <a class="btn-xs btn-white btn-bitbucket" ng-click="$event.stopPropagation();deleteFollowUp(var.id)">
+                                                                <i class="fa fa-trash "></i>
+                                                            </a>
+                                                        </span>
                                                     </span>
-                                                </span>
-                                            </accordion-heading>
-                                            <form method="get" class="form-horizontal" style="margin-top:15px;">
-                                                <div class="form-group col-xs-6">
-                                                    <label class="col-sm-4 control-label">Subjective </label>
-                                                    <div class="col-sm-6">
-                                                        <p class="form-control-static static">{{var.subjective}}</p>
+                                                </accordion-heading>
+                                                <form method="get" class="form-horizontal" style="margin-top:15px;">
+                                                    <div class="form-group col-xs-6">
+                                                        <label class="col-sm-4 control-label">Subjective </label>
+                                                        <div class="col-sm-6">
+                                                            <p class="form-control-static static">{{var.subjective}}</p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="form-group col-xs-6">
-                                                    <label class="col-sm-4 control-label">Objective </label>
-                                                    <div class="col-sm-6">
-                                                        <p class="form-control-static static">{{var.objective}}</p>
+                                                    <div class="form-group col-xs-6">
+                                                        <label class="col-sm-4 control-label">Objective </label>
+                                                        <div class="col-sm-6">
+                                                            <p class="form-control-static static">{{var.objective}}</p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="form-group col-xs-6">
-                                                    <label class="col-sm-4 control-label">Assessment </label>
-                                                    <div class="col-sm-6">
-                                                        <p class="form-control-static static">{{var.assessment}}</p>
+                                                    <div class="form-group col-xs-6">
+                                                        <label class="col-sm-4 control-label">Assessment </label>
+                                                        <div class="col-sm-6">
+                                                            <p class="form-control-static static">{{var.assessment}}</p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="form-group col-xs-6">
-                                                    <label class="col-sm-4 control-label">Plan </label>
-                                                    <div class="col-sm-6">
-                                                        <p class="form-control-static static">{{var.plan}}</p>
+                                                    <div class="form-group col-xs-6">
+                                                        <label class="col-sm-4 control-label">Plan </label>
+                                                        <div class="col-sm-6">
+                                                            <p class="form-control-static static">{{var.plan}}</p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </form>
-                                        </accordion-group>
+                                                </form>
+                                            </accordion-group>
+
+                                        </div>
+                                        
                                     </accordion-group>
                                 </accordion>
 
@@ -163,6 +244,30 @@
         event.stopPropagation();
         event.preventDefault();
     });
- 
+</script>
 
+<script type="text/ng-template" id="deleteConsultation.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Confirmation!</h3>
+    </div>
+    <div class="modal-body">
+        <div>Are you sure to delete this consultation ?</div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="yes()">Yes</button>
+        <button class="btn btn-warning" type="button" ng-click="no()">No</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="deleteFollowUp.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Confirmation!</h3>
+    </div>
+    <div class="modal-body">
+        <div>Are you sure to delete this follow up ?</div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="yesDelete()">Yes</button>
+        <button class="btn btn-warning" type="button" ng-click="noDelete()">No</button>
+    </div>
 </script>

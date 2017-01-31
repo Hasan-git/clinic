@@ -800,8 +800,8 @@
     <Content Include="views\common\notify.html" />
     <Content Include="views\common\topnavbar.html" />
     <Content Include="views\consultation\consultation_list.html" />
-    <Content Include="views\consultation\new_consultation - Copy %282%29.html" />
     <Content Include="views\consultation\edit_consultation.html" />
+    <Content Include="views\consultation\new_consultation - Copy.html" />
     <Content Include="views\consultation\new_consultation.html" />
     <Content Include="views\consultation\edit_followup.html" />
     <Content Include="views\consultation\new_followup.html" />

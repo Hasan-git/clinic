@@ -75,6 +75,7 @@ namespace Clinic.Infrastructure.Data
         public IPatientRepository PatientRepository { get { return GetRepo<IPatientRepository>(); } }
         public IUserRepository UserRepository { get { return GetRepo<IUserRepository>(); } }
         public IImageRepository ImageRepository { get { return GetRepo<IImageRepository>(); } }
+        public IMedicalStatusRepository MedicalRepository { get { return GetRepo<IMedicalStatusRepository>(); } }
 
 
 

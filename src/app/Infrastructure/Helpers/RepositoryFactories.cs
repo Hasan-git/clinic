@@ -40,6 +40,7 @@ namespace Clinic.Infrastructure.Helpers
                      {typeof(IPatientRepository), dbcontext => new PatientRepository(dbcontext)},
                      {typeof(IUserRepository), dbcontext => new UserRepository(dbcontext)},
                      {typeof(IImageRepository), dbcontext => new ImageRepository(dbcontext)},
+                     {typeof(IMedicalStatusRepository), dbcontext => new MedicalStatusRepository(dbcontext)},
 
 
 

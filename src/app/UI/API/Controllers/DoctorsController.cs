@@ -20,7 +20,6 @@ namespace Api.Controllers
         [ResponseType(typeof(Doctor))]
         public async Task<IHttpActionResult> Get()
         {
-
             try
             {
                 var doctors = await Uow.DoctorRepository.GetAll();

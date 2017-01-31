@@ -36,11 +36,10 @@ namespace Api.Controllers
         [Route("api/FollowUp/{id}")]
         public async Task<IHttpActionResult> Get(Guid id)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             try
             {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
                 var followUp = await Uow.FollowUpRepository.GetById(id);
                 if (followUp == null)
                     return NotFound();
@@ -58,13 +57,13 @@ namespace Api.Controllers
         [ResponseType(typeof(FollowUp))]
         public async  Task<IHttpActionResult> Post([FromBody]FollowUp followUp)
         {
+            if (followUp == null)
+                return BadRequest("FollowUp cannot be null");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             try
             {
-                if (followUp == null)
-                    return BadRequest("FollowUp cannot be null");
-
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
                 followUp.Id = Guid.NewGuid();
 
                 Uow.FollowUpRepository.Add(followUp);
@@ -83,15 +82,13 @@ namespace Api.Controllers
         // PUT: api/FollowUp/5
         public async Task<IHttpActionResult> Put([FromBody]FollowUp followUp)
         {
+            if (followUp == null)
+                return BadRequest("followUp cannot be null");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             try
             {
-                
-                if (followUp == null)
-                    return BadRequest("followUp cannot be null");
-                
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-               
                 Uow.FollowUpRepository.Update(followUp);
                 await Uow.Commit();
                 
@@ -202,9 +199,30 @@ namespace Api.Controllers
         //    }
         //}
 
-        //// DELETE: api/Appointments/5
-        //public void Delete(int id)
-        //{
-        //}
+        [Route("api/followup/Delete"), HttpDelete]
+        public async Task<IHttpActionResult> Delete(Guid id)
+        {
+            if (id == null)
+                return BadRequest("An error occured");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var followup = await Uow.FollowUpRepository.GetById(id);
+                if (followup == null)
+                    return NotFound();
+                followup.IsDeleted = true;
+                Uow.FollowUpRepository.Update(followup);
+                await Uow.Commit();
+                return Ok("Deleted");
+
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
     }
 }

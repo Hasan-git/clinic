@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 using System.Web;
 using System.Net.Http;
 using System.Net;
+using Clinic.Common.Core;
 
 namespace Api.Controllers
 {
@@ -26,7 +27,7 @@ namespace Api.Controllers
     public class PatientsController : BaseController
     {
         
-        // GET: api/Products
+        // GET: api/Patients
         [HttpGet]
         [ResponseType(typeof(Patient))]
         public async Task<IHttpActionResult> Get()
@@ -44,7 +45,7 @@ namespace Api.Controllers
            
         }
 
-        // GET: api/Products/5
+        // GET: api/Patients/5
         [ResponseType(typeof(Patient))]
         public async  Task<IHttpActionResult> Get(Guid id)
         {
@@ -67,19 +68,22 @@ namespace Api.Controllers
             }
         }
 
-        // POST: api/Products
+        // POST: api/Patients
         [ResponseType(typeof(Patient))]
         //public async Task<IHttpActionResult> Post([FromBody]Patient model)
         public async Task<IHttpActionResult> Post([FromBody]Patient patient)
         {
+            if (patient == null)
+                return BadRequest("Patient cannot be null");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             try
             {
-                if (patient == null)
-                    return BadRequest("Patient cannot be null");
 
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
+                //patient.MedicalStatus.Id = SequentialGuid.Generate();
+                patient.MedicalStatus.Id = Guid.NewGuid();
                 Uow.PatientRepository.Add(patient);
                 await Uow.Commit();
                 return Ok(new { patientId = patient.Id });
@@ -140,9 +144,31 @@ namespace Api.Controllers
             }
         }
 
-        //// DELETE: api/Products/5
-        //public void Delete(int id)
-        //{
-        //}
+        //// DELETE: api/Patients/5
+        [Route("api/Patients/delete"),HttpDelete]
+        public async Task<IHttpActionResult> Delete(Guid id)
+        {
+            if (id == null)
+                return BadRequest("Patient id cannot be null");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            try
+            {
+                var patient = await Uow.PatientRepository.GetById(id);
+                if (patient == null)
+                    return NotFound();
+                patient.IsDeleted = true;
+                Uow.PatientRepository.Update(patient);
+                await Uow.Commit();
+                return Ok("Deleted");
+
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+            
+        }
     }
 }

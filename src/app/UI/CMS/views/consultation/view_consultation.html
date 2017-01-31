@@ -27,6 +27,14 @@
                         <tab heading="Main">
                             <form method="get" class="form-horizontal" style="margin-top:15px;">
                                 <div class="form-group">
+                                    <label class="col-sm-2 control-label">Patient :</label>
+                                    <div class="col-sm-8" style="margin-top:7px;">
+                                        <strong>{{patientResolved.displayName}}</strong> - {{age}} <span ng-show="age!=unkown">Year(s) old</span>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
                                     <label class="col-sm-2 control-label">Title </label>
                                     <div class="col-sm-8">
                                         <p class="form-control-static static">{{consultation.title}}</p>
@@ -47,12 +55,12 @@
                                 </div>-->
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">Date :</label>
+                                    <label class="col-sm-2 control-label">entry Date :</label>
                                     <div class="col-sm-8">
-                                        <p class="form-control-static static">{{consultation.createdDate}}</p>
+                                        <p class="form-control-static static">{{consultation.entryDate | date : format : "LLLL"}}</p>
                                     </div>
                                 </div>
-                                <div class="hr-line-dashed"></div>
+                                <!--<div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Blood pressure</label>
 
@@ -86,7 +94,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>-->
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Subjective :</label>
@@ -94,12 +102,21 @@
                                         <p class="form-control-static static">{{consultation.subjective}}</p>
                                     </div>
                                 </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Past History :</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static static">{{consultation.pastHistory}}</p>
+                                    </div>
+                                </div>
+
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Objective :</label>
                                     <div class="col-sm-8">
                                         <p class="form-control-static static">{{consultation.objective}} </p>
-                                        <a ng-click="main.labTabActive()" id="labo"><i class="fa fa-desktop"></i> Display laboratory Data</a>
+                                        <!--<a ng-click="main.labTabActive()" id="labo"><i class="fa fa-desktop"></i> Display laboratory Data</a>-->
                                     </div>
                                 </div>
 
@@ -112,10 +129,18 @@
                                             <div><i class="fa fa-trash fa-lg m-b-sm text-danger pointer" ng-click="deleteImage(i.id,$index)"></i> </div>
                                             <img ng-src="http://localhost:63392/images/{{i.imageName}}" onclick="window.open(this.src)" class="pointer" height="auto" width="200" />
                                         </div>
-
+                                        <div ng-show="consultation.images.length == 0" class="m-t-xs">
+                                            <i class="fa fa-briefcase"></i> No Images
+                                        </div>
                                     </div>
                                 </div>
-
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Diagnoses :</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static static">{{consultation.diagnoses}} </p>
+                                    </div>
+                                </div>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Assessment :</label>
@@ -140,6 +165,13 @@
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
+                                    <label class="col-sm-2 control-label">Financial Coverage</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static static">{{consultation.financialCoverage}}  </p>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
                                     <label class="col-sm-2 control-label">Cost</label>
                                     <div class="col-sm-8">
                                         <p class="form-control-static static">{{consultation.cost}}  </p>
@@ -158,18 +190,12 @@
                                     <div class="col-sm-6 col-sm-offset-1">
                                         <div class="list-group">
                                             <a class="list-group-item active">Consultation : {{consultation.title}}</a>
-
-                                            <a class="list-group-item" ng-repeat="followup in consultation.followUps">
-                                                {{followup.title}}
-                                                <span class="badge pull-right">{{followup.createdDate | date:'yyyy-MM-dd'}}</span>
-                                            </a>
-                                            <!--<a class="list-group-item" >Follow Up 1
-                                                <span class = "badge pull-right">12-12-2012</span>
-                                            </a>
-                                            <a class="list-group-item">Follow Up 2
-                                                <span class = "badge pull-right">02-12-2012</span>
-                                            </a>-->
+                                            <a class="list-group-item" ng-repeat="followup in consultation.followUps" ng-show="followup.isDeleted==false" ui-sref="consultation.view_followup({patientid:idOfpatient,followupId:followup.id})">
+                                                <span>{{followup.title}}</span>
+                                                <span class="badge pull-right">{{followup.entryDate | date: format:"LLLL"}}</span>
+                                            </a>                                            
                                         </div>
+                                        <button class="btn btn-primary" ui-sref="consultation.new_followup({patientid:idOfpatient,consultationId:consultation.id})">Create new followup</button>
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
@@ -180,11 +206,11 @@
                                 </div>
                             </form>
                         </tab>
-                        <tab heading="Objective - Media" active="main.isActive">
+                        <!--<tab heading="Objective - Media" active="main.isActive">
                             <strong>Media</strong>
                             <p>Video</p>
                             <p>Pictures</p>
-                        </tab>
+                        </tab>-->
 
                     </tabset>
                 </div>

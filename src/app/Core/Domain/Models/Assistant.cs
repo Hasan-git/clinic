@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Clinic.Common.Core.Dates;
+using System.ComponentModel;
 
 namespace Clinic.Core.Domain.Models
 {
@@ -27,10 +28,12 @@ namespace Clinic.Core.Domain.Models
         public string FirstName { get; set; }
         public string MiddelName { get; set; }
         public string LastName { get; set; }
-        public int Mobile { get; set; }
-        public int? Phone { get; set; }
+        public string Mobile { get; set; }
+        public string Phone { get; set; }
         public string Email { get; set; }
         public string AdditionalInformation { get; set; }
+        [DefaultValue(false)]
+        public bool IsDeleted { get; set; }
         public virtual ICollection<Clinic> Clinics { get; set; }
         public virtual ICollection<Appointment> Appointments { get; set; }
         public virtual ICollection<Doctor> Doctors { get; set; }

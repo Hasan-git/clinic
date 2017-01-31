@@ -50,8 +50,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System">
       <Private>True</Private>
@@ -89,6 +89,7 @@
     <Compile Include="Domain\Models\FollowUp.cs" />
     <Compile Include="Domain\Models\Consultation.cs" />
     <Compile Include="Domain\Models\Images.cs" />
+    <Compile Include="Domain\Models\MedicalStatus.cs" />
     <Compile Include="Domain\Models\User.cs" />
     <Compile Include="Domain\Models\Patient.cs" />
     <Compile Include="Domain\Repositories\IAppointmentRepository.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Domain\Repositories\IFollowUpRepository.cs" />
     <Compile Include="Domain\Repositories\IConsultationRepository.cs" />
     <Compile Include="Domain\Repositories\IImageRepository.cs" />
+    <Compile Include="Domain\Repositories\IMedicalStatusRepository.cs" />
     <Compile Include="Domain\Repositories\IPatientRepository.cs" />
     <Compile Include="Domain\Repositories\IPersistable.cs" />
     <Compile Include="Domain\Repositories\IRepository.cs" />

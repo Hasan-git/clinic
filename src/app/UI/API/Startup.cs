@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web.Http;
 using Microsoft.Owin;
 using Owin;
+using Api.Models.Mappers;
+using System.Web.Services.Description;
 
 [assembly: OwinStartup(typeof(Api.Startup))]
 

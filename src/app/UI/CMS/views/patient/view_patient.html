@@ -28,52 +28,56 @@
                         <div class="contact-box center-version">
                             <a style="cursor:auto;">
                                 <img alt="image" class="img-circle" src="img/a2.jpg">
-                                <h3 class="m-b-xs" style="text-transform: capitalize;"><strong>{{vmPatient.patientdetails.firstName +" - "+vmPatient.patientdetails.lastName }}</strong></h3>
-                                <div class="font-bold">Graphics designer</div>
+                                <h3 class="m-b-xs" style="text-transform: capitalize;"><strong>{{patientdetails.firstName +" - "+patientdetails.lastName }}</strong></h3>
+                                <div class="font-bold">{{patientdetails.occupation || ""}}</div>
                                 <div class="m-t-md ">
                                     <h5 class="text-success"><i class="fa fa-info-circle"></i> &nbsp;Basic Information</h5>
                                     <table class="table profile-table">
                                         <tbody>
                                         <tr >
                                             <td>Mid. Name</td>
-                                            <td>{{vmPatient.patientdetails.middelName}}</td>
+                                            <td>{{patientdetails.middelName}}</td>
                                         </tr>
+                                            <tr>
+                                                <td>Entry date</td>
+                                                <td>{{patientdetails.entryDate | date:'yyyy-MM-dd'}}</td>
+                                            </tr>
                                         <tr>
                                             <td>Birthday</td>
-                                            <td>{{vmPatient.patientdetails.birthday | date:'yyyy-MM-dd'}}</td>
+                                            <td>{{patientdetails.birthday | date:'yyyy-MM-dd'}}</td>
                                         </tr>
                                         <tr>
                                             <td>Gender</td>
-                                            <td>{{vmPatient.patientdetails.gender}}</td>
+                                            <td>{{patientdetails.gender}}</td>
                                         </tr>
                                         <tr>
                                             <td>Blood</td>
-                                            <td>{{vmPatient.patientdetails.bloodType}}</td>
+                                            <td>{{patientdetails.bloodType}}</td>
                                         </tr>
                                         <tr>
                                             <td>Address</td>
-                                            <td>{{vmPatient.patientdetails.address}}</td>
+                                            <td>{{patientdetails.address}}</td>
                                         </tr>
+                                            <tr>
+                                                <td>Insurance C.</td>
+                                                <td></td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                     <h5 class="m-t-md text-success"><i class="fa fa-phone-square"></i> &nbsp;Contact Information</h5>
                                     <table class="table profile-table">
                                         <tbody>
                                             <tr>
-                                                <td><i class="fa fa-mobile fa-lg"></i>&nbsp;&nbsp;{{vmPatient.patientdetails.mobile}}</td>
-                                                
+                                                <td><i class="fa fa-mobile fa-lg"></i>&nbsp;&nbsp;{{patientdetails.mobile}}</td>
                                             </tr>
                                             <tr>
-                                                <td><i class="fa fa-phone "></i>&nbsp;&nbsp;{{vmPatient.patientdetails.phone}}</td>
-                                                
+                                                <td><i class="fa fa-phone "></i>&nbsp;&nbsp;{{patientdetails.phone}}</td>
                                             </tr>
                                             <tr >
-                                                <td class="parent-warp"><i class="fa fa-envelope"></i>&nbsp;&nbsp;<div class="child-warp">{{vmPatient.patientdetails.email}}</div> </td>
-                                                
+                                                <td class="parent-warp"><i class="fa fa-envelope"></i>&nbsp;&nbsp;<div class="child-warp">{{patientdetails.email}}</div> </td>
                                             </tr>
                                             <tr>
-                                                <td><i class="fa fa-comments"></i>&nbsp;&nbsp;{{vmPatient.patientdetails.additionalInformation}} </td>
-                                               
+                                                <td><i class="fa fa-comments"></i>&nbsp;&nbsp;{{patientdetails.additionalInformation}} </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -81,9 +85,9 @@
                             </a>
                             <div class="contact-box-footer">
                                 <div class="m-t-xs btn-group">
-                                    <a class="btn btn-xs btn-white" ui-sref="patient.edit_patient({patientid: vmPatient.patientdetails.id})" ><i class="fa fa-edit"></i> Edit </a>
+                                    <a class="btn btn-xs btn-white" ui-sref="patient.edit_patient({patientid: patientdetails.id})" ><i class="fa fa-edit"></i> Edit </a>
                                     <a class="btn btn-xs btn-white"><i class="fa fa-calendar-o"></i> Assign date</a>
-                                    <a class="btn btn-xs btn-white"><i class="fa fa-user-plus"></i> Follow</a>
+                                    <a class="btn btn-xs btn-white" ng-click="openModal()"><i class="fa fa-trash"></i> Delete</a>
                                 </div>
                             </div>
                         </div>
@@ -212,4 +216,16 @@
             $('#vertical-timeline').toggleClass('center-orientation');
         });
     });
+</script>
+<script type="text/ng-template" id="deletePatient.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Confirmation!</h3>
+    </div>
+    <div class="modal-body">
+        <div>Are you sure to delete this patient ?</div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="yes()">Yes</button>
+        <button class="btn btn-warning" type="button" ng-click="no()">No</button>
+    </div>
 </script>

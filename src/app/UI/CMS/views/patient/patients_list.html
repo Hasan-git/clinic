@@ -20,50 +20,6 @@
 	<div class="col-lg-12">
 	    <div class="wrapper wrapper-content">
 	        <div class="animated fadeInRight">
-
-
-                <!--<form enctype="multipart/form-data">
-                    <label>
-                        Using JQuery
-                    </label>
-                    <input name="name" type="text" id="name" value="hasanRifaii" />
-                    <input name="file" type="file" id="me" multiple/>
-                    <input type="button" id="Upload" value="Upload" />
-                </form>
-
-                <script type="text/javascript">
-    $(function () {
-        $('#Upload').click(function () {
-
-            var formData = new FormData();
-            var opmlFile = $('#me');
-            console.log(opmlFile)
-
-            
-            formData.append('name', "asdasd");
-
-            jQuery.each(jQuery('#me')[0].files, function (i, file) {
-                formData.append('image' + i, file);
-            });
-
-
-            $.ajax({
-                url: 'http://localhost:63392/api/uploadTest',
-                type: 'POST',
-                data: formData,
-                cache: false,
-                contentType: false,
-                processData: false,
-
-                headers: { 'Cache-Control': 'no-cache' },
-                dataType: "json"
-
-
-            });
-        });
-    });-->
-                </script>
-
                     <div class="wrapper wrapper-content ecommerce">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
@@ -137,6 +93,7 @@
                                                         <th>FirstName</th>
                                                         <th>MiddelName</th>
                                                         <th>LastName</th>
+                                                        <th>Entry Date</th>
                                                         <th>Mobile</th>
                                                         <th class="fooo"></th>
                                                     </tr>
@@ -148,6 +105,7 @@
                                                         <td>{{ pat.firstName }}</td>
                                                         <td>{{ pat.middelName }}</td>
                                                         <td>{{ pat.lastName }}</td>
+                                                        <td>{{ pat.entryDate | date : format : "LLLL" }}</td>
                                                         <td style="border-right: 0px;">{{ pat.mobile }}</td>
                                                         <td class="text-center fooo" style="border-left: 0px;">
                                                             <div class="btn-group" dropdown>

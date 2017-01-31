@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using Clinic.Common.Core.Dates;
+using System.ComponentModel;
 
 namespace Clinic.Core.Domain.Models
 {
@@ -23,7 +24,7 @@ namespace Clinic.Core.Domain.Models
         public string Password { get; set; }
         public DateTime ExpiryDate { get; set; }
         public bool IsExpired { get; set; }
-
+       
 
         public bool Equals(User other)
         {

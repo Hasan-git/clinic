@@ -1,6 +1,7 @@
+
 <div class="row wrapper border-bottom white-bg page-heading animated fadeInRight">
     <div class="col-sm-5">
-        <h2>FollowUp config</h2>
+        <h2>Consultation config</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="index.html">Home</a>
@@ -12,36 +13,42 @@
                 <a ui-sref="consultation.consultation_list({patientid:idOfpatient})">Consultation list</a>
             </li>
             <li class="active">
-                <strong>FollowUp </strong>
+                <strong>New Consultation</strong>
             </li>
         </ol>
-    </div>
-    
+    </div>    
 </div>
-<div class="row">
+<div class="row" >
     <div class="col-lg-12">
         <div class="wrapper wrapper-content">
-            <div class=" animated fadeInRightBig">
+            <div class="animated fadeInRightBig">
                 <div class="tabs-container">
                     <tabset>
                         <tab heading="Main">
-                            <form method="get" class="form-horizontal" style="margin-top:15px;" name="editFollowUpForm">
+                            <form method="get" class="form-horizontal" name="newConsultationForm">
+
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Patient :</label>
                                     <div class="col-sm-8" style="margin-top:7px;">
-                                        <strong>{{patientResolved.displayName}}</strong> - {{age}} <span ng-show="age!=unkown">Year(s) old</span>
+                                        <strong>{{patientResolved.displayName}}</strong> - {{age}} <span ng-show="age!=unkown">Year(s) old</span> 
                                     </div>
                                 </div>
 
                                 <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Title <small>*</small></label>
-
+                                 <div class="form-group" ng-class="{'has-error':newConsultationForm.inputTitle.$invalid && newConsultationForm.inputTitle.$dirty}">
+                                    <label class="col-sm-2 control-label">Title :<small>*</small></label>
+                                    <input type="hidden" ng-model="consultation.id" />
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" ng-model="followUp.title" placeholder="Title">
+                                        <input type="text" class="form-control" ng-model="consultation.title" placeholder="Title" name="inputTitle" required ng-minlength="3" ng-maxlength="30"  >
                                     </div>
-
+                                    <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                        <!-- Validation -->
+                                        <div class="help-block m-b-n m-t-none display-box" ng-messages="newConsultationForm.inputTitle.$error" ng-show="newConsultationForm.inputTitle.$dirty" ng-messages-include="ngmessages.html">
+                                            <div ng-show="newConsultationForm.inputTitle.$error.pattern">Only letters and numbers -_. are allowed !</div>
+                                        </div>
+                                    </div>
                                 </div>
+                                
                                 <!--<div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Blood pressure</label>
@@ -50,28 +57,28 @@
                                         <div class="m-r-md inline">
                                             <div class="well" style="background-color: rgba(245, 245, 245, 0.22); margin-bottom: 5px; padding: 10px;">
                                                 <h5 class="text-center">Systolic</h5>
-                                                <knob knob-data="followUp.systolic" class="m-r-sm" data-fgColor="#ED5565" data- data-width="85" data-height="85" data-angleOffset=-125 data-angleArc=250 knob-options="" data-min="90" data-max="250">
+                                                <knob knob-data="consultation.systolic" class="m-r-sm" data-fgColor="#ED5565" data-width="85" data-height="85" data-angleOffset=-125 data-angleArc=250 knob-options="" data-min="90" data-max="250">
                                                 </knob>
                                             </div>
                                         </div>
                                         <div class="m-r-md inline">
                                             <div class="well" style="background-color: rgba(245, 245, 245, 0.22); margin-bottom: 5px; padding: 10px;">
                                                 <h5 class="text-center">Diastolic</h5>
-                                                <knob knob-data="followUp.diastolic" ng-init="100" class="m-r-sm" data-fgColor="#59B0F7" data- data-width="85" data-height="85" data-angleOffset=-125 data-angleArc=250 knob-options="" data-min="60" data-max="140">
+                                                <knob knob-data="consultation.diastolic" class="m-r-sm" data-fgColor="#59B0F7" data- data-width="85" data-height="85" data-angleOffset=-125 data-angleArc=250 knob-options="" data-min="60" data-max="140">
                                                 </knob>
                                             </div>
                                         </div>
                                         <div class="m-r-md inline">
                                             <div class="well" style="background-color: rgba(245, 245, 245, 0.22); margin-bottom: 5px; padding: 10px;">
                                                 <h5 class="text-center">Heart Rate<small>/min</small></h5>
-                                                <knob knob-data="followUp.heartRate" class="m-r-sm" data-fgColor="#59B0F7" data- data-width="85" data-height="85" data-angleOffset=-125 data-angleArc=250 knob-options="" data-min="50" data-max="200">
+                                                <knob knob-data="consultation.heartRate" class="m-r-sm" data-fgColor="#59B0F7" data- data-width="85" data-height="85" data-angleOffset=-125 data-angleArc=250 knob-options="" data-min="50" data-max="200">
                                                 </knob>
                                             </div>
                                         </div>
                                         <div class="m-r-md inline">
                                             <div class="well" style="background-color: rgba(245, 245, 245, 0.22); margin-bottom: 5px; padding: 10px;">
                                                 <h5 class="text-center">Temprature<small>°</small></h5>
-                                                <knob knob-data="followUp.temprature" class="m-r-sm" data-fgColor="#ED5565" data- data-width="85" data-height="85" data-angleOffset=-125 data-angleArc=250 knob-options="" data-min="30" data-max="41">
+                                                <knob knob-data="consultation.temprature" class="m-r-sm" data-fgColor="#ED5565" data- data-width="85" data-height="85" data-angleOffset=-125 data-angleArc=250 knob-options="" data-min="30" data-max="41">
                                                 </knob>
                                             </div>
                                         </div>
@@ -86,110 +93,131 @@
                                         <select-clinic doctor-id="{{rootDoctorId}}" my-directive-var="consultation"></select-clinic>
                                     </div>
                                 </div>
+
                                 <div class="hr-line-dashed"></div>
-                                <div class="form-group datepick" ng-class="{'has-error':editFollowUpForm.inputPatientEntryDate.$invalid && editFollowUpForm.inputPatientEntryDate.$dirty}">
+                                <div class="form-group datepick" ng-class="{'has-error':newConsultationForm.inputPatientEntryDate.$invalid && newConsultationForm.inputPatientEntryDate.$dirty}">
                                     <label class="col-sm-2 control-label">Entry Date <small>*</small></label>
                                     <div class="input-group date col-sm-4" style="padding-left: 15px;">
-                                        <input type="text" class="form-control" data-mask="9999-99-99" name="inputPatientEntryDate" date-time id="datepick" min-date="main.datepickeroptions.mindate" max-date="main.datepickeroptions.maxdate" min-view="{{main.datepickeroptions.minview}}" max-view="{{main.datepickeroptions.maxview}}" format="{{main.datepickeroptions.format1}}" ng-model="followUp.entryDate" ng-required="true" />
+                                        <input type="text" class="form-control" data-mask="9999-99-99" name="inputPatientEntryDate" date-time id="datepick" min-date="main.datepickeroptions.mindate" max-date="main.datepickeroptions.maxdate" min-view="{{main.datepickeroptions.minview}}" max-view="{{main.datepickeroptions.maxview}}" format="{{main.datepickeroptions.format1}}" ng-model="consultation.entryDate" ng-required="true" />
                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                     </div>
                                     <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
-                                        <div class="help-block m-b-n m-t-none display-box" ng-messages="editFollowUpForm.inputPatientEntryDate.$error" ng-show="editFollowUpForm.inputPatientEntryDate.$dirty" ng-messages-include="ngmessages.html">
+                                        <div class="help-block m-b-n m-t-none display-box" ng-messages="newConsultationForm.inputPatientEntryDate.$error" ng-show="newConsultationForm.inputPatientEntryDate.$dirty" ng-messages-include="ngmessages.html">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group" ng-class="{'has-error':newConsultationForm.inputSubjective.$invalid && newConsultationForm.inputSubjective.$dirty}" >
+                                    <label class="col-sm-2 control-label">Subjective :</label>
+                                    <div class="col-sm-8">
+                                        <textarea class="form-control" ng-model="consultation.subjective" rows="6" name="inputSubjective"  ></textarea>
+                                    </div>
+                                    <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                        <!-- Validation -->
+                                        <div class="help-block m-b-n m-t-none display-box" ng-messages="newConsultationForm.inputSubjective.$error" ng-show="newConsultationForm.inputSubjective.$dirty" ng-messages-include="ngmessages.html">
+                                            <div ng-show="newConsultationForm.inputSubjective.$error.pattern">Only letters and numbers -_. are allowed !</div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Subjective :</label>
-                                    <div class="col-sm-8">
-                                        <textarea class="form-control" ng-model="followUp.subjective" rows="6"></textarea>
-                                    </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group" ng-class="{'has-error':editFollowUpForm.pastHistory.$invalid && editFollowUpForm.pastHistory.$dirty}">
+                                <div class="form-group" ng-class="{'has-error':newConsultationForm.pastHistory.$invalid && newConsultationForm.pastHistory.$dirty}">
                                     <label class="col-sm-2 control-label">History :</label>
                                     <div class="col-sm-8">
-                                        <textarea class="form-control" ng-model="followUp.pastHistory" rows="6" name="diagnosis"></textarea>
+                                        <textarea class="form-control" ng-model="consultation.pastHistory" rows="6" name="diagnosis"></textarea>
                                     </div>
                                     <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
                                         <!-- Validation -->
-                                        <div class="help-block m-b-n m-t-none display-box" ng-messages="editFollowUpForm.pastHistory.$error" ng-show="editFollowUpForm.pastHistory.$dirty" ng-messages-include="ngmessages.html">
-                                            <div ng-show="editFollowUpForm.pastHistory.$error.pattern">Only letters and numbers -_. are allowed !</div>
+                                        <div class="help-block m-b-n m-t-none display-box" ng-messages="newConsultationForm.pastHistory.$error" ng-show="newConsultationForm.pastHistory.$dirty" ng-messages-include="ngmessages.html">
+                                            <div ng-show="newConsultationForm.pastHistory.$error.pattern">Only letters and numbers -_. are allowed !</div>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="hr-line-dashed"></div>
-                                <div class="form-group">
+                                <div class="form-group" ng-class="{'has-error':newConsultationForm.inputObjective.$invalid && newConsultationForm.inputObjective.$dirty}">
                                     <label class="col-sm-2 control-label">Objective :</label>
                                     <div class="col-sm-8" ng-controller="modalDemoCtrl">
-                                        <textarea class="form-control" ng-model="followUp.objective" rows="6"></textarea>
+                                        <textarea class="form-control" ng-model="consultation.objective" rows="6" name="inputObjective"  ></textarea>
                                         <a ng-click="main.labTabActive()" id="labo"><i class="fa fa-desktop"></i> Add laboratory Data</a>
                                         &nbsp; | &nbsp;
                                         <a ng-click="mission()">
                                             <i class="fa fa-plus"></i>&nbsp;Add Note
                                         </a>
                                     </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Objective - Media :</label>
-                                    <div class="col-sm-8 objective-media">
-                                        <div class="imgContainer" ng-repeat="i in followUp.images">
-                                            <div><i class="fa fa-trash fa-lg m-b-sm text-danger pointer" ng-click="deleteImage(i.id,$index)"></i> </div>
-                                            <img ng-src="http://localhost:63392/images/{{i.imageName}}" onclick="window.open(this.src)" class="pointer" height="auto" width="200" />
-                                        </div>
-                                        <div ng-show="followUp.images.length == 0" class="m-t-xs">
-                                            <i class="fa fa-briefcase"></i> No Images
-                                        </div>
-                                        <div style="clear:both;"></div>
-                                    </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group" ng-class="{'has-error':editFollowUpForm.diagnoses.$invalid && editFollowUpForm.diagnoses.$dirty}">
-                                    <label class="col-sm-2 control-label">Diagnoses :</label>
-                                    <div class="col-sm-8">
-                                        <textarea class="form-control" ng-model="followUp.diagnoses" rows="6" name="diagnosis"></textarea>
-                                    </div>
                                     <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
                                         <!-- Validation -->
-                                        <div class="help-block m-b-n m-t-none display-box" ng-messages="editFollowUpForm.diagnoses.$error" ng-show="editFollowUpForm.diagnoses.$dirty" ng-messages-include="ngmessages.html">
-                                            <div ng-show="editFollowUpForm.diagnoses.$error.pattern">Only letters and numbers -_. are allowed !</div>
+                                        <div class="help-block m-b-n m-t-none display-box" ng-messages="newConsultationForm.inputObjective.$error" ng-show="newConsultationForm.inputObjective.$dirty" ng-messages-include="ngmessages.html">
+                                            <div ng-show="newConsultationForm.inputObjective.$error.pattern">Only letters and numbers -_. are allowed !</div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Assessment :</label>
-                                    <div class="col-sm-8">
-                                        <textarea class="form-control" ng-model="followUp.assessment" rows="6"></textarea>
                                     </div>
                                 </div>
 
                                 <div class="hr-line-dashed"></div>
-                                <div class="form-group">
+                                <div class="form-group" ng-class="{'has-error':newConsultationForm.inputAssessment.$invalid && newConsultationForm.inputAssessment.$dirty}">
+                                    <label class="col-sm-2 control-label">Assessment :</label>
+                                    <div class="col-sm-8">
+                                        <textarea class="form-control" ng-model="consultation.assessment" rows="6" name="inputAssessment"  ></textarea>
+                                    </div>
+                                    <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                        <!-- Validation -->
+                                        <div class="help-block m-b-n m-t-none display-box" ng-messages="newConsultationForm.inputAssessment.$error" ng-show="newConsultationForm.inputAssessment.$dirty" ng-messages-include="ngmessages.html">
+                                            <div ng-show="newConsultationForm.inputAssessment.$error.pattern">Only letters and numbers -_. are allowed !</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group" ng-class="{'has-error':newConsultationForm.diagnoses.$invalid && newConsultationForm.diagnoses.$dirty}">
+                                    <label class="col-sm-2 control-label">Diagnoses :</label>
+                                    <div class="col-sm-8">
+                                        <textarea class="form-control" ng-model="consultation.diagnoses" rows="6" name="diagnosis"></textarea>
+                                    </div>
+                                    <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                        <!-- Validation -->
+                                        <div class="help-block m-b-n m-t-none display-box" ng-messages="newConsultationForm.diagnoses.$error" ng-show="newConsultationForm.diagnoses.$dirty" ng-messages-include="ngmessages.html">
+                                            <div ng-show="newConsultationForm.diagnoses.$error.pattern">Only letters and numbers -_. are allowed !</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group" ng-class="{'has-error':newConsultationForm.inputPlan.$invalid && newConsultationForm.inputPlan.$dirty}">
                                     <label class="col-sm-2 control-label">Plan–intended :</label>
                                     <div class="col-sm-8">
-                                        <textarea class="form-control" ng-model="followUp.plan" rows="6"></textarea>
+                                        <textarea class="form-control" ng-model="consultation.plan" rows="6" name="inputPlan"  ></textarea>
+                                    </div>
+                                    <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                        <!-- Validation -->
+                                        <div class="help-block m-b-n m-t-none display-box" ng-messages="newConsultationForm.inputPlan.$error" ng-show="newConsultationForm.inputPlan.$dirty" ng-messages-include="ngmessages.html">
+                                            <div ng-show="newConsultationForm.inputPlan.$error.pattern">Only letters and numbers -_. are allowed !</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
-                                <div class="form-group">
+                                <div class="form-group" ng-class="{'has-error':newConsultationForm.inputAdditionalInformation.$invalid && newConsultationForm.inputAdditionalInformation.$dirty}">
                                     <label class="col-sm-2 control-label">Additional Information :</label>
                                     <div class="col-sm-8">
-                                        <textarea class="form-control" ng-model="followUp.additionalInformation" rows="6"></textarea>
+                                        <textarea class="form-control" ng-model="consultation.additionalInformation" rows="6" name="inputAdditionalInformation"  ></textarea>
+                                    </div>
+                                    <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                        <!-- Validation -->
+                                        <div class="help-block m-b-n m-t-none display-box" ng-messages="newConsultationForm.inputAdditionalInformation.$error" ng-show="newConsultationForm.inputAdditionalInformation.$dirty" ng-messages-include="ngmessages.html">
+                                            <div ng-show="newConsultationForm.inputAdditionalInformation.$error.pattern">Only letters and numbers -_. are allowed !</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Financial Coverage :</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" ng-model="followUp.financialCoverage" placeholder="Financial Coverage">
+                                        <input type="text" class="form-control" ng-model="consultation.financialCoverage" placeholder="Financial Coverage">
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
-                                <div class="form-group">
+                                <div class="form-group" ng-click="all()">
                                     <label class="col-sm-2 control-label">Cost</label>
+                                    <!-- data-ng-controller="ionSlider as slider"-->
                                     <div class="col-sm-6">
                                         <div ion-range-slider range-options="SliderCost"></div>
                                     </div>
@@ -197,6 +225,7 @@
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Paid</label>
+                                    <!--data-ng-controller="ionSlider as slider"-->
                                     <div class="col-sm-6">
                                         <div ion-range-slider range-options="SliderPaid"></div>
                                     </div>
@@ -204,16 +233,20 @@
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                     <div class="col-sm-4 col-sm-offset-2">
-                                        <!--<button class="btn btn-white" type="submit" ng-click="cancel(editFollowUpForm)">Cancel</button>-->
-                                        <button class="btn btn-primary" type="submit" ladda="loading" ng-click="submit()" ng-disabled="editFollowUpForm.$invalid">Save changes</button>
+                                        <button class="btn btn-white" type="submit" ng-click="cancel(newConsultationForm)">Cancel</button>
+                                        <button class="btn btn-primary" type="submit" ladda="loading" data-style="expand-right" ng-click="submit()" ng-disabled="newConsultationForm.$invalid">Save changes</button>
                                     </div>
                                 </div>
+
                             </form>
+
                             <!--<form method="get" class="form-horizontal" style="margin-top:15px;">
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Title <small>*</small></label>
 
-                                    <div class="col-sm-8"><input type="text" class="form-control" placeholder="Enter First Name"></div>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" placeholder="Enter First Name">
+                                    </div>
 
                                 </div>
                                 <div class="hr-line-dashed"></div>
@@ -263,8 +296,7 @@
                                     <label class="col-sm-2 control-label">Objective :</label>
                                     <div class="col-sm-8" ng-controller="modalDemoCtrl">
                                         <textarea class="form-control" rows="6"></textarea>
-                                        <a ng-click="main.labTabActive()" id="labo"><i class="fa fa-desktop"></i> Add laboratory Data</a>
-                                        &nbsp; | &nbsp;
+                                        <a ng-click="main.labTabActive()" id="labo"><i class="fa fa-desktop"></i> Add laboratory Data </a> &nbsp; | &nbsp;
                                         <a ng-click="mission()">
                                             <i class="fa fa-plus"></i>&nbsp;Add Note
                                         </a>
@@ -309,7 +341,7 @@
                                 </div>
                             </form>-->
                         </tab>
-                        <tab heading="Objective - Media" active="main.isActive">
+                        <tab heading="Objective - Media" active="main.isActive" class="objective-media">
                             <div class="row" nv-file-drop="" uploader="uploader">
 
                                 <div class="col-md-3">
@@ -390,6 +422,8 @@
                                 </div>
 
                             </div>
+                            <!--  -->
+
                         </tab>
 
                     </tabset>

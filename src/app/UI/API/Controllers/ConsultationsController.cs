@@ -8,12 +8,16 @@ using System.Web.Http.Description;
 using Clinic.Core.Domain.Models;
 using System.Web;
 using System.Collections.Generic;
+using Api.Models;
+using Api.Models.Mappers;
+using Clinic.Core.Domain.Repositories;
 
 namespace Api.Controllers
 {
     [EnableCors("http://localhost:16322", "*", "*")]
     public class ConsultationsController : BaseController
     {
+
         // GET: api/Consultations
         //[System.Web.Http.Authorize(Roles = "admin")]
         [ResponseType(typeof(Consultation))]
@@ -39,11 +43,10 @@ namespace Api.Controllers
         [System.Web.Http.HttpGet]
         public async Task<IHttpActionResult> GetByDoctor(Guid id)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             try
             {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
                 var appointments = await Uow.ConsultationRepository.GetAllByDoctorId(id);
                 if (appointments == null)
                     return NotFound();
@@ -64,11 +67,10 @@ namespace Api.Controllers
         [System.Web.Http.ActionName("Consultation")]
         public async Task<IHttpActionResult> Get(Guid consultationId)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             try
             {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
                 var consultation = await Uow.ConsultationRepository.GetById(consultationId);
                 if (consultation == null)
                     return NotFound();
@@ -89,11 +91,10 @@ namespace Api.Controllers
         [System.Web.Http.ActionName("GetConsultations")]
         public async Task<IHttpActionResult> PatientConsultations( Guid doctorId,Guid patientId)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             try
             {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
                 var consultation = await Uow.ConsultationRepository.GetByPatientId(doctorId, patientId);
                 if (consultation == null)
                     return NotFound();
@@ -109,15 +110,20 @@ namespace Api.Controllers
         // POST: api/Consultations
         
         [ResponseType(typeof(Consultation))]
-        public async  Task<IHttpActionResult> Post([FromBody]Consultation consultation)
+        public IHttpActionResult Post(ConsultationModel model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             try
             {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-                consultation.Id = Guid.NewGuid();
+                var consultation = _mapper.mapConsultation(model);
+                var medicalStatus = _mapper.MapMedicalStatus(model);
+                //var consultation = new Consultation();
+                //consultation.Id = Guid.NewGuid();
+
                 Uow.ConsultationRepository.Add(consultation);
-                await Uow.Commit();
+                Uow.MedicalRepository.Update(medicalStatus);
+                Uow.Commit();
                 return Ok(new { consultationId = consultation.Id });
             }
             catch (Exception ex)
@@ -132,15 +138,13 @@ namespace Api.Controllers
         [System.Web.Http.ActionName("update")]
         public async Task<IHttpActionResult> Put( [FromBody]Consultation consultation)
         {
+            if (consultation == null)
+                return BadRequest("Consultation cannot be null");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             try
             {
-                
-                if (consultation == null)
-                    return BadRequest("Consultation cannot be null");
-                
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-               
                 Uow.ConsultationRepository.Update(consultation);
                 await Uow.Commit();
                 
@@ -212,6 +216,8 @@ namespace Api.Controllers
         // PUT: api/Patients/5
         public async Task<IHttpActionResult> DeleteImage(Guid id)
         {
+            if (id == null)
+                return BadRequest();
 
             try
             {
@@ -225,9 +231,32 @@ namespace Api.Controllers
                 return InternalServerError(ex);
             }
         }
-        //// DELETE: api/Appointments/5
-        //public void Delete(int id)
-        //{
-        //}
+
+
+        [Route("api/consultations/Delete"), HttpDelete]
+        public async Task<IHttpActionResult> Delete(Guid id)
+        {
+            if (id == null)
+                return BadRequest("An error occured");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var consultaion = await Uow.ConsultationRepository.GetById(id);
+                if (consultaion == null)
+                    return NotFound();
+                consultaion.IsDeleted = true;
+                Uow.ConsultationRepository.Update(consultaion);
+                await Uow.Commit();
+                return Ok("Deleted");
+
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
     }
 }

@@ -25,6 +25,7 @@ namespace Clinic.Infrastructure.Data
             modelBuilder.Entity<Assistant>().ToTable("Assistant");
             modelBuilder.Entity<Core.Domain.Models.Clinic>().ToTable("Clinic");
             modelBuilder.Entity<Images>().ToTable("Images");
+            modelBuilder.Entity<MedicalStatus>().ToTable("MedicalStatus");
 
         }
 
@@ -37,6 +38,7 @@ namespace Clinic.Infrastructure.Data
         public virtual DbSet<Assistant> Assistants { get; set; }
         public virtual DbSet<Core.Domain.Models.Clinic> Clinics { get; set; }
         public virtual DbSet<Images> Images { get; set; }
+        public virtual DbSet<MedicalStatus> MedicalStatus { get; set; }
 
     }
 }

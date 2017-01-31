@@ -33,14 +33,21 @@
                             <tab heading="Main">
                                 <form method="get" class="form-horizontal" name="editConsultationForm">
                                     <div class="form-group">
+                                        <label class="col-sm-2 control-label">Patient :</label>
+                                        <div class="col-sm-8" style="margin-top:7px;">
+                                            <strong>{{patientResolved.displayName}}</strong> - {{age}} <span ng-show="age!=unkown">Year(s) old</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
                                         <label class="col-sm-2 control-label">Title :<small>*</small></label>
                                         <input type="hidden" ng-model="consultation.id" />
                                         <div class="col-sm-8">
                                             <input type="text" class="form-control" ng-model="consultation.title" placeholder="Title">
                                         </div>
-
                                     </div>
-                                    <div class="hr-line-dashed"></div>
+                                    <!-- <div class="hr-line-dashed"></div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Blood pressure</label>
 
@@ -76,7 +83,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>-->
 
                                     <div class="hr-line-dashed"></div>
                                     <div class="form-group">
@@ -84,6 +91,18 @@
                                         <div class="col-sm-8">
                                             <!--<textarea class="form-control" ng-model="consultation.subjective" rows="6"></textarea>-->
                                             <select-clinic doctor-id="{{rootDoctorId}}" my-directive-var="consultation"></select-clinic>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group datepick" ng-class="{'has-error':newConsultationForm.inputPatientEntryDate.$invalid && newConsultationForm.inputPatientEntryDate.$dirty}">
+                                        <label class="col-sm-2 control-label">Entry Date <small>*</small></label>
+                                        <div class="input-group date col-sm-4" style="padding-left: 15px;">
+                                            <input type="text" class="form-control" data-mask="9999-99-99" name="inputPatientEntryDate" date-time id="datepick" min-date="main.datepickeroptions.mindate" max-date="main.datepickeroptions.maxdate" min-view="{{main.datepickeroptions.minview}}" max-view="{{main.datepickeroptions.maxview}}" format="{{main.datepickeroptions.format1}}" ng-model="consultation.entryDate" ng-required="true" />
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                        <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                            <div class="help-block m-b-n m-t-none display-box" ng-messages="newConsultationForm.inputPatientEntryDate.$error" ng-show="newConsultationForm.inputPatientEntryDate.$dirty" ng-messages-include="ngmessages.html">
+                                            </div>
                                         </div>
                                     </div>
 
@@ -94,6 +113,21 @@
                                             <textarea class="form-control" ng-model="consultation.subjective" rows="6"></textarea>
                                         </div>
                                     </div>
+
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group" ng-class="{'has-error':newConsultationForm.pastHistory.$invalid && newConsultationForm.pastHistory.$dirty}">
+                                        <label class="col-sm-2 control-label">History :</label>
+                                        <div class="col-sm-8">
+                                            <textarea class="form-control" ng-model="consultation.pastHistory" rows="6" name="diagnosis"></textarea>
+                                        </div>
+                                        <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                            <!-- Validation -->
+                                            <div class="help-block m-b-n m-t-none display-box" ng-messages="newConsultationForm.pastHistory.$error" ng-show="newConsultationForm.pastHistory.$dirty" ng-messages-include="ngmessages.html">
+                                                <div ng-show="newConsultationForm.pastHistory.$error.pattern">Only letters and numbers -_. are allowed !</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="hr-line-dashed"></div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Objective :</label>
@@ -101,6 +135,7 @@
                                             <textarea class="form-control" ng-model="consultation.objective" rows="6"></textarea>
                                         </div>
                                     </div>
+
                                     <div class="hr-line-dashed"></div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Objective - Media :</label>
@@ -108,6 +143,9 @@
                                             <div class="imgContainer" ng-repeat="i in consultation.images">
                                                 <div ><i class="fa fa-trash fa-lg m-b-sm text-danger pointer" ng-click="deleteImage(i.id,$index)"></i> </div>
                                                 <img ng-src="http://localhost:63392/images/{{i.imageName}}" onclick="window.open(this.src)" class="pointer" height="auto" width="200" />
+                                            </div>
+                                            <div ng-show="consultation.images.length == 0" class="m-t-xs">
+                                                <i class="fa fa-briefcase"></i> No Images
                                             </div>
                                             <div style="clear:both;"></div>
                                         </div>
@@ -118,6 +156,20 @@
                                         <label class="col-sm-2 control-label">Assessment :</label>
                                         <div class="col-sm-8">
                                             <textarea class="form-control" ng-model="consultation.assessment" rows="6"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group" ng-class="{'has-error':newConsultationForm.diagnoses.$invalid && newConsultationForm.diagnoses.$dirty}">
+                                        <label class="col-sm-2 control-label">Diagnoses :</label>
+                                        <div class="col-sm-8">
+                                            <textarea class="form-control" ng-model="consultation.diagnoses" rows="6" name="diagnosis"></textarea>
+                                        </div>
+                                        <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                            <!-- Validation -->
+                                            <div class="help-block m-b-n m-t-none display-box" ng-messages="newConsultationForm.diagnoses.$error" ng-show="newConsultationForm.diagnoses.$dirty" ng-messages-include="ngmessages.html">
+                                                <div ng-show="newConsultationForm.diagnoses.$error.pattern">Only letters and numbers -_. are allowed !</div>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -133,6 +185,13 @@
                                         <label class="col-sm-2 control-label">Additional Information :</label>
                                         <div class="col-sm-8">
                                             <textarea class="form-control" ng-model="consultation.additionalInformation" rows="6"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Financial Coverage :</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" ng-model="consultation.financialCoverage" placeholder="Financial Coverage">
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>

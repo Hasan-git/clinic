@@ -27,6 +27,14 @@
                         <tab heading="Main">
                             <form method="get" class="form-horizontal" style="margin-top:15px;">
                                 <div class="form-group">
+                                    <label class="col-sm-2 control-label">Patient :</label>
+                                    <div class="col-sm-8" style="margin-top:7px;">
+                                        <strong>{{patientResolved.displayName}}</strong> - {{age}} <span ng-show="age!=unkown">Year(s) old</span>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
                                     <label class="col-sm-2 control-label">Title </label>
                                     <div class="col-sm-8">
                                         <p class="form-control-static static">{{followup.title}}</p>
@@ -47,12 +55,12 @@
                                 </div>-->
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">Date :</label>
+                                    <label class="col-sm-2 control-label">entry Date :</label>
                                     <div class="col-sm-8">
-                                        <p class="form-control-static static">{{followup.createdDate}}</p>
+                                        <p class="form-control-static static">{{followup.entryDate | date : format : "LLLL"}}</p>
                                     </div>
                                 </div>
-                                <div class="hr-line-dashed"></div>
+                                <!--<div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Blood pressure</label>
 
@@ -86,7 +94,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>-->
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Subjective :</label>
@@ -96,10 +104,17 @@
                                 </div>
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
+                                    <label class="col-sm-2 control-label">Past History :</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static static">{{followup.pastHistory}}</p>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
                                     <label class="col-sm-2 control-label">Objective :</label>
                                     <div class="col-sm-8">
                                         <p class="form-control-static static">{{followup.objective}} </p>
-                                        <a ng-click="main.labTabActive()" id="labo"><i class="fa fa-desktop"></i> Display laboratory Data</a>
+                                       <!-- <a ng-click="main.labTabActive()" id="labo"><i class="fa fa-desktop"></i> Display laboratory Data</a>-->
                                     </div>
                                 </div>
 
@@ -107,12 +122,21 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Objective :</label>
                                     <div class="col-sm-8 objective-media">
-
                                         <div class="imgContainer" ng-repeat="i in followup.images">
                                             <div><i class="fa fa-trash fa-lg m-b-sm text-danger pointer" ng-click="deleteImage(i.id,$index)"></i> </div>
                                             <img ng-src="http://localhost:63392/images/{{i.imageName}}" onclick="window.open(this.src)" class="pointer" height="auto" width="200" />
                                         </div>
+                                        <div ng-show="followup.images.length == 0" class="m-t-xs">
+                                            <i class="fa fa-briefcase"></i> No Images
+                                        </div>
 
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Diagnoses :</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static static">{{followup.diagnoses}} </p>
                                     </div>
                                 </div>
 
@@ -136,6 +160,13 @@
                                     <label class="col-sm-2 control-label">Additional Information :</label>
                                     <div class="col-sm-8">
                                         <p class="form-control-static static">{{followup.additionalInformation}} </p>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Financial Coverage</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static static">{{followup.financialCoverage}}  </p>
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>
@@ -167,11 +198,11 @@
                                 </div>
                             </form>
                         </tab>
-                        <tab heading="Objective - Media" active="main.isActive">
+                        <!--<tab heading="Objective - Media" active="main.isActive">
                             <strong>Media</strong>
                             <p>Video</p>
                             <p>Pictures</p>
-                        </tab>
+                        </tab>-->
 
                     </tabset>
                 </div>

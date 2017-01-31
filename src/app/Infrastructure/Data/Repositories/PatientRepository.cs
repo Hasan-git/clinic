@@ -21,12 +21,12 @@ namespace Clinic.Infrastructure.Data.Repositories
         //}
         public new async Task<List<Patient>> GetAll()
         {
-            return await DbSet.ToListAsync();
+            return await DbSet.Include(x=>x.MedicalStatus).ToListAsync();
         }
         //Get patients by doctor
         public async Task<List<Patient>> GetByDoctorId(Guid id)
         {
-                var patients = await DbSet.Where(p => p.DoctorId == id).ToListAsync();
+                var patients = await DbSet.Include(x=>x.MedicalStatus).Where(p => p.DoctorId == id & p.IsDeleted == false).ToListAsync();
                 if (patients == null)
                     return null;
 
@@ -35,7 +35,7 @@ namespace Clinic.Infrastructure.Data.Repositories
         //Get an patient 
         public new async Task<Patient> GetById(Guid id)
         {
-                Patient patient = await DbSet.FirstOrDefaultAsync(p => p.Id == id);
+                Patient patient = await DbSet.Include(x=>x.MedicalStatus).FirstOrDefaultAsync(p => p.Id == id);
                 if (patient == null)
                          return null;
 

@@ -8,7 +8,11 @@
             patient: $resource(appSettings.serverPath + "/api/Patients/:id", null,
             {
                 'get': { method: 'GET'},
-                'update': { method: 'PUT' }
+                'update': { method: 'PUT' },
+                'deletePatient': {
+                    method: "DELETE",
+                    url: appSettings.serverPath + "/api/Patients/delete",
+                }
             }),
             doctor: $resource(appSettings.serverPath + "/api/Patients/:id/Doctor", null,
             {
@@ -27,37 +31,3 @@
         .module("common.services")
         .factory("patientResource",["$resource","appSettings",patientResource]);
 }());
-
-//return {
-//    default: $resource(appSettings.serverPath + "/api/Patients/:id", null,
-//    {
-//        'get': { method: 'GET',isArray: true },
-//        'update': { method: 'PUT' }
-//    }),
-//    doctor: $resource(appSettings.serverPath + "/api/Patients/:id/Doctor", null,
-//    {
-//        //'doctor': {
-//        //    method: 'GET',
-//        //    headers: { 'Content-Type': 'application/json' }
-//        //}
-//        'query': { method: 'GET' },
-//        'doctorz': {
-//            method: 'GET',
-//            isArray: true
-//        }
-//    })
-//}
-
-
-
-
-
-
-
-
-
-//return $resource(appSettings.serverPath + "/api/Patients/:id",null,
-//            {
-//                'update': { method: 'PUT' }
-
-//            });

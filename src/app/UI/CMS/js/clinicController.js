@@ -121,7 +121,10 @@ function newAssistant(assistantResource, toaster, notify) {
 //  |                        newPatient                                       |
 //  |                                                                         |
 //  + ----------------------------------------------------------------------- +
+
 function newPatient(patientResource, toaster, notify, currentUser, $rootScope, $state, $modal, $scope, $window) {
+
+
     var vm = this;
     $scope.patient = {};
     $scope.patient = new patientResource.patient;

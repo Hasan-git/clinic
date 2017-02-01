@@ -18,6 +18,13 @@ namespace Api.Controllers
     public class ConsultationsController : BaseController
     {
 
+        private readonly IConsultationMapper _mapper;
+
+        public ConsultationsController(IConsultationMapper mapper)
+        {
+            _mapper = mapper;
+        }
+
         // GET: api/Consultations
         //[System.Web.Http.Authorize(Roles = "admin")]
         [ResponseType(typeof(Consultation))]
@@ -116,13 +123,13 @@ namespace Api.Controllers
                 return BadRequest(ModelState);
             try
             {
-                var consultation = _mapper.mapConsultation(model);
-                var medicalStatus = _mapper.MapMedicalStatus(model);
-                //var consultation = new Consultation();
+                //var consultation = _mapper.mapConsultation(model);
+                //var medicalStatus = _mapper.MapMedicalStatus(model);
+                var consultation = new Consultation();
                 //consultation.Id = Guid.NewGuid();
 
                 Uow.ConsultationRepository.Add(consultation);
-                Uow.MedicalRepository.Update(medicalStatus);
+                //Uow.MedicalRepository.Update(medicalStatus);
                 Uow.Commit();
                 return Ok(new { consultationId = consultation.Id });
             }

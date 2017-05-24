@@ -484,33 +484,6 @@ function fancyBox() {
         };
     };
 
-    function multiLine() {
-        return {
-            restrict: 'A',
-            priority: 450,
-            link: (scope, el, attr, ctrl) => {
-                scope.$watch(
-                    () => el[0].innerHTML,
-                    (newVal) => {
-                        let lineBreakIndex = newVal.indexOf('\n');
-                        if (lineBreakIndex > -1 && lineBreakIndex !== newVal.length - 1 && newVal.substr(lineBreakIndex + 1, 4) != '</p>') {
-                            let newHtml = `<p>${replaceAll(el[0].innerHTML, '\n\n', '\n').split('\n').join('</p><p>')}</p>`;
-                            el[0].innerHTML = newHtml;
-                        }
-                    }
-                )
-            }
-        };
-
-        function replaceAll(str, find, replace) {
-            return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
-        }
-
-        function escapeRegExp(str) {
-            return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
-        }
-    }
-
 
     function textMultiLine() {
         return {
@@ -530,7 +503,7 @@ function fancyBox() {
 
                             //event.preventDefault();
                         } else {
-                            alert("eee")
+                            //alert("eee")
 
                         }
                     });
@@ -539,7 +512,32 @@ function fancyBox() {
         };
     }
 
+    function nextInput($timeout) {
+        return {
+            restrict: 'A',
+            priority: 450,
+            scope:{
+                nextField: "@",
+                nextTab: "=nextTab",
+            },
+            link: function (scope, element, attrs) {
 
+                element.bind('focus', function (e) {
+                    element.bind("keydown keypress", function (event) {
+
+                        if (event.which === 9) {
+                            console.log(scope.nextField)
+                            scope.nextTab = true
+                            document.getElementById('topTab').scrollIntoView()
+                            $timeout(function () { $('#' + scope.nextField).focus(); }, 100);
+                            scope.$apply(function () {
+                            });
+                        } 
+                    });
+                });
+            }
+        };
+    }
 
 
 /**
@@ -566,5 +564,7 @@ angular
     .directive('iboxToolsFullScreen', iboxToolsFullScreen)
     .directive('selectClinic', selectClinic)
     .directive('compareTo', compareTo)
-    .directive('multiLine', multiLine)
     .directive('textMultiLine', textMultiLine)
+    .directive('nextInput', nextInput)
+
+

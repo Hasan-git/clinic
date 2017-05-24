@@ -22,8 +22,9 @@ namespace Clinic.Core.Domain.Models
         public Guid Id { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
-        public string Diseases { get; set; }
         public string Allergies { get; set; }
+        public string PastMedicalHistory { get; set; }
+
         public string SurgicalHistory { get; set; }
         public string PastMedication { get; set; }
         public string PresentMedication { get; set; }

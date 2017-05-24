@@ -7,6 +7,7 @@ namespace Api.Models
 {
     public class ConsultationModel
     {
+        public Guid Id { get; set; }
         public DateTime EntryDate { get; set; }
         public string Title { get; set; }
         public string Condition { get; set; }

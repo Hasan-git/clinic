@@ -10,7 +10,7 @@ using Clinic.Core.Domain.Models;
 
 namespace Api.Controllers
 {
-    [EnableCors("http://localhost:16322", "*", "*")]
+    [EnableCors("*", "*", "*")]
     public class AppointmentsController : BaseController
     {
         // GET: api/Appointments

@@ -30,7 +30,7 @@ namespace Clinic.Core.Domain.Models
         public string Condition { get; set; }
         public string ChiefComplaint { get; set; }
         public string PresentHistory { get; set; }
-        public string PastHistory { get; set; }
+        //public string PastHistory { get; set; }
         public string PhysicalExam { get; set; }
         public string DifferentialDiagnosis { get; set; }
         public string Lab { get; set; }
@@ -39,6 +39,7 @@ namespace Clinic.Core.Domain.Models
         public string Diagnosis { get; set; }
         public string Medication { get; set; }
         public string Surgery { get; set; }
+        public string Recommendation { get; set; }
         public string Other { get; set; }
         public string AdditionalInformation { get; set; }
 

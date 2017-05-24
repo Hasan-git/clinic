@@ -14,7 +14,7 @@ using Clinic.Core.Domain.Repositories;
 
 namespace Api.Controllers
 {
-    [EnableCors("http://localhost:16322", "*", "*")]
+    [EnableCors("*", "*", "*")]
     public class ConsultationsController : BaseController
     {
 
@@ -82,6 +82,7 @@ namespace Api.Controllers
                 if (consultation == null)
                     return NotFound();
                 
+
                     return Ok(consultation);
             }
             catch (Exception ex)
@@ -123,13 +124,12 @@ namespace Api.Controllers
                 return BadRequest(ModelState);
             try
             {
-                //var consultation = _mapper.mapConsultation(model);
-                //var medicalStatus = _mapper.MapMedicalStatus(model);
-                var consultation = new Consultation();
-                //consultation.Id = Guid.NewGuid();
+                var consultation = _mapper.mapConsultation(model);
+                var medicalStatus_ = Uow.MedicalRepository.GetById(model.MedicalStatus.Id);
+                var medicalStatus = _mapper.MapMedicalStatus(model, medicalStatus_);
 
                 Uow.ConsultationRepository.Add(consultation);
-                //Uow.MedicalRepository.Update(medicalStatus);
+                Uow.MedicalRepository.Update(medicalStatus);
                 Uow.Commit();
                 return Ok(new { consultationId = consultation.Id });
             }
@@ -143,16 +143,24 @@ namespace Api.Controllers
 
         // PUT: api/Appointments/5
         [System.Web.Http.ActionName("update")]
-        public async Task<IHttpActionResult> Put( [FromBody]Consultation consultation)
+        public async Task<IHttpActionResult> Put(ConsultationModel model)
         {
-            if (consultation == null)
+            if (model == null)
                 return BadRequest("Consultation cannot be null");
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             try
             {
+                var consultation_ = await Uow.ConsultationRepository.GetById(model.Id);
+                var consultation = _mapper.mapConsultation(model, consultation_);
+
+                var medicalStatus_ = Uow.MedicalRepository.GetById(model.MedicalStatus.Id);
+                var medicalStatus = _mapper.MapMedicalStatus(model, medicalStatus_);
+
                 Uow.ConsultationRepository.Update(consultation);
+                Uow.MedicalRepository.Update(medicalStatus);
+
                 await Uow.Commit();
                 
                 return Ok();

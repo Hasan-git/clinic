@@ -9,8 +9,6 @@
     <!-- Page title set in pageTitle directive -->
     <title page-title></title>
 
-
-
     <!-- Google Font -->
     <!--<link href='https://fonts.googleapis.com/css?family=Lobster|Nunito|Bree+Serif|Pacifico|Oswald|Ubuntu|Fjalla+One|Noto+Serif|Anton|Libre+Baskerville|Francois+One|Righteous' rel='stylesheet' type='text/css'>-->
     <!-- Summernote -->
@@ -91,6 +89,8 @@
 
     <link href="js/plugins/loading-buttons/ladda-themeless.min.css" rel="stylesheet" />
 
+    <!-- X-editable  -->
+    <link href="css/plugins/x-editable/xeditable.css" rel="stylesheet">
 
     <style>
         /*  fullcalendar event popover content css */
@@ -450,7 +450,7 @@
     <script src="js/plugins/uiTree/angular-ui-tree.min.js"></script>
     <script src="js/plugins/angular-notify/angular-notify.min.js"></script>
     <script src="js/plugins/colorpicker/bootstrap-colorpicker-module.js"></script>
-
+    <script src="js/plugins/x-editable/xeditable.js"></script>
     <script src="js/plugins/dataTables/Plugins/angular-datatables.buttons.min.js"></script>
 
     <!-- ES5 shim for old browsers UPLOAD -->
@@ -461,8 +461,32 @@
     <script src="js/app.js"></script>
     <script src="js/config.js"></script>
     <script src="js/directives.js"></script>
-    <script src="js/clinicController.js"></script>
     <script src="js/controllers.js"></script>
+    <!--<script src="js/clinicController.js"></script>-->
+
+    <!-- Controller -->
+    <script src="js/Controllers/CalendarCtrl.js"></script>
+    <script src="js/Controllers/consultationList.js"></script>
+    <script src="js/Controllers/consultationView.js"></script>
+    <script src="js/Controllers/editConsultation.js"></script>
+    <script src="js/Controllers/editFollowUp.js"></script>
+    <script src="js/Controllers/editPatient.js"></script>
+    <script src="js/Controllers/MainCtrl.js"></script>
+    <script src="js/Controllers/modalDemoCtrl.js"></script>
+    <script src="js/Controllers/ModalInstanceCtrl.js"></script>
+    <script src="js/Controllers/ModalInstanceCtrl2.js"></script>
+    <script src="js/Controllers/newAssistant.js"></script>
+    <script src="js/Controllers/newConsultation.js"></script>
+    <script src="js/Controllers/newDoctor.js"></script>
+    <script src="js/Controllers/newFollowUp.js"></script>
+    <script src="js/Controllers/newPatient.js"></script>
+    <script src="js/Controllers/patientList.js"></script>
+    <script src="js/Controllers/viewFollowUp.js"></script>
+    <script src="js/Controllers/viewPatient.js"></script>
+
+
+
+
     <!-- Services -->
     <script src="js/orders/order.js"></script>
     <script src="js/services/services.js"></script>

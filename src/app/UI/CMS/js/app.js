@@ -33,7 +33,8 @@
         'ui.codemirror', // Code editor
         'ui.tree', // Nestable list
         'cgNotify', // Angular notify
-        'colorpicker.module' // Color picker
+        'colorpicker.module', // Color picker
+        'xeditable',                    // X-editable       
     ]);
 
 })();

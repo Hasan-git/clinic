@@ -1,3 +1,9 @@
+<style>
+      .static {
+         white-space: pre-line;
+    }
+</style>
+
 <div class="row wrapper border-bottom white-bg page-heading animated fadeInRight">
     <div class="col-sm-5">
         <h2>Consultation config</h2>
@@ -16,43 +22,62 @@
             </li>
         </ol>
     </div>
-    
+
 </div>
 <div class="row">
     <div class="col-lg-12">
         <div class="wrapper wrapper-content">
-            <div class=" animated fadeInRightBig">
+            <div class="animated fadeInRightBig">
+
+                <div class="row m-b-md">
+                    <div class="col-lg-4">
+                        <div class="widget style1 navy-bg">
+                            <div class="row vertical-align">
+                                <div class="col-xs-2">
+                                    <i class="fa fa-user fa-3x"></i>
+                                </div>
+                                <div class="col-xs-9 text-left" style="margin-top: 10px;">
+                                    <strong>{{patientResolved.displayName}}</strong> - {{age}} <span ng-show="age!=unkown">Year(s) old</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="widget style1 " ng-class="{'yellow-bg':patientHistory.allergies,'navy-bg':!patientHistory.allergies}">
+                            <div class="row vertical-align">
+                                <div class="col-xs-2">
+                                    <i class="fa  fa-3x" ng-class="{'fa-exclamation-circle':patientHistory.allergies,'fa-check-circle':!patientHistory.allergies}"></i>
+                                </div>
+                                <div class="col-xs-9 text-left" style="margin-top: 10px;">
+                                    <!--<strong class="ca">Allergies</strong>-->  {{patientHistory.allergies}} <span ng-show="!patientHistory.allergies">No Allergies</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+
                 <div class="tabs-container">
-                    <tabset>
-                        <tab heading="Main">
-                            <form method="get" class="form-horizontal" style="margin-top:15px;">
+                    <form method="get" class="form-horizontal" style="margin-top:15px;">
+
+                        <tabset>
+                            <tab heading="History">
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">Patient :</label>
-                                    <div class="col-sm-8" style="margin-top:7px;">
-                                        <strong>{{patientResolved.displayName}}</strong> - {{age}} <span ng-show="age!=unkown">Year(s) old</span>
+                                    <label class="col-sm-2 control-label">Condition </label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static static">{{consultation.condition}}</p>
                                     </div>
                                 </div>
 
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">Title </label>
-                                    <div class="col-sm-8">
-                                        <p class="form-control-static static">{{consultation.title}}</p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <label class="col-sm-2 control-label">Type :</label>
                                     <div class="col-sm-8">
-                                        <p class="form-control-static static">Consultation</p>
+                                        <p class="form-control-static static">New Condition</p>
                                     </div>
                                 </div>
-                                <!--<div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Patient :</label>
-                                    <div class="col-sm-8">
-                                        <p class="form-control-static static">Name Should be Resolved ?????</p>
-                                    </div>
-                                </div>-->
+
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">entry Date :</label>
@@ -60,131 +85,160 @@
                                         <p class="form-control-static static">{{consultation.entryDate | date : format : "LLLL"}}</p>
                                     </div>
                                 </div>
-                                <!--<div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Blood pressure</label>
 
-                                    <div class="col-sm-8 text-center">
-                                        <div class="m-r-md inline">
-                                            <div class="well" style="background-color:rgba(245, 245, 245, 0.22);margin-bottom: 5px;padding: 10px;">
-                                                <h5 class="text-center">Systolic</h5>
-                                                <knob knob-data="consultation.systolic" class="m-r-sm" data-fgColor="#ED5565" data- data-width="85" data-height="85" data-angleOffset=-125 data-angleArc=250 knob-options="" data-min="90" data-max="250" data-readOnly=true>
-                                                </knob>
-                                            </div>
-                                        </div>
-                                        <div class="m-r-md inline">
-                                            <div class="well" style="background-color:rgba(245, 245, 245, 0.22);margin-bottom: 5px;padding: 10px;">
-                                                <h5 class="text-center">Diastolic</h5>
-                                                <knob knob-data="consultation.diastolic" class="m-r-sm" data-fgColor="#59B0F7" data- data-width="85" data-height="85" data-angleOffset=-125 data-angleArc=250 knob-options="" data-min="60" data-max="140" data-readOnly=true>
-                                                </knob>
-                                            </div>
-                                        </div>
-                                        <div class="m-r-md inline">
-                                            <div class="well" style="background-color:rgba(245, 245, 245, 0.22);margin-bottom: 5px;padding: 10px;">
-                                                <h5 class="text-center">Heart Rate<small>/min</small></h5>
-                                                <knob knob-data="consultation.heartRate" class="m-r-sm" data-fgColor="#59B0F7" data- data-width="85" data-height="85" data-angleOffset=-125 data-angleArc=250 knob-options="" data-min="50" data-max="200" data-readOnly=true>
-                                                </knob>
-                                            </div>
-                                        </div>
-                                        <div class="m-r-md inline">
-                                            <div class="well" style="background-color:rgba(245, 245, 245, 0.22);margin-bottom: 5px;padding: 10px;">
-                                                <h5 class="text-center">Temprature<small>°</small></h5>
-                                                <knob knob-data="consultation.temprature" class="m-r-sm" data-fgColor="#ED5565" data- data-width="85" data-height="85" data-angleOffset=-125 data-angleArc=250 knob-options="" data-min="30" data-max="41" data-readOnly=true>
-                                                </knob>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>-->
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">Subjective :</label>
+                                    <label class="col-sm-2 control-label">Chief Complaint:</label>
                                     <div class="col-sm-8">
-                                        <p class="form-control-static static">{{consultation.subjective}}</p>
+                                        <p class="form-control-static static">{{consultation.chiefComplaint }}</p>
                                     </div>
                                 </div>
 
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">Past History :</label>
+                                    <label class="col-sm-2 control-label">Present History:</label>
                                     <div class="col-sm-8">
-                                        <p class="form-control-static static">{{consultation.pastHistory}}</p>
+                                        <p class="form-control-static static">{{consultation.presentHistory }}</p>
                                     </div>
                                 </div>
 
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">Objective :</label>
+                                    <label class="col-sm-2 control-label">Past Medical History:</label>
                                     <div class="col-sm-8">
-                                        <p class="form-control-static static">{{consultation.objective}} </p>
-                                        <!--<a ng-click="main.labTabActive()" id="labo"><i class="fa fa-desktop"></i> Display laboratory Data</a>-->
+                                        <p class="form-control-static static">{{patientHistory.pastMedicalHistory }}</p>
                                     </div>
                                 </div>
 
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">Objective :</label>
+                                    <label class="col-sm-2 control-label">Surgical History:</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static static">{{patientHistory.surgicalHistory }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Past Medications:</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static static">{{patientHistory.pastMedication }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Present Medications:</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static static">{{patientHistory.presentMedication }}</p>
+                                    </div>
+                                </div>
+
+                            </tab>
+                            <tab heading="P.E / D.D" active="tabDiagnosis">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Physical exam :</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static static">{{consultation.physicalExam}}</p>
+                                    </div>
+                                </div>
+                            </tab>
+                            <tab heading="Investigation" active="tabInvestigation">
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Differential Diagnosis :</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static static">{{consultation.differentialDiagnosis}}</p>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Lab :</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static static">{{consultation.lab}}</p>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Radiology :</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static static">{{consultation.radiology}}</p>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Consultations :</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static static">{{consultation.consultations}}</p>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Diagnosis :</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static static">{{consultation.diagnosis}}</p>
+                                    </div>
+                                </div>
+
+                            </tab>
+
+                            <tab heading="Treatment" active="tabTreatment">
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Medication :</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static static">{{consultation.medication}}</p>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Surgeries :</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static static">{{consultation.surgery}}</p>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Other :</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static static">{{consultation.other}}</p>
+                                    </div>
+                                </div>
+
+                            </tab>
+
+                            <tab heading="Note" active="tabNote">
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Note :</label>
+                                    <div class="col-sm-8">
+                                        <p class="form-control-static static">{{consultation.additionalInformation}}</p>
+                                    </div>
+                                </div>
+                            </tab>
+
+                            <tab heading="Images">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Images :</label>
                                     <div class="col-sm-8 objective-media">
-                                       
                                         <div class="imgContainer" ng-repeat="i in consultation.images">
                                             <div><i class="fa fa-trash fa-lg m-b-sm text-danger pointer" ng-click="deleteImage(i.id,$index)"></i> </div>
-                                            <img ng-src="http://localhost:63392/images/{{i.imageName}}" onclick="window.open(this.src)" class="pointer" height="auto" width="200" />
+                                            <img ng-src="{{appSettings.serverPath}}/images/{{i.imageName}}" onclick="window.open(this.src)" class="pointer" height="auto" width="200" />
                                         </div>
                                         <div ng-show="consultation.images.length == 0" class="m-t-xs">
                                             <i class="fa fa-briefcase"></i> No Images
                                         </div>
                                     </div>
                                 </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Diagnoses :</label>
-                                    <div class="col-sm-8">
-                                        <p class="form-control-static static">{{consultation.diagnoses}} </p>
-                                    </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Assessment :</label>
-                                    <div class="col-sm-8">
-                                        <p class="form-control-static static">{{consultation.assessment}} </p>
-                                    </div>
-                                </div>
+                            </tab>
 
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Plan–intended :</label>
-                                    <div class="col-sm-8">
-                                        <p class="form-control-static static">{{consultation.plan}} </p>
-                                    </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Additional Information :</label>
-                                    <div class="col-sm-8">
-                                        <p class="form-control-static static">{{consultation.additionalInformation}} </p>
-                                    </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Financial Coverage</label>
-                                    <div class="col-sm-8">
-                                        <p class="form-control-static static">{{consultation.financialCoverage}}  </p>
-                                    </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Cost</label>
-                                    <div class="col-sm-8">
-                                        <p class="form-control-static static">{{consultation.cost}}  </p>
-                                    </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Paid</label>
-                                    <div class="col-sm-8">
-                                        <p class="form-control-static static">{{consultation.paid}} </p>
-                                    </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
+                            <tab heading="Related Vists">
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Follow Up</label>
                                     <div class="col-sm-6 col-sm-offset-1">
@@ -193,26 +247,20 @@
                                             <a class="list-group-item" ng-repeat="followup in consultation.followUps" ng-show="followup.isDeleted==false" ui-sref="consultation.view_followup({patientid:idOfpatient,followupId:followup.id})">
                                                 <span>{{followup.title}}</span>
                                                 <span class="badge pull-right">{{followup.entryDate | date: format:"LLLL"}}</span>
-                                            </a>                                            
+                                            </a>
                                         </div>
-                                        <button class="btn btn-primary" ui-sref="consultation.new_followup({patientid:idOfpatient,consultationId:consultation.id})">Create new followup</button>
-                                    </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <div class="col-sm-4 col-sm-offset-4">
-                                        <button class="btn btn-white col-sm-12" type="submit" ui-sref="consultation.edit_consultation({patientid:idOfpatient,consultationId:consultation.id})"><i class="fa fa-edit"></i>&nbsp;Edit</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </tab>
-                        <!--<tab heading="Objective - Media" active="main.isActive">
-                            <strong>Media</strong>
-                            <p>Video</p>
-                            <p>Pictures</p>
-                        </tab>-->
 
-                    </tabset>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-warning" ui-sref="consultation.new_consultation({patientid:idOfpatient})"><i class="fa fa-plus"></i>&nbsp;New Condition</button>
+                                            <button type="button" class="btn btn-white" ui-sref="consultation.edit_consultation({patientid:idOfpatient,consultationId:consultation.id})"><i class="fa fa-edit"></i>&nbsp;Edit consultation</button>
+                                            <button type="button" class="btn btn-primary" ui-sref="consultation.new_followup({patientid:idOfpatient,consultationId:consultation.id})"><i class="fa fa-plus"></i>&nbsp;New Followup</button>
+                                        </div>
+                                        <!--<button class="btn btn-primary" ui-sref="consultation.new_followup({patientid:idOfpatient,consultationId:consultation.id})">Create new followup</button>-->
+                                    </div>
+                                </div>
+                            </tab>
+                        </tabset>
+                    </form>
                 </div>
             </div>
         </div>

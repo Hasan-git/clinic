@@ -1,4 +1,17 @@
-
+<style>
+    .form-clinic .form-group:after{
+        clear:both;
+    }
+    .form-clinic .col-sm-6{
+        /*margin-bottom:15px;*/
+    }
+    .form-clinic .control-label{
+        text-align:left;
+    }
+    hr{
+        clear:both;
+    }
+</style>
 <div class="row wrapper border-bottom white-bg page-heading animated fadeInRight">
     <div class="col-sm-5">
         <h2>Consultation config</h2>
@@ -16,189 +29,230 @@
                 <strong>New Consultation</strong>
             </li>
         </ol>
-    </div>    
+    </div>
 </div>
-<div class="row" >
+<div class="row">
     <div class="col-lg-12">
         <div class="wrapper wrapper-content">
             <div class="animated fadeInRightBig">
-                <!--<div class="">
-                    <label class="col-sm-2 control-label">Patient :</label>
-                    <div class="col-sm-8" style="margin-top:7px;">
-                        <strong>{{patientResolved.displayName}}</strong> - {{age}} <span ng-show="age!=unkown">Year(s) old</span>
-                    </div>
-                </div>-->
                 <div class="row m-b-md">
                     <div class="col-lg-4">
                         <div class="widget style1 navy-bg">
                             <div class="row vertical-align">
                                 <div class="col-xs-2">
-                                    <i class="fa fa-user fa-3x"></i>
+                                    <a class="fa fa-user fa-3x text-white" tooltip="Click to edit patient" ng-href="/#/patient/edit_patient/{{patientResolved.id}}" target="_blank" ></a>
                                 </div>
                                 <div class="col-xs-9 text-left" style="margin-top: 10px;">
                                     <strong>{{patientResolved.displayName}}</strong> - {{age}} <span ng-show="age!=unkown">Year(s) old</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="clearfix"></div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="widget style1 " ng-class="{'yellow-bg':patientHistory.allergies,'navy-bg':!patientHistory.allergies}">
+                            <div class="row vertical-align">
+                                <div class="col-xs-2">
+                                    <i class="fa  fa-3x" ng-class="{'fa-exclamation-circle':patientHistory.allergies,'fa-check-circle':!patientHistory.allergies}"></i>
+                                </div>
+                                <div class="col-xs-9 text-left" style="margin-top: 10px;">
+                                    <!--<strong class="ca">Allergies</strong>-->  {{patientHistory.allergies}} <span ng-show="!patientHistory.allergies">No Allergies</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="clearfix"></div>
                 </div>
-                
+
                 <div class="tabs-container">
-                    <form method="get" class="form-horizontal" name="newConsultationForm" id="topTab">
-                        <tabset >
+                    <div class="m-b-md">
+                        <button class="btn btn-primary" type="submit" ladda="loading" data-style="expand-right" ng-click="submit()" ng-disabled="newConsultationForm.$invalid"><i class="fa fa-floppy-o"></i>&nbsp;Save Changes</button>
+                    </div>
+                    <form method="get" class="form-horizontal form-clinic" name="newConsultationForm" id="topTab">
+                        <tabset>
                             <tab heading="History">
+                                <div class="m-t-md">
 
-                                <div class="form-group" ng-class="{'has-error':newConsultationForm.inputTitle.$invalid && newConsultationForm.inputTitle.$dirty}">
-                                    <label class="col-sm-2 control-label">Condition :<small>*</small></label>
-                                    <input type="hidden" ng-model="consultation.id" />
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" ng-model="consultation.condition" placeholder="Condition" name="inputTitle" required ng-minlength="3" ng-maxlength="30">
-                                    </div>
-                                    <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
-                                        <!-- Validation -->
-                                        <div class="help-block m-b-n m-t-none display-box" ng-messages="newConsultationForm.inputTitle.$error" ng-show="newConsultationForm.inputTitle.$dirty" ng-messages-include="ngmessages.html">
-                                            <div ng-show="newConsultationForm.inputTitle.$error.pattern">Only letters and numbers -_. are allowed !</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group datepick" ng-class="{'has-error':newConsultationForm.inputPatientEntryDate.$invalid && newConsultationForm.inputPatientEntryDate.$dirty}">
-                                    <label class="col-sm-2 control-label">Entry Date <small>*</small></label>
-                                    <div class="input-group date col-sm-4" style="padding-left: 15px;">
-                                        <input type="text" class="form-control" data-mask="9999-99-99" name="inputPatientEntryDate" date-time id="datepick" min-date="main.datepickeroptions.mindate" max-date="main.datepickeroptions.maxdate" min-view="{{main.datepickeroptions.minview}}" max-view="{{main.datepickeroptions.maxview}}" format="{{main.datepickeroptions.format1}}" ng-model="consultation.entryDate" ng-required="true" />
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    </div>
-                                    <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
-                                        <div class="help-block m-b-n m-t-none display-box" ng-messages="newConsultationForm.inputPatientEntryDate.$error" ng-show="newConsultationForm.inputPatientEntryDate.$dirty" ng-messages-include="ngmessages.html">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group m-t-md">
-                                    <label class="col-sm-2 control-label">Cheif Complaint :</label>
-                                    <div class="col-sm-8">
-                                        <textarea text-multi-line class="form-control" ng-model="consultation.chiefComplaint" rows="2" name=""></textarea text-multi-line>
-                                    </div>
-                                </div>
-
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Present history :</label>
-                                    <div class="col-sm-8">
-                                        <textarea text-multi-line class="form-control" ng-model="consultation.presentHistory" rows="2" name=""></textarea text-multi-line>
-                                    </div>
-                                </div>
-
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Past history :</label>
-                                    <div class="col-sm-8">
-                                        <textarea text-multi-line class="form-control" ng-model="consultation.pastHistory" rows="2" name=""></textarea text-multi-line>
-                                    </div>
-                                </div>
-
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Surgical history :</label>
-                                    <div class="col-sm-8">
-                                        <textarea text-multi-line class="form-control" ng-model="consultation.surgicalHistory" rows="2" name=""></textarea text-multi-line>
-                                    </div>
-                                </div>
-
-                                <div class="hr-line-dashed"></div>
-                                    <div class="form-group">
-                                        <div class="col-xs-12">
-                                            <label class="col-sm-2 control-label">Past Medications :</label>
-                                            <div class="col-sm-8">
-                                                {{patientHistory.pastMedication}}
+                                    <div class="col-sm-6 col-lg-4">
+                                        <div class="form-group" ng-class="{'has-error':newConsultationForm.inputTitle.$invalid && newConsultationForm.inputTitle.$dirty}">
+                                            <label for="inputEmail" class="col-md-7 control-label">Condition :<small>*</small></label>
+                                            <div class="col-md-12">
+                                                <input type="hidden" ng-model="consultation.id" />
+                                                <input type="text" class="form-control" ng-model="consultation.condition" placeholder="Condition" name="inputTitle" required ng-minlength="3" ng-maxlength="30">
                                             </div>
                                         </div>
-                                        <label class="col-sm-2 control-label">Past Medications :</label>
-                                        <div class="col-sm-8">
-                                            <textarea text-multi-line class="form-control" ng-model="consultation.pastMedication" rows="2" name=""></textarea>
+                                    </div>
+
+
+                                    <div class="col-sm-6 col-lg-4">
+                                        <div class="form-group datepick" ng-class="{'has-error':newConsultationForm.inputPatientEntryDate.$invalid && newConsultationForm.inputPatientEntryDate.$dirty}">
+                                            <label for="inputEmail" class="col-md-7 control-label">Entry Date <small>*</small></label>
+                                            <div class="col-md-12">
+                                                <div class="input-group date ">
+                                                    <input type="text" class="form-control" data-mask="9999-99-99" name="inputPatientEntryDate" date-time id="datepick" min-date="main.datepickeroptions.mindate" max-date="main.datepickeroptions.maxdate" min-view="{{main.datepickeroptions.minview}}" max-view="{{main.datepickeroptions.maxview}}" format="{{main.datepickeroptions.format1}}" ng-model="consultation.entryDate" ng-required="true" />
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                                <div class="text-left font-xs">
+                                                    <div class="help-block m-t-none display-box" ng-messages="newConsultationForm.inputPatientEntryDate.$error" ng-show="newConsultationForm.inputPatientEntryDate.$dirty" ng-messages-include="ngmessages.html">
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Present Medications :</label>
-                                        <div class="col-sm-8">
-                                            <textarea text-multi-line class="form-control" ng-model="consultation.presentMedication" rows="2" name=""></textarea>
+                                    <div class="col-sm-6 col-lg-4">
+                                        <div class="form-group">
+                                            <label for="inputEmail" class="col-md-7 control-label">Cheif Complaint :</label>
+                                            <div class="col-md-12">
+                                                <textarea text-multi-line class="form-control" ng-model="consultation.chiefComplaint" rows="1" name=""></textarea>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="form-group col-xs-12 col-sm-12 m-t-md text-center">
+                                    <hr class="hidden-lg-down">
+
+                                    <div class="col-sm-6 col-lg-4">
+                                        <div class="form-group">
+                                            <div class="col-xs-8 multi_lines text-muted hidden-lg-down" style="min-height: 35px;">{{}}</div>
+                                                <label for="inputEmail" class="col-md-7 control-label">Present History :</label>
+                                                <div class="col-md-12">
+                                                    <textarea text-multi-line class="form-control" ng-model="consultation.presentHistory" rows="1" name=""></textarea>
+                                                </div>
+                                        </div>
+                                    </div>
+
+                                    <hr class="hidden-xl-up">
+
+                                    <div class="col-sm-6 col-lg-4">
+                                        <div class="form-group">
+                                                <div class="col-xs-8 multi_lines text-muted">
+                                                    {{patientHistory.pastMedicalHistory }}
+                                                </div>
+                                            <label for="inputEmail" class="col-md-7 control-label">Past Medical History :</label>
+                                            <div class="col-md-12">
+                                                <textarea text-multi-line class="form-control" ng-model="consultation.medicalStatus.pastMedicalHistory" rows="1" name=""></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-lg-4">
+                                        <div class="form-group">
+                                            <div class="col-xs-8 multi_lines text-muted">
+                                                {{patientHistory.surgicalHistory }}
+                                            </div>
+                                            <label for="inputEmail" class="col-md-7 control-label">Surgical History :</label>
+                                            <div class="col-md-12">
+                                                <textarea text-multi-line class="form-control" ng-model="consultation.medicalStatus.surgicalHistory" rows="1" name=""></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr class="hidden-lg-down">
+                                    <hr class="hidden-xl-up">
+
+                                    <div class="col-sm-6 col-lg-4">
+                                        <div class="form-group">
+                                            <div class="col-xs-8 multi_lines text-muted">
+                                                {{patientHistory.pastMedication }}
+                                            </div>
+                                            <label for="inputEmail" class="col-md-7 control-label">Past Medications :</label>
+                                            <div class="col-md-12">
+                                                <textarea text-multi-line class="form-control" ng-model="consultation.medicalStatus.pastMedication" rows="1" name=""></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-lg-4">
+                                        <div class="form-group">
+                                            <div class="col-xs-8 multi_lines text-muted">
+                                                {{patientHistory.presentMedication}}
+                                            </div>
+                                            <label for="inputEmail" class="col-md-7 control-label">Present Medications :</label>
+                                            <div class="col-md-12">
+                                                <textarea text-multi-line next-input next-field="physical" next-tab="tabDiagnosis" class="form-control" ng-model="consultation.medicalStatus.presentMedication" rows="1" name=""></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-xs-12 col-sm-12 m-t-md text-center">
                                         <button class="btn btn-primary btn-w-m" ng-click="next();tabDiagnosis=true"> Next <i class="fa fa-arrow-circle-right p-l-xs"></i></button>
                                     </div>
                                     <div class="clearfix"></div>
-</tab>
 
-                            <tab heading="P.E / D.D" active="tabDiagnosis">                               
+                                </div>
+                                
+                            </tab>
+
+                            <tab heading="P.E / D.D" active="tabDiagnosis">
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Physical exam :</label>
                                     <div class="col-sm-8">
-                                        <textarea text-multi-line class="form-control" ng-model="consultation.Physical" rows="5" name=""></textarea text-multi-line>
+                                        <textarea text-multi-line  next-input next-field="differential" next-tab="tabInvestigation" id="physical" class="form-control" ng-model="consultation.physicalExam" rows="5" name=""></textarea>
                                         <input type="file" nv-file-select="" uploader="uploader" class="custom-file-input btn btn-xs " multiple />
                                     </div>
                                 </div>
 
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Differential diagnosis :</label>
-                                    <div class="col-sm-8">
-                                        <textarea text-multi-line class="form-control" ng-model="consultation.Differential" rows="5" name=""></textarea text-multi-line>
-                                    </div>
-                                </div>   
-                                                                                      
                                 <div class="form-group col-xs-12 col-sm-12 m-t-md text-center">
                                     <button class="btn btn-primary btn-w-m" ng-click="next();tabInvestigation=true"> Next <i class="fa fa-arrow-circle-right p-l-xs"></i></button>
                                 </div>
                                 <div class="clearfix"></div>
-                                
+
 
                             </tab>
 
                             <tab heading="Investigation" active="tabInvestigation">
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Lab :</label>
-                                    <div class="col-sm-8">
-                                        <textarea text-multi-line class="form-control" ng-model="consultation.lab" rows="2" name=""></textarea text-multi-line>
-                                        <input type="file" nv-file-select="" uploader="uploader" class="custom-file-input btn btn-xs " multiple />
+
+
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-md-7 control-label">Differential diagnosis :</label>
+                                        <div class="col-md-12">
+                                            <textarea text-multi-line id="differential" class="form-control" ng-model="consultation.differentialDiagnosis" rows="2" name=""></textarea>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Radiology :</label>
-                                    <div class="col-sm-8">
-                                        <textarea text-multi-line class="form-control" ng-model="consultation.Radiology" rows="2" name=""></textarea text-multi-line>
-                                        <input type="file" nv-file-select="" uploader="uploader" class="custom-file-input btn btn-xs " multiple />
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-md-7 control-label">Lab :</label>
+                                        <div class="col-md-12">
+                                            <textarea text-multi-line class="form-control" ng-model="consultation.lab" rows="1" name=""></textarea>
+                                            <input type="file" nv-file-select="" uploader="uploader" class="custom-file-input btn btn-xs " multiple />
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-md-7 control-label">Radiology :</label>
+                                        <div class="col-md-12">
+                                            <textarea text-multi-line class="form-control" ng-model="consultation.radiology" rows="1" name=""></textarea>
+                                            <input type="file" nv-file-select="" uploader="uploader" class="custom-file-input btn btn-xs " multiple />
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Consultations :</label>
-                                    <div class="col-sm-8">
-                                        <textarea text-multi-line class="form-control" ng-model="consultation.Consultations" rows="2" name=""></textarea text-multi-line>
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-md-7 control-label">Consultations :</label>
+                                        <div class="col-md-12">
+                                            <textarea text-multi-line class="form-control" ng-model="consultation.consultations" rows="1" name=""></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="col-sm-6 ">
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-md-7 control-label">Diagnosis :</label>
+                                        <div class="col-md-12">
+                                            <textarea text-multi-line next-input next-field="medication" next-tab="tabTreatment" class="form-control" ng-model="consultation.diagnosis" rows="1" name=""></textarea>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Diagnosis :</label>
-                                    <div class="col-sm-8">
-                                        <textarea text-multi-line class="form-control" ng-model="consultation.Diagnosis" rows="2" name=""></textarea text-multi-line>
-                                    </div>
-                                </div>    
                                 <div class="form-group col-xs-12 col-sm-12 m-t-md text-center">
                                     <button class="btn btn-primary btn-w-m" ng-click="next();tabTreatment=true"> Next <i class="fa fa-arrow-circle-right p-l-xs"></i></button>
                                 </div>
-                                <div class="clearfix"></div>   
+                                <div class="clearfix"></div>
                             </tab>
 
                             <tab heading="Treatment" active="tabTreatment">
@@ -206,7 +260,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Medication :</label>
                                     <div class="col-sm-8">
-                                        <textarea text-multi-line class="form-control" ng-model="consultation.Medication" rows="2" name=""></textarea text-multi-line>
+                                        <textarea text-multi-line id="medication" class="form-control" ng-model="consultation.medication" rows="1" name=""></textarea>
                                     </div>
                                 </div>
 
@@ -214,7 +268,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Surgeries :</label>
                                     <div class="col-sm-8">
-                                        <textarea text-multi-line class="form-control" ng-model="consultation.Surgeries" rows="2" name=""></textarea text-multi-line>
+                                        <textarea text-multi-line class="form-control" ng-model="consultation.surgery" rows="1" name=""></textarea>
                                     </div>
                                 </div>
 
@@ -222,13 +276,13 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Other :</label>
                                     <div class="col-sm-8">
-                                        <textarea text-multi-line class="form-control" ng-model="consultation.Other" rows="2" name=""></textarea text-multi-line>
+                                        <textarea text-multi-line next-input next-field="note" next-tab="tabNote" class="form-control" ng-model="consultation.other" rows="1" name=""></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group col-xs-12 col-sm-12 m-t-md text-center">
                                     <button class="btn btn-primary btn-w-m" ng-click="next();tabNote=true"> Next <i class="fa fa-arrow-circle-right p-l-xs"></i></button>
                                 </div>
-                                <div class="clearfix"></div>   
+                                <div class="clearfix"></div>
                             </tab>
 
                             <tab heading="Note" active="tabNote">
@@ -236,104 +290,104 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Note :</label>
                                     <div class="col-sm-8">
-                                        <textarea text-multi-line class="form-control" ng-model="consultation.Note" rows="2" name=""></textarea text-multi-line>
+                                        <textarea text-multi-line id="note" class="form-control" ng-model="consultation.additionalInformation" rows="1" name=""></textarea>
                                     </div>
                                 </div>
-                                <div class="hr-line-dashed"></div>
+                                <!--<div class="hr-line-dashed"></div>
                                 <div class="form-group">
                                     <div class="col-sm-4 col-sm-offset-2">
                                         <button class="btn btn-white" type="submit" ng-click="cancel(newConsultationForm)">Cancel</button>
                                         <button class="btn btn-primary" type="submit" ladda="loading" data-style="expand-right" ng-click="submit()" ng-disabled="newConsultationForm.$invalid">Save changes</button>
                                     </div>
-                                </div>
+                                </div>-->
                             </tab>
 
                             <tab heading="Media" active="main.isActive" class="objective-media">
-                                    <div class="row" nv-file-drop="" uploader="uploader">
+                                <div class="row" nv-file-drop="" uploader="uploader">
 
-                                        <div class="col-md-3">
+                                    <div class="col-md-3">
+                                        <h3>Select files</h3>
 
-                                            <h3>Select files</h3>
-
-                                            <div ng-show="uploader.isHTML5">
-                                                <!-- 3. nv-file-over uploader="link" over-class="className" -->
-                                                <div class="well my-drop-zone" nv-file-over="" uploader="uploader">
-                                                    Base drop zone
-                                                </div>
+                                        <div ng-show="uploader.isHTML5">
+                                            <!-- 3. nv-file-over uploader="link" over-class="className" -->
+                                            <div class="well my-drop-zone" nv-file-over="" uploader="uploader">
+                                                Base drop zone
                                             </div>
-
-                                            <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" -->
-                                            <input type="file" nv-file-select="" uploader="uploader" class="custom-file-input" multiple /><br />
-
                                         </div>
 
-                                        <div class="col-md-9" style="margin-bottom: 40px">
-                                            <h2>Lab</h2>
-                                            <p>Queue length: {{ uploader.queue.length }}</p>
-
-                                            <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th width="50%">Name</th>
-                                                        <th ng-show="uploader.isHTML5">Size</th>
-                                                        <th ng-show="uploader.isHTML5">Progress</th>
-                                                        <th>Status</th>
-                                                        <th>Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr ng-repeat="item in uploader.queue">
-                                                        <td>
-                                                            <strong>{{ item.file.name }}</strong>
-                                                            <!-- Image preview -->
-                                                            <!--auto height-->
-                                                            <!--<div ng-thumb="{ file: item.file, width: 100 }"></div>-->
-                                                            <!--auto width-->
-                                                            <div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
-                                                            <!--fixed width and height -->
-                                                            <!--<div ng-thumb="{ file: item.file, width: 100, height: 100 }"></div>-->
-                                                        </td>
-                                                        <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
-                                                        <td ng-show="uploader.isHTML5">
-                                                            <div class="progress" style="margin-bottom: 0;">
-                                                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
-                                                            <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
-                                                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
-                                                        </td>
-                                                        <td nowrap>
-                                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
-                                                                <span class="glyphicon glyphicon-trash"></span> Remove
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-
-                                            <div>
-                                                <div>
-                                                    Queue progress:
-                                                    <div class="progress" style="">
-                                                        <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
-                                                    </div>
-                                                </div>
-                                                <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
-                                                    <span class="glyphicon glyphicon-trash"></span> Remove all
-                                                </button>
-                                            </div>
-
-                                        </div>
+                                        <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" -->
+                                        <input type="file" nv-file-select="" uploader="uploader" class="custom-file-input" multiple /><br />
 
                                     </div>
 
-                                </tab>
+                                    <div class="col-md-9" style="margin-bottom: 40px">
+                                        <h2>Lab</h2>
+                                        <p>Queue length: {{ uploader.queue.length }}</p>
+
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th width="50%">Name</th>
+                                                    <th ng-show="uploader.isHTML5">Size</th>
+                                                    <th ng-show="uploader.isHTML5">Progress</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in uploader.queue">
+                                                    <td>
+                                                        <strong>{{ item.file.name }}</strong>
+                                                        <!-- Image preview -->
+                                                        <!--auto height-->
+                                                        <!--<div ng-thumb="{ file: item.file, width: 100 }"></div>-->
+                                                        <!--auto width-->
+                                                        <div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                                                        <!--fixed width and height -->
+                                                        <!--<div ng-thumb="{ file: item.file, width: 100, height: 100 }"></div>-->
+                                                    </td>
+                                                    <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                                    <td ng-show="uploader.isHTML5">
+                                                        <div class="progress" style="margin-bottom: 0;">
+                                                            <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                        <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                        <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                                    </td>
+                                                    <td nowrap>
+                                                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                            <span class="glyphicon glyphicon-trash"></span> Remove
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <div>
+                                            <div>
+                                                Queue progress:
+                                                <div class="progress" style="">
+                                                    <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
+                                                <span class="glyphicon glyphicon-trash"></span> Remove all
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
 
                         </tabset>
-
-                        
+                        <div class="form-group text-center m-t-md" >
+                            <div class="col-xs-12">
+                                <button class="btn btn-white btn-w-m" type="submit" ng-click="cancel(newConsultationForm)">Cancel</button>
+                                <button class="btn btn-primary" type="submit" ladda="loading" data-style="expand-right" ng-click="submit()" ng-disabled="newConsultationForm.$invalid">Save changes</button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

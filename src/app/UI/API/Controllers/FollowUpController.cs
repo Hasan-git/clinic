@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace Api.Controllers
 {
-    [EnableCors("http://localhost:16322", "*", "*")]
+    [EnableCors("*", "*", "*")]
     public class FollowUpController : BaseController
     {
         // GET: api/FollowUp

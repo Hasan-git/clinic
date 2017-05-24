@@ -13,7 +13,7 @@ using Clinic.Infrastructure.Data;
 
 namespace Api.Controllers
 {
-    [EnableCors("http://localhost:16322", "*", "*")]
+    [EnableCors("*", "*", "*")]
     public class AssistantsController : BaseController
     {
         

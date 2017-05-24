@@ -35,6 +35,7 @@ namespace Clinic.Core.Domain.Models
         public string Consultations { get; set; }
         public string Assessment { get; set; }
         public string Medication { get; set; }
+        public string Recommendation { get; set; }
         public string Surgery { get; set; }
         public string Other { get; set; }
         public string AdditionalInformation { get; set; }

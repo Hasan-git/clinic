@@ -80,9 +80,9 @@
                                 <div class="ibox float-e-margins">
                                     <div class="ibox-title">
                                         <h5>Patients</h5>
-                                        <span class=" label label-primary col-sm-offset-5"><i class="fa fa-user fa-1x"></i>&nbsp;{{patlist.patients.length}}</span>
+                                        <span class="label label-primary col-sm-offset-5"><i class="fa fa-user fa-1x"></i>&nbsp;{{patlist.patients.length}}</span>
                                         <!-- <div ibox-tools></div> -->
-                                        <div ibox-tools-full-screen></div>
+                                        <div ibox-tools></div>
                                     </div>
                                     <div class="ibox-content ibox-table">
                                         <div class="table-responsive">
@@ -108,8 +108,9 @@
                                                         <td>{{ pat.entryDate | date : format : "LLLL" }}</td>
                                                         <td style="border-right: 0px;">{{ pat.mobile }}</td>
                                                         <td class="text-center fooo" style="border-left: 0px;">
+                                                        <a ng-href="{{patlist.serverPath}}/#/consultation/new_consultation/{{pat.id}}" target="_blank">Kawth</a>
                                                             <div class="btn-group" dropdown>
-                                                                <button id="split-button" type="button" class="btn btn-primary btn-xs">Action</button>
+                                                                <button id="split-button" type="button" class="btn btn-primary btn-xs" ui-sref="consultation.consultation_list({patientid: pat.id })">Consultations</button>
                                                                 <button type="button" class="btn btn-primary btn-xs" dropdown-toggle>
                                                                     <span class="caret"></span>
                                                                     <span class="sr-only">Split button!</span>

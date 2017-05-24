@@ -38,6 +38,14 @@
                                             <td>Mid. Name</td>
                                             <td>{{patientdetails.middelName}}</td>
                                         </tr>
+                                            <tr ng-show="patientdetails.referrer">
+                                                <td>Referrer</td>
+                                                <td>{{patientdetails.referrer}}</td>
+                                            </tr>
+                                            <tr ng-show="patientdetails.martialStatus">
+                                                <td>MartialStatus</td>
+                                                <td>{{patientdetails.martialStatus}}</td>
+                                            </tr>
                                             <tr>
                                                 <td>Entry date</td>
                                                 <td>{{patientdetails.entryDate | date:'yyyy-MM-dd'}}</td>
@@ -50,17 +58,17 @@
                                             <td>Gender</td>
                                             <td>{{patientdetails.gender}}</td>
                                         </tr>
-                                        <tr>
+                                        <tr ng-show="patientdetails.bloodType">
                                             <td>Blood</td>
                                             <td>{{patientdetails.bloodType}}</td>
                                         </tr>
                                         <tr>
                                             <td>Address</td>
-                                            <td>{{patientdetails.address}}</td>
+                                            <td>{{patientdetails.city}}/ {{patientdetails.street}}</td>
                                         </tr>
-                                            <tr>
+                                            <tr ng-show="patientdetails.InsuranceCompany">
                                                 <td>Insurance C.</td>
-                                                <td></td>
+                                                <td>{{patientdetails.InsuranceCompany}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -79,6 +87,32 @@
                                             <tr>
                                                 <td><i class="fa fa-comments"></i>&nbsp;&nbsp;{{patientdetails.additionalInformation}} </td>
                                             </tr>
+                                        </tbody>
+                                    </table>
+                                    <h5 class="m-t-md text-success"><i class="fa fa-phone-square"></i> &nbsp;Medical History</h5>
+                                    <table class="table profile-table" style="max-width: 80%!important;">
+                                        <tbody>
+                                            <tr>
+                                                <td>Allergies</td>
+                                                <td class="multi_lines">{{patientdetails.medicalStatus.allergies}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Past Medical</td>
+                                                <td class="multi_lines">{{patientdetails.medicalStatus.pastMedicalHistory}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Surgical </td>
+                                                <td class="multi_lines">{{patientdetails.medicalStatus.surgicalHistory}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Past Med.</td>
+                                                <td class="multi_lines">{{patientdetails.medicalStatus.pastMedication}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Present Med.</td>
+                                                <td class="multi_lines">{{patientdetails.medicalStatus.presentMedication}}</td>
+                                            </tr>
+                                            
                                         </tbody>
                                     </table>
                                 </div>

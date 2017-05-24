@@ -56,13 +56,11 @@ function config($stateProvider, $urlRouterProvider) {
             templateUrl: "views/patient/edit_patient.html",
             data: { pageTitle: 'Edit patient profile' },
             controller: editPatient,
-            controllerAs: "vm",
             resolve: {
                 patientData: function(patientResource, $stateParams) {
                     if ($stateParams.patientid) {
                         var patientid = $stateParams.patientid;
                         return patientResource.patient.get({ id: patientid }).$promise.then(function(data) {
-                            console.log(data);
                             return data;
                         });
                     } else {
@@ -398,6 +396,7 @@ angular
         currentUser.setProfile("username", "0aa75235-15d1-11e6-9663-005056c00112", "Doctor");
 
         $rootScope.rootDoctorId = "0AA75235-15D1-11E6-9663-005056C00112";
+        $rootScope.rootclinicId = "0aa75235-15d1-11e6-9663-005056c00111";
 
         $rootScope.$on('$stateChangeStart', function(ev, to, toParams, from, fromParams) {
             var user = currentUser.getProfile();

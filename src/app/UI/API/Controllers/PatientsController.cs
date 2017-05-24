@@ -23,7 +23,6 @@ using Clinic.Common.Core;
 namespace Api.Controllers
 {
     [EnableCors("*", "*","*")]
-    
     public class PatientsController : BaseController
     {
         
@@ -83,7 +82,10 @@ namespace Api.Controllers
             {
 
                 //patient.MedicalStatus.Id = SequentialGuid.Generate();
+                patient.MedicalStatus = new MedicalStatus();
                 patient.MedicalStatus.Id = Guid.NewGuid();
+                patient.Id = Guid.NewGuid();
+
                 Uow.PatientRepository.Add(patient);
                 await Uow.Commit();
                 return Ok(new { patientId = patient.Id });

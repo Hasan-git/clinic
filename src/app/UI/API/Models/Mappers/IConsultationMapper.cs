@@ -10,7 +10,8 @@ namespace Api.Models.Mappers
     public interface IConsultationMapper
     {
         Consultation mapConsultation(ConsultationModel model);
-        MedicalStatus MapMedicalStatus(ConsultationModel model);
+        Consultation mapConsultation(ConsultationModel model, Consultation consultation_);
+        MedicalStatus MapMedicalStatus(ConsultationModel model,MedicalStatus medicalStatus_);
 
     }
 }

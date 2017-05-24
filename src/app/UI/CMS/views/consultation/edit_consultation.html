@@ -1,11 +1,7 @@
-<style>
-
-
-</style>
 
 <div class="row wrapper border-bottom white-bg page-heading animated fadeInRight">
     <div class="col-sm-5">
-        <h2>Edit Consultation</h2>
+        <h2>Consultation config</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="index.html">Home</a>
@@ -14,213 +10,292 @@
                 <a ui-sref="patient.patients_list">Patient list</a>
             </li>
             <li>
-                <a ui-sref="consultation.consultation_list({patientid:consultation.patientId})">Consultation list</a>
+                <a ui-sref="consultation.consultation_list({patientid:patientResolved.id})">Consultation list</a>
             </li>
             <li class="active">
                 <strong>Edit Consultation</strong>
             </li>
         </ol>
     </div>
-
 </div>
 <div class="row">
     <div class="col-lg-12">
         <div class="wrapper wrapper-content">
             <div class="animated fadeInRightBig">
-                <div class="ibox float-e-margins">
-                    <div class="tabs-container">
+                <!--<div class="">
+                    <label class="col-sm-2 control-label">Patient :</label>
+                    <div class="col-sm-8" style="margin-top:7px;">
+                        <strong>{{patientResolved.displayName}}</strong> - {{age}} <span ng-show="age!=unkown">Year(s) old</span>
+                    </div>
+                </div>-->
+                <div class="row m-b-md">
+                    <div class="col-lg-4">
+                        <div class="widget style1 navy-bg">
+                            <div class="row vertical-align">
+                                <div class="col-xs-2">
+                                    <a class="fa fa-user fa-3x text-white" tooltip="Click to edit patient" ng-href="/#/patient/edit_patient/{{patientResolved.id}}" target="_blank"></a>
+                                </div>
+                                <div class="col-xs-9 text-left" style="margin-top: 10px;">
+                                    <strong>{{patientResolved.displayName}}</strong> - {{age}} <span ng-show="age!=unkown">Year(s) old</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="widget style1 " ng-class="{'yellow-bg':patientHistory.allergies,'navy-bg':!patientHistory.allergies}">
+                            <div class="row vertical-align">
+                                <div class="col-xs-2">
+                                    <i class="fa  fa-3x" ng-class="{'fa-exclamation-circle':patientHistory.allergies,'fa-check-circle':!patientHistory.allergies}"></i>
+                                </div>
+                                <div class="col-xs-9 text-left" style="margin-top: 10px;">
+                                    <!--<strong class="ca">Allergies</strong>-->  {{patientHistory.allergies}} <span ng-show="!patientHistory.allergies">No Allergies</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="tabs-container">
+                    <form method="get" class="form-horizontal" name="newConsultationForm" id="topTab">
                         <tabset>
-                            <tab heading="Main">
-                                <form method="get" class="form-horizontal" name="editConsultationForm">
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Patient :</label>
-                                        <div class="col-sm-8" style="margin-top:7px;">
-                                            <strong>{{patientResolved.displayName}}</strong> - {{age}} <span ng-show="age!=unkown">Year(s) old</span>
+                            <tab heading="History">
+                                <div class="form-group" ng-class="{'has-error':newConsultationForm.inputTitle.$invalid && newConsultationForm.inputTitle.$dirty}">
+                                    <label class="col-sm-2 control-label">Condition :<small>*</small></label>
+                                    <input type="hidden" ng-model="consultation.id" />
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" ng-model="consultation.condition" placeholder="Condition" name="inputTitle" required ng-minlength="3" ng-maxlength="30">
+                                    </div>
+                                    <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                        <!-- Validation -->
+                                        <div class="help-block m-b-n m-t-none display-box" ng-messages="newConsultationForm.inputTitle.$error" ng-show="newConsultationForm.inputTitle.$dirty" ng-messages-include="ngmessages.html">
+                                            <div ng-show="newConsultationForm.inputTitle.$error.pattern">Only letters and numbers -_. are allowed !</div>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Title :<small>*</small></label>
-                                        <input type="hidden" ng-model="consultation.id" />
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" ng-model="consultation.title" placeholder="Title">
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group datepick" ng-class="{'has-error':newConsultationForm.inputPatientEntryDate.$invalid && newConsultationForm.inputPatientEntryDate.$dirty}">
+                                    <label class="col-sm-2 control-label">Entry Date <small>*</small></label>
+                                    <div class="input-group date col-sm-4" style="padding-left: 15px;">
+                                        <input type="text" class="form-control" data-mask="9999-99-99" name="inputPatientEntryDate" date-time id="datepick" min-date="main.datepickeroptions.mindate" max-date="main.datepickeroptions.maxdate" min-view="{{main.datepickeroptions.minview}}" max-view="{{main.datepickeroptions.maxview}}" format="{{main.datepickeroptions.format1}}" ng-model="consultation.entryDate" ng-required="true" />
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                    <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
+                                        <div class="help-block m-b-n m-t-none display-box" ng-messages="newConsultationForm.inputPatientEntryDate.$error" ng-show="newConsultationForm.inputPatientEntryDate.$dirty" ng-messages-include="ngmessages.html">
                                         </div>
                                     </div>
-                                    <!-- <div class="hr-line-dashed"></div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Blood pressure</label>
+                                </div>
 
-                                        <div class="col-sm-8 text-center">
-                                            <div class="m-r-md inline">
-                                                <div class="well" style="background-color: rgba(245, 245, 245, 0.22); margin-bottom: 5px; padding: 10px;">
-                                                    <h5 class="text-center">Systolic</h5>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group m-t-md">
+                                    <label class="col-sm-2 control-label">Cheif Complaint :</label>
+                                    <div class="col-sm-8">
+                                        <textarea text-multi-line class="form-control" ng-model="consultation.chiefComplaint" rows="1" name=""></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Present History :</label>
+                                    <div class="col-sm-8">
+                                        <textarea text-multi-line class="form-control" ng-model="consultation.presentHistory" rows="1" name=""></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <label class="col-sm-2 control-label"></label>
+                                        <div class="col-sm-8 multi_lines text-muted">
+                                            {{patientHistory.pastMedicalHistory }}
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-2 control-label">Past Medical History :</label>
+                                    <div class="col-sm-8">
+                                        <textarea text-multi-line class="form-control" ng-model="consultation.medicalStatus.pastMedicalHistory" rows="1" name=""></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <label class="col-sm-2 control-label"></label>
+                                        <div class="col-sm-8 multi_lines text-muted">
+                                            {{patientHistory.surgicalHistory }}
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-2 control-label">Surgical History :</label>
+                                    <div class="col-sm-8">
+                                        <textarea text-multi-line class="form-control" ng-model="consultation.medicalStatus.surgicalHistory" rows="1" name=""></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <label class="col-sm-2 control-label"></label>
+                                        <div class="col-sm-8 multi_lines text-muted">
+                                            {{patientHistory.pastMedication }}
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-2 control-label">Past Medications :</label>
+                                    <div class="col-sm-8">
+                                        <textarea text-multi-line class="form-control" ng-model="consultation.medicalStatus.pastMedication" rows="1" name=""></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <label class="col-sm-2 control-label"></label>
+                                        <div class="col-sm-8 multi_lines text-muted">
+                                            {{patientHistory.presentMedication}}
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-2 control-label">Present Medications :</label>
+                                    <div class="col-sm-8">
+                                        <textarea text-multi-line next-input next-field="physical" next-tab="tabDiagnosis" class="form-control" ng-model="consultation.medicalStatus.presentMedication" rows="1" name=""></textarea>
+                                    </div>
+                                </div>
 
 
-                                                    <knob knob-data="consultation.systolic" class="m-r-sm" data-fgColor="#ED5565" data-width="85" data-height="85" data-angleOffset=-125 data-angleArc=250 knob-options="" data-min="90" data-max="250">
-                                                    </knob>
-                                                </div>
-                                            </div>
-                                            <div class="m-r-md inline">
-                                                <div class="well" style="background-color: rgba(245, 245, 245, 0.22); margin-bottom: 5px; padding: 10px;">
-                                                    <h5 class="text-center">Diastolic</h5>
-                                                    <knob knob-data="consultation.diastolic" class="m-r-sm" data-fgColor="#59B0F7" data- data-width="85" data-height="85" data-angleOffset=-125 data-angleArc=250 knob-options="" data-min="60" data-max="140">
-                                                    </knob>
-                                                </div>
-                                            </div>
-                                            <div class="m-r-md inline">
-                                                <div class="well" style="background-color: rgba(245, 245, 245, 0.22); margin-bottom: 5px; padding: 10px;">
-                                                    <h5 class="text-center">Heart Rate<small>/min</small></h5>
-                                                    <knob knob-data="consultation.heartRate" class="m-r-sm" data-fgColor="#59B0F7" data- data-width="85" data-height="85" data-angleOffset=-125 data-angleArc=250 knob-options="" data-min="50" data-max="200">
-                                                    </knob>
-                                                </div>
-                                            </div>
-                                            <div class="m-r-md inline">
-                                                <div class="well" style="background-color: rgba(245, 245, 245, 0.22); margin-bottom: 5px; padding: 10px;">
-                                                    <h5 class="text-center">Temprature<small>°</small></h5>
-                                                    <knob knob-data="consultation.temprature" class="m-r-sm" data-fgColor="#ED5565" data- data-width="85" data-height="85" data-angleOffset=-125 data-angleArc=250 knob-options="" data-min="30" data-max="41">
-                                                    </knob>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>-->
-
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Clinic :</label>
-                                        <div class="col-sm-8">
-                                            <!--<textarea class="form-control" ng-model="consultation.subjective" rows="6"></textarea>-->
-                                            <select-clinic doctor-id="{{rootDoctorId}}" my-directive-var="consultation"></select-clinic>
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group datepick" ng-class="{'has-error':newConsultationForm.inputPatientEntryDate.$invalid && newConsultationForm.inputPatientEntryDate.$dirty}">
-                                        <label class="col-sm-2 control-label">Entry Date <small>*</small></label>
-                                        <div class="input-group date col-sm-4" style="padding-left: 15px;">
-                                            <input type="text" class="form-control" data-mask="9999-99-99" name="inputPatientEntryDate" date-time id="datepick" min-date="main.datepickeroptions.mindate" max-date="main.datepickeroptions.maxdate" min-view="{{main.datepickeroptions.minview}}" max-view="{{main.datepickeroptions.maxview}}" format="{{main.datepickeroptions.format1}}" ng-model="consultation.entryDate" ng-required="true" />
-                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        </div>
-                                        <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
-                                            <div class="help-block m-b-n m-t-none display-box" ng-messages="newConsultationForm.inputPatientEntryDate.$error" ng-show="newConsultationForm.inputPatientEntryDate.$dirty" ng-messages-include="ngmessages.html">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Subjective :</label>
-                                        <div class="col-sm-8">
-                                            <textarea class="form-control" ng-model="consultation.subjective" rows="6"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group" ng-class="{'has-error':newConsultationForm.pastHistory.$invalid && newConsultationForm.pastHistory.$dirty}">
-                                        <label class="col-sm-2 control-label">History :</label>
-                                        <div class="col-sm-8">
-                                            <textarea class="form-control" ng-model="consultation.pastHistory" rows="6" name="diagnosis"></textarea>
-                                        </div>
-                                        <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
-                                            <!-- Validation -->
-                                            <div class="help-block m-b-n m-t-none display-box" ng-messages="newConsultationForm.pastHistory.$error" ng-show="newConsultationForm.pastHistory.$dirty" ng-messages-include="ngmessages.html">
-                                                <div ng-show="newConsultationForm.pastHistory.$error.pattern">Only letters and numbers -_. are allowed !</div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Objective :</label>
-                                        <div class="col-sm-8">
-                                            <textarea class="form-control" ng-model="consultation.objective" rows="6"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Objective - Media :</label>
-                                        <div class="col-sm-8 objective-media" >
-                                            <div class="imgContainer" ng-repeat="i in consultation.images">
-                                                <div ><i class="fa fa-trash fa-lg m-b-sm text-danger pointer" ng-click="deleteImage(i.id,$index)"></i> </div>
-                                                <img ng-src="http://localhost:63392/images/{{i.imageName}}" onclick="window.open(this.src)" class="pointer" height="auto" width="200" />
-                                            </div>
-                                            <div ng-show="consultation.images.length == 0" class="m-t-xs">
-                                                <i class="fa fa-briefcase"></i> No Images
-                                            </div>
-                                            <div style="clear:both;"></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Assessment :</label>
-                                        <div class="col-sm-8">
-                                            <textarea class="form-control" ng-model="consultation.assessment" rows="6"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group" ng-class="{'has-error':newConsultationForm.diagnoses.$invalid && newConsultationForm.diagnoses.$dirty}">
-                                        <label class="col-sm-2 control-label">Diagnoses :</label>
-                                        <div class="col-sm-8">
-                                            <textarea class="form-control" ng-model="consultation.diagnoses" rows="6" name="diagnosis"></textarea>
-                                        </div>
-                                        <div class="col-sm-4 col-sm-offset-2 text-left m-b-n font-xs">
-                                            <!-- Validation -->
-                                            <div class="help-block m-b-n m-t-none display-box" ng-messages="newConsultationForm.diagnoses.$error" ng-show="newConsultationForm.diagnoses.$dirty" ng-messages-include="ngmessages.html">
-                                                <div ng-show="newConsultationForm.diagnoses.$error.pattern">Only letters and numbers -_. are allowed !</div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Plan–intended :</label>
-                                        <div class="col-sm-8">
-                                            <textarea class="form-control" ng-model="consultation.plan" rows="6"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Additional Information :</label>
-                                        <div class="col-sm-8">
-                                            <textarea class="form-control" ng-model="consultation.additionalInformation" rows="6"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Financial Coverage :</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" ng-model="consultation.financialCoverage" placeholder="Financial Coverage">
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group" ng-click="all()">
-                                        <label class="col-sm-2 control-label">Cost</label>
-                                        <!-- data-ng-controller="ionSlider as slider"-->
-                                        <div class="col-sm-6">
-                                            <div ion-range-slider range-options="SliderCost"></div>
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Paid</label>
-                                        <!--data-ng-controller="ionSlider as slider"-->
-                                        <div class="col-sm-6">
-                                            <div ion-range-slider range-options="SliderPaid"></div>
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group">
-                                        <div class="col-sm-4 col-sm-offset-2">
-                                            <button class="btn btn-white" type="submit" ng-click="cancel(editConsultationForm)">Cancel</button>
-                                            <button class="btn btn-primary" type="submit" ladda="loading" data-style="expand-right" ng-click="submit()" ng-disabled="editConsultationForm.$invalid">Save changes</button>
-                                        </div>
-                                    </div>
-
-                                </form>
+                                <div class="form-group col-xs-12 col-sm-12 m-t-md text-center">
+                                    <button class="btn btn-primary btn-w-m" ng-click="next();tabDiagnosis=true"> Next <i class="fa fa-arrow-circle-right p-l-xs"></i></button>
+                                </div>
+                                <div class="clearfix"></div>
                             </tab>
-                            <tab heading="Objective - Media" active="main.isActive" class="objective-media">
+
+                            <tab heading="P.E / D.D" active="tabDiagnosis">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Physical exam :</label>
+                                    <div class="col-sm-8">
+                                        <textarea text-multi-line next-input next-field="differential" next-tab="tabInvestigation" id="physical" class="form-control" ng-model="consultation.physicalExam" rows="5" name=""></textarea>
+                                        <input type="file" nv-file-select="" uploader="uploader" class="custom-file-input btn btn-xs " multiple />
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-xs-12 col-sm-12 m-t-md text-center">
+                                    <button class="btn btn-primary btn-w-m" ng-click="next();tabInvestigation=true"> Next <i class="fa fa-arrow-circle-right p-l-xs"></i></button>
+                                </div>
+                                <div class="clearfix"></div>
+                            </tab>
+
+                            <tab heading="Investigation" active="tabInvestigation">
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Differential Diagnosis :</label>
+                                    <div class="col-sm-8">
+                                        <textarea text-multi-line id="differential" class="form-control" ng-model="consultation.differentialDiagnosis" rows="2" name=""></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Lab :</label>
+                                    <div class="col-sm-8">
+                                        <textarea text-multi-line class="form-control" ng-model="consultation.lab" rows="1" name=""></textarea>
+                                        <input type="file" nv-file-select="" uploader="uploader" class="custom-file-input btn btn-xs " multiple />
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Radiology :</label>
+                                    <div class="col-sm-8">
+                                        <textarea text-multi-line class="form-control" ng-model="consultation.radiology" rows="1" name=""></textarea>
+                                        <input type="file" nv-file-select="" uploader="uploader" class="custom-file-input btn btn-xs " multiple />
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Consultations :</label>
+                                    <div class="col-sm-8">
+                                        <textarea text-multi-line class="form-control" ng-model="consultation.consultations" rows="1" name=""></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Diagnosis :</label>
+                                    <div class="col-sm-8">
+                                        <textarea text-multi-line next-input next-field="medication" next-tab="tabTreatment" class="form-control" ng-model="consultation.diagnosis" rows="1" name=""></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-xs-12 col-sm-12 m-t-md text-center">
+                                    <button class="btn btn-primary btn-w-m" ng-click="next();tabTreatment=true"> Next <i class="fa fa-arrow-circle-right p-l-xs"></i></button>
+                                </div>
+                                <div class="clearfix"></div>
+                            </tab>
+
+                            <tab heading="Treatment" active="tabTreatment">
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Medication :</label>
+                                    <div class="col-sm-8">
+                                        <textarea text-multi-line id="medication" class="form-control" ng-model="consultation.medication" rows="1" name=""></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Surgeries :</label>
+                                    <div class="col-sm-8">
+                                        <textarea text-multi-line class="form-control" ng-model="consultation.surgery" rows="1" name=""></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Other :</label>
+                                    <div class="col-sm-8">
+                                        <textarea text-multi-line next-input next-field="note" next-tab="tabNote" class="form-control" ng-model="consultation.other" rows="1" name=""></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-xs-12 col-sm-12 m-t-md text-center">
+                                    <button class="btn btn-primary btn-w-m" ng-click="next();tabNote=true"> Next <i class="fa fa-arrow-circle-right p-l-xs"></i></button>
+                                </div>
+                                <div class="clearfix"></div>
+                            </tab>
+
+                            <tab heading="Note" active="tabNote">
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Note :</label>
+                                    <div class="col-sm-8">
+                                        <textarea text-multi-line id="note" class="form-control" ng-model="consultation.additionalInformation" rows="1" name=""></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <button class="btn btn-white" type="submit" ng-click="cancel(newConsultationForm)">Cancel</button>
+                                        <button class="btn btn-primary" type="submit" ladda="loading" data-style="expand-right" ng-click="submit()" ng-disabled="newConsultationForm.$invalid">Save changes</button>
+                                    </div>
+                                </div>
+                            </tab>
+
+                            <tab heading="Images">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Images :</label>
+                                    <div class="col-sm-8 objective-media">
+                                        <div class="imgContainer" ng-repeat="i in consultation.images">
+                                            <div><i class="fa fa-trash fa-lg m-b-sm text-danger pointer" ng-click="deleteImage(i.id,$index)"></i> </div>
+                                            <img ng-src="{{appSettings.serverPath}}/images/{{i.imageName}}" onclick="window.open(this.src)" class="pointer" height="auto" width="200" />
+                                        </div>
+                                        <div ng-show="consultation.images.length == 0" class="m-t-xs">
+                                            <i class="fa fa-briefcase"></i> No Images
+                                        </div>
+                                        <div style="clear:both;"></div>
+                                    </div>
+                                </div>
+                            </tab>
+
+                            <tab heading="Media" active="main.isActive" class="objective-media">
                                 <div class="row" nv-file-drop="" uploader="uploader">
 
                                     <div class="col-md-3">
@@ -240,8 +315,7 @@
                                     </div>
 
                                     <div class="col-md-9" style="margin-bottom: 40px">
-                                        <h2>Uploads only images (with canvas preview)</h2>
-                                        <h3>The queue</h3>
+                                        <h2>Lab</h2>
                                         <p>Queue length: {{ uploader.queue.length }}</p>
 
                                         <table class="table">
@@ -297,13 +371,12 @@
                                                 <span class="glyphicon glyphicon-trash"></span> Remove all
                                             </button>
                                         </div>
-
                                     </div>
-
                                 </div>
                             </tab>
+
                         </tabset>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

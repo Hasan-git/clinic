@@ -17,6 +17,7 @@ namespace Clinic.Core.Domain.Repositories
 
         //Get all consultations for doctor's patient by patient Id
         Task<List<Consultation>> GetByPatientId( Guid doctorId,Guid patientId);
+        Task<Consultation> GetLastConditionByPatientId( Guid patientId);
 
     }
 }

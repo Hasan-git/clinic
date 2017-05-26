@@ -58,8 +58,8 @@
       <HintPath>..\..\..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
@@ -276,8 +276,10 @@
     <Compile Include="Models\AppointmentForm.cs" />
     <Compile Include="Models\ConsultationModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Mappers\IPatientMapper.cs" />
     <Compile Include="Models\Mappers\ConsultationMapper.cs" />
     <Compile Include="Models\Mappers\IConsultationMapper.cs" />
+    <Compile Include="Models\Mappers\PatientMapper.cs" />
     <Compile Include="Models\MedicalStatusModel.cs" />
     <Compile Include="Models\PatientForm.cs" />
     <Compile Include="Models\UploadTest.cs" />

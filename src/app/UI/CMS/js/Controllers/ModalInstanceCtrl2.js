@@ -5,7 +5,7 @@ angular
 ;
 
 
-function ModalInstanceCtrl2($scope, $modalInstance, $filter, statetype, patientRepo) {
+function ModalInstanceCtrl2($scope, $modalInstance, $filter, statetype, patientRepo, $rootScope) {
 
     var response = [];
     $scope.patients = [];
@@ -41,7 +41,18 @@ function ModalInstanceCtrl2($scope, $modalInstance, $filter, statetype, patientR
         //var d =$filter('date')(thiss.task.Time,'HH:mm');
         var hour = $filter('date')(thiss.task.tasktime, 'HH');
         var minute = $filter('date')(thiss.task.tasktime, 'mm');
-        response.push({ patientName: this.task.patientName, hour: hour, minute: minute, duration: this.task.duration, existingPatient: thiss.existingPatient, patientId: thiss.task.patientId, mobile: thiss.task.mobile, description: thiss.task.description, clinicId: thiss.clinicId.value });
+        response.push({
+            patientName: this.task.patientName,
+            hour: hour, minute: minute,
+            duration: this.task.duration,
+            existingPatient: thiss.existingPatient ? true : false,
+            patientId: thiss.task.patientId,
+            mobile: thiss.task.mobile,
+            reason: thiss.task.reason,
+            address: thiss.task.address,
+            description: thiss.task.description,
+            clinicId: $rootScope.main.clinicId
+        });
         $modalInstance.close(response);
     };
 

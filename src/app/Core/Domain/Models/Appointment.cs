@@ -31,6 +31,10 @@ namespace Clinic.Core.Domain.Models
         public bool? ExistingPatient { get; set; }
         public string Mobile { get; set; }
         public string Description { get; set; }
+        public string Reason { get; set; }
+        public string Address { get; set; }
+        public string LastVisit { get; set; }
+        public string EventStatus { get; set; }
         public Guid? PatientId { get; set; }
         public Guid DoctorId { get; set; }
         public Guid? AssistantId { get; set; }

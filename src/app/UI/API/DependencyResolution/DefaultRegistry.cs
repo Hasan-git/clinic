@@ -32,6 +32,7 @@ namespace Api.DependencyResolution {
                 });
             //For<IExample>().Use<Example>();
             For<IConsultationMapper>().Use<ConsultationMapper>();
+            For<IPatientMapper>().Use<PatientMapper>();
         }
 
         #endregion

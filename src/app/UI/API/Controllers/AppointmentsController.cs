@@ -7,7 +7,6 @@ using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using Clinic.Core.Domain.Models;
 
-
 namespace Api.Controllers
 {
     [EnableCors("*", "*", "*")]
@@ -20,6 +19,7 @@ namespace Api.Controllers
 
             try
             {
+              
                 // var user = new User();
                 // Uow.UserRepository.Add(user);
                 //Uow.Commit();
@@ -67,7 +67,18 @@ namespace Api.Controllers
 
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-                
+
+                var latestConsultation = await Uow.ConsultationRepository.GetLastConditionByPatientId(Guid.Parse("a5b8737b-fdc3-438e-b5b7-e054c46fbbbc"));
+                var latestFollowUp = await Uow.FollowUpRepository.GetLastFollowUpByPatientId(Guid.Parse("a5b8737b-fdc3-438e-b5b7-e054c46fbbbc"));
+                if (latestConsultation.EntryDate > latestFollowUp.EntryDate)
+                {
+                    var a = "aa";
+                }
+                else
+                {
+                    var b = "ee";
+                }
+
                 Uow.AppointmentRepository.Add(appointment);
                 await Uow.Commit();
               

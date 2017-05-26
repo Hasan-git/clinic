@@ -54,5 +54,25 @@ namespace Clinic.Infrastructure.Data.Repositories
 
             return consultations;
         }
+
+        public async Task<Consultation> GetLastConditionByPatientId(Guid patientId)
+        {
+            var consultation = await DbSet
+                .Where(p => p.PatientId == patientId && p.IsDeleted == false)
+                .Include(f => f.FollowUps)
+                .OrderByDescending(c => c.EntryDate)
+                .FirstOrDefaultAsync()
+                ;
+
+            var consultations2 = await DbSet
+                .Where(p => p.PatientId == patientId && p.IsDeleted == false)
+                .Include(f => f.FollowUps)
+                .Select(x=>x.FollowUps.OrderByDescending(o=>o.EntryDate).FirstOrDefault())
+                //.FirstOrDefaultAsync()
+                .ToListAsync()
+                ;
+
+            return consultation;
+        }
     }
 }

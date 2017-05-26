@@ -7,13 +7,13 @@ namespace Clinic.Infrastructure.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class updateconsultationmedicalstatus : IMigrationMetadata
+    public sealed partial class ol : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(updateconsultationmedicalstatus));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(ol));
         
         string IMigrationMetadata.Id
         {
-            get { return "201702012323594_update consultation & medicalstatus"; }
+            get { return "201705242359536_ol"; }
         }
         
         string IMigrationMetadata.Source

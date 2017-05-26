@@ -19,13 +19,20 @@ using System.Web;
 using System.Net.Http;
 using System.Net;
 using Clinic.Common.Core;
+using Api.Models.Mappers;
 
 namespace Api.Controllers
 {
     [EnableCors("*", "*","*")]
     public class PatientsController : BaseController
     {
-        
+        private readonly IPatientMapper _mapper;
+
+        public PatientsController(IPatientMapper mapper)
+        {
+            _mapper = mapper;
+        }
+
         // GET: api/Patients
         [HttpGet]
         [ResponseType(typeof(Patient))]
@@ -109,9 +116,19 @@ namespace Api.Controllers
                
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-               
+
                 Uow.PatientRepository.Update(patient);
+
                 await Uow.Commit();
+
+
+                var medicalStatus_ = Uow.MedicalRepository.GetById(patient.MedicalStatus.Id);
+                var medicalStatus = _mapper.MapMedicalStatus(patient, medicalStatus_);
+
+                Uow.MedicalRepository.Update(medicalStatus);
+                await Uow.Commit();
+
+
                 return Ok();
             }
             catch (Exception ex)

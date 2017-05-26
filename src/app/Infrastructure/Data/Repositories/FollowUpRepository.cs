@@ -26,5 +26,19 @@ namespace Clinic.Infrastructure.Data.Repositories
         {
                 return await DbSet.Include(x => x.Images).FirstOrDefaultAsync(f => f.Id == id);
         }
+        public async Task<FollowUp> GetLastFollowUpByPatientId(Guid patientId)
+        {
+            var db = DbContext.Set<Consultation>();
+
+            var followUp = await db
+                .Where(p => p.PatientId == patientId && p.IsDeleted == false)
+                .Include(f => f.FollowUps)
+                .Select(x => x.FollowUps.OrderByDescending(o => o.EntryDate).FirstOrDefault())
+                .FirstOrDefaultAsync()
+                ;
+
+            return followUp;
+        }
+
     }
 }

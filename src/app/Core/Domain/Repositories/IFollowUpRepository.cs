@@ -11,7 +11,8 @@ namespace Clinic.Core.Domain.Repositories
     {
         new Task<List<FollowUp>> GetAll();
         new Task<FollowUp> GetById(Guid id);
-        
+        Task<FollowUp> GetLastFollowUpByPatientId( Guid patientId);
+
 
     }
 }

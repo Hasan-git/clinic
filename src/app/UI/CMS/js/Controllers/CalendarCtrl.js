@@ -36,7 +36,11 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
                 patientId: value.patientId,
                 mobile: value.mobile,
                 existingPatient: value.existingPatient,
-                description: value.description
+                description: value.description,
+                reason: value.reason,
+                address: value.address,
+                lastVisit: value.lastVisit,
+                eventStatus: value.eventStatus,
             });
             $scope.calendarLoading(false);
         });
@@ -107,6 +111,8 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
             $scope.newAppointment.patientId = result[0].patientId;
             $scope.newAppointment.mobile = result[0].mobile;
             $scope.newAppointment.clinicId = result[0].clinicId;
+            $scope.newAppointment.address = result[0].address;
+            $scope.newAppointment.reason = result[0].reason;
             // console.log(result[0].clinicId);
             //Create appointment
             $scope.newAppointment.$save(function (data) {
@@ -139,7 +145,9 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
             //console.log(event);
             $scope.s = [];
             $scope.s = event;
+            console.log(event, element, view)
             $scope.remove = function (index, appoitnemtnId) {
+                console.log("Deleting")
                 //alert("Index  " + index + "  patient ID  " + appoitnemtnId);
                 //$scope.events.splice(index, 1);
                 //Call appointment repo and delete appointment by appointmentId
@@ -200,6 +208,7 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
     };
 
     $scope.alertOnResize = function (event, delta, revertFunc, jsEvent, ui, view) {
+        console.log("asd")
         $scope.calendarLoading(true);
         $scope.resizedEvent = {};
         appointmentResource.appointments.get({ id: event.id }).$promise.then(function (data) {
@@ -225,6 +234,7 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
 
     };
     $scope.eventDrop = function (event, delta, revertFunc, jsEvent, ui, view) {
+        console.log("Moved")
         $scope.calendarLoading(true);
         $scope.droppedEvent = {};
         appointmentResource.appointments.get({ id: event.id }).$promise.then(function (data) {
@@ -342,6 +352,7 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
                 data: eventsCall
             },
             slotDuration: '00:15:00',
+            snapDuration: '00:1:00',//Event Time // Vertical movement 1 min
             defaultTimedEventDuration: "00:30:00",
             eventLimit: true,
             views: {

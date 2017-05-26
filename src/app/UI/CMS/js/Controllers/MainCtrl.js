@@ -4,7 +4,12 @@ angular
     .controller('MainCtrl', MainCtrl)
 ;
 
-function MainCtrl(patientResource, $scope) {
+function MainCtrl(patientResource, $scope,$rootScope) {
+
+    $rootScope.main = {
+        clinicId: "0AA75235-15D1-11E6-9663-005056C00111",
+        doctorId: "0AA75235-15D1-11E6-9663-005056C00112"
+    }
 
     this.maxdate1 = moment();
     this.maxdate = moment();

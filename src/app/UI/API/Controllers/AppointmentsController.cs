@@ -23,8 +23,8 @@ namespace Api.Controllers
                 // var user = new User();
                 // Uow.UserRepository.Add(user);
                 //Uow.Commit();
-                var patients = await Uow.AppointmentRepository.GetAll();
-                return Ok(patients);
+                var appointments = await Uow.AppointmentRepository.GetAll();
+                return Ok(appointments);
             }
             catch (Exception ex)
             {
@@ -72,17 +72,22 @@ namespace Api.Controllers
                 var latestFollowUp = await Uow.FollowUpRepository.GetLastFollowUpByPatientId(Guid.Parse("a5b8737b-fdc3-438e-b5b7-e054c46fbbbc"));
                 if (latestConsultation.EntryDate > latestFollowUp.EntryDate)
                 {
-                    var a = "aa";
+                    appointment.LastVisit = latestConsultation.EntryDate.ToString();
+                    appointment.LastVisitId = latestConsultation.Id;
+                    appointment.LastVisitType = "consultation";
+
                 }
                 else
                 {
-                    var b = "ee";
+                    appointment.LastVisit = latestFollowUp.EntryDate.ToString();
+                    appointment.LastVisitId = latestFollowUp.Id;
+                    appointment.LastVisitType = "followup";
                 }
 
                 Uow.AppointmentRepository.Add(appointment);
                 await Uow.Commit();
               
-                return Ok();
+                return Ok(appointment);
             }
             catch (Exception ex)
             {
@@ -90,36 +95,6 @@ namespace Api.Controllers
             }
         }
 
-        //// POST: api/Appointments
-        //[ResponseType(typeof(Appointment))]
-        //public IHttpActionResult Post([FromBody]Appointment appointment)
-        //{
-        //    try
-        //    {
-        //        if (appointment == null)
-        //        {
-        //            return BadRequest("Appointment cannot be null");
-        //        }
-
-        //        if (!ModelState.IsValid)
-        //        {
-        //            return BadRequest(ModelState);
-        //        }
-
-        //        var appointmentRepository = new Models.AppointmentRepository();
-        //        var newProduct = appointmentRepository.Save(appointment);
-        //        if (newProduct == null)
-        //        {
-        //            return Conflict();
-        //        }
-        //        return Created<Appointment>(Request.RequestUri + newProduct.Id.ToString(),
-        //            newProduct);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return InternalServerError(ex);
-        //    }
-        //}
 
         // PUT: api/Appointments/5
         public async Task<IHttpActionResult> Put(Guid id, [FromBody]Appointment appointment)
@@ -144,36 +119,34 @@ namespace Api.Controllers
             }
         }
 
+        [Route("api/Appointments/UpdateStatus"), HttpPost]
+        public async Task<IHttpActionResult> Put(Guid id, string status)
+        {
+            try
+            {
 
-        //// PUT: api/Appointments/5
-        //public IHttpActionResult Put(int id, [FromBody]Appointment appointment)
-        //{
-        //    try
-        //    {
-        //        Thread.Sleep(3000);
-        //        if (appointment == null)
-        //        {
-        //            return BadRequest("Patient cannot be null");
-        //        }
-        //        if (!ModelState.IsValid)
-        //        {
-        //            return BadRequest(ModelState);
-        //        }
+                if (status == null)
+                    return BadRequest("appointment status cannot be null");
 
-        //        var appointmentRepository = new AppointmentRepository();
-        //        var updateAppointment = appointmentRepository.Save(id, appointment);
-        //        if (updateAppointment == null)
-        //        {
-        //            return NotFound();
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-        //        }
-        //        return Ok();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return InternalServerError(ex);
-        //    }
-        //}
+                var appointment = await Uow.AppointmentRepository.GetById(id);
+
+                appointment.EventStatus = status;
+
+                Uow.AppointmentRepository.Update(appointment);
+                await Uow.Commit();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+
 
         [Route("api/Appointments/{id}/Doctor"), HttpGet]
         [ResponseType(typeof(Appointment))]
@@ -200,9 +173,29 @@ namespace Api.Controllers
             }
         }
 
-        //// DELETE: api/Appointments/5
-        //public void Delete(int id)
-        //{
-        //}
+        [Route("api/Appointments/Delete"), HttpPost]
+        // DELETE: api/Appointments/5
+        public async Task<IHttpActionResult> Delete(Guid id)
+        {
+            try
+            {
+                if (id == null)
+                    return BadRequest("Doctor cannot be null");
+
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var appointment = await Uow.AppointmentRepository.GetById(id);
+
+                Uow.AppointmentRepository.Delete(appointment);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+           
+        }
     }
 }

@@ -5,6 +5,37 @@
 
 function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $compile, $templateCache, patientsData, toaster, $rootScope) {
 
+    var utcToLocal = function (date) {
+
+        var stillUtc = moment.utc(date).toDate();
+        var local = moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');
+        return local;
+    }
+
+    var eventBgColor = function (eventStatus) {
+        switch (eventStatus) {
+            case 'CheckedIn':
+                return '#428bca';
+                break;
+
+            case 'CheckedOut':
+                return 'rgba(207, 207, 207, 0.53)';
+                //return '#bbbbbb';
+                break;
+
+            case 'Admitted':
+                return '#f8ac59';
+                break;
+
+            case 'Canceled':
+                return '#cb5656';
+                break;
+
+            default:
+        }
+        
+    }
+
     var eventsCall = [];
     $scope.events = [];
     $scope.patients = [];
@@ -28,8 +59,8 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
             eventsCall.push({
                 id: value.id,
                 title: value.title,
-                start: value.start,
-                end: value.end,
+                start:utcToLocal(value.start) ,
+                end: utcToLocal(value.end),
                 allDay: value.allDay,
                 added: value.added,
                 patientName: value.patientName,
@@ -39,8 +70,15 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
                 description: value.description,
                 reason: value.reason,
                 address: value.address,
-                lastVisit: value.lastVisit,
+                lastVisit: utcToLocal(value.lastVisit) ,
                 eventStatus: value.eventStatus,
+                lastVisit: value.lastVisit,
+                lastVisitId: value.lastVisitId,
+                lastVisitType: value.lastVisitType,
+                //color: "red",
+                backgroundColor: eventBgColor(value.eventStatus),
+                borderColor: eventBgColor(value.eventStatus),
+
             });
             $scope.calendarLoading(false);
         });
@@ -117,7 +155,11 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
             //Create appointment
             $scope.newAppointment.$save(function (data) {
                 $scope.calendarLoading(false);
-                $scope.events.push($scope.newAppointment);
+                //$scope.events.push($scope.newAppointment);
+                data.start = utcToLocal(data.start)
+                data.end = utcToLocal(data.end)
+                data.lastVisit = utcToLocal(data.lastVisit)
+                $scope.events.push(data);
                 toaster.pop('success', "Notification", "Appointment added successfully", 4000);
             },
         function () {
@@ -145,17 +187,37 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
             //console.log(event);
             $scope.s = [];
             $scope.s = event;
-            console.log(event, element, view)
+            //console.log(event, element, view)
+            $scope.eventStatusChanged = function (event) {
+
+                appointmentResource.appointments.updateStatus({ id: event.id, status: event.eventStatus })
+                    .$promise.then(function (data) {
+                        event.backgroundColor = eventBgColor(event.eventStatus)
+                        event.borderColor = eventBgColor(event.eventStatus)
+
+                        toaster.pop('success', "Notification", "Appointment updated", 1000);
+                        uiCalendarConfig.calendars.myCalendar1.fullCalendar('updateEvent', event)
+
+                    }, function () {
+                        toaster.pop('error', "Notification", "Unable to change status", 3000);
+                    });
+            }
             $scope.remove = function (index, appoitnemtnId) {
-                console.log("Deleting")
-                //alert("Index  " + index + "  patient ID  " + appoitnemtnId);
-                //$scope.events.splice(index, 1);
-                //Call appointment repo and delete appointment by appointmentId
-                uiCalendarConfig.calendars.myCalendar1.fullCalendar('removeEvents', function (e) {
-                    return e._id === index;
-                }
-                );
+                appointmentResource.appointments.delete({ id: appoitnemtnId })
+                    .$promise.then(function (data) {
+                        event.backgroundColor = eventBgColor(event.eventStatus)
+                        event.borderColor = eventBgColor(event.eventStatus)
+
+                        toaster.pop('success', "Notification", "Appointment deleted", 1000);
+                        uiCalendarConfig.calendars.myCalendar1.fullCalendar('removeEvents', function (e) {
+                            return e._id === index;
+                        });
+
+                        }, function () {
+                            toaster.pop('error', "Notification", "Unable to delete this appointment", 3000);
+                        });
             };
+
             var content = $compile($templateCache.get('POPEVENT'))($scope);
             return content;
         };
@@ -240,8 +302,8 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
         appointmentResource.appointments.get({ id: event.id }).$promise.then(function (data) {
             //console.log(data);
             $scope.droppedEvent = data;
-            $scope.droppedEvent.start = event.start;
-            $scope.droppedEvent.end = event.end;
+            $scope.droppedEvent.start = moment(event.start);
+            $scope.droppedEvent.end = moment(event.end);
             $scope.droppedEvent.id = event.id;
             //console.log($scope.droppedEvent.end);
             $scope.droppedEvent.$update({ id: event.id },
@@ -268,16 +330,15 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
             $scope.openModal(state).result
             .then(function (result) {
                 $scope.calendarLoading(true);
-
-
                 //console.log(result);
                 // alert(angular.toJson(result));
 
-                $scope.newAppointment = {};
-                appointmentResource.appointments.get({ id: 0 }).$promise.then(function (data) {
-                    $scope.newAppointment = data;
-                    $scope.sendPost();
-                });
+                
+
+                //appointmentResource.appointments.get({ id: 0 }).$promise.then(function (data) {
+                //    $scope.newAppointment = data;
+                //    $scope.sendPost();
+                //});
                 // creating appointment -> Post 
                 $scope.sendPost = function () {
                     $scope.newAppointment.title = result[0].patientName;
@@ -288,16 +349,32 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
                     $scope.newAppointment.end = end;
                     $scope.newAppointment.existingPatient = result[0].existingPatient;
                     $scope.newAppointment.patientId = result[0].patientId;
+                    $scope.newAppointment.clinicId = result[0].clinicId;
+                    $scope.newAppointment.doctorId = $rootScope.rootDoctorId;
                     $scope.newAppointment.mobile = result[0].mobile;
+                    $scope.newAppointment.address = result[0].address;
+                    $scope.newAppointment.reason = result[0].reason;
+
                     $scope.newAppointment.$save(function (data) {
                         $scope.calendarLoading(false);
-                        $scope.events.push($scope.newAppointment);
+
+                        data.start = utcToLocal(data.start)
+                        data.end = utcToLocal(data.end)
+                        data.lastVisit = utcToLocal(data.lastVisit)
+                        $scope.events.push(data);
+
+                        //$scope.events.push($scope.newAppointment);
                         toaster.pop('success', "Notification", "Appointment added successfully", 4000);
                     },
                 function () {
+                    $scope.calendarLoading(false);
+                    toaster.pop('error', "Notification", "Failed to create new appointment", 4000);
                     //error || check for overlap 
                 });
                 }
+                $scope.newAppointment = {};
+                $scope.newAppointment = new appointmentResource.appointments;
+                $scope.sendPost();
             });// End Modal
         }
     }//end select function
@@ -354,6 +431,7 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
             slotDuration: '00:15:00',
             snapDuration: '00:1:00',//Event Time // Vertical movement 1 min
             defaultTimedEventDuration: "00:30:00",
+            timezone:'local',
             eventLimit: true,
             views: {
                 agenda: {

@@ -1,4 +1,7 @@
-﻿<div class="col-lg-12">
+﻿<style>
+
+</style>
+<div class="col-lg-12">
     <div class="hpanel hyellow contact-panel-p">
         <div class="panel-body-p">
             <div class="row" style="margin: 0;">
@@ -8,35 +11,53 @@
                 </div>-->
                 <div class="col-md-12 p-xxs">
                     <h3>
-                        <a ng-if="s.existingPatient==true" ui-sref="patient.view_patient({patientid: s.id})" style="font-size: 90%; text-transform: capitalize;"> {{s.patientName}} </a>
+                        <a ng-if="s.existingPatient==true" target="_blank" ng-href="/#/patient/edit_patient/{{s.patientId}}" style="font-size: 90%; text-transform: capitalize;"> {{s.patientName}} </a>
                         <a ng-if="!s.existingPatient" style="font-size: 90%;text-transform: capitalize;"> {{s.patientName}} </a>
                     </h3>
                     <!--<div class="text-muted font-bold m-b-xs"><i class="fa fa-calendar-o"></i>&nbsp;&nbsp;{{s.start._i | date:'HH:mm'}}- {{s.end._i | date:'HH:mm'}}</div>-->
                     <div class="text-muted font-bold m-b-xs"><i class="">Phone: </i>&nbsp;&nbsp;<span >{{s.mobile}}</span></div>
-                    <div class="text-muted font-bold m-b-xs"><i class="">Address: </i>&nbsp;&nbsp;<span >{{s.address}}</span></div>
-                    <div class="text-muted font-bold m-b-xs"><i class="">Note: </i>&nbsp;&nbsp;<span >{{s.description}}</span></div>
-                    
-                    <!--<p style="min-height: 60px;">
-                       {{s.description}}
-                    </p>-->
+                    <div class="text-muted font-bold m-b-xs" ng-if="s.address"><i class="">Address: </i>&nbsp;&nbsp;<span >{{s.address}}</span></div>
+                    <div class="text-muted font-bold m-b-xs" ng-if="s.lastVisit && s.existingPatient"  href=""><i class="">Last Visit: </i>&nbsp;&nbsp;
+                        <a ng-if="s.lastVisitType=='consultation'" target="_blank" ng-href="/#/consultation/view_consultation/{{s.lastVisitId}}"  >{{s.lastVisit}}
+                        </a>
+                        <a ng-if="s.lastVisitType=='followup'"  target="_blank" ng-href="/#/consultation/view_followup/{{s.patientId}}/{{s.lastVisitId}}">
+                            {{s.lastVisit}}
+                        </a>
+                    </div>
+                    <div class="text-muted font-bold m-b-xs" ng-if="s.description"><i class="">Note: </i>&nbsp;&nbsp;<span>{{s.description}}</span></div>
                 </div>
+               
             </div>
         </div>
         <div class="panel-footer-p contact-footer-p">
             <!--<input type="button" class="btn btn-xs btn-warning" value="Delete"/>  -->
-            <div class="row">
+            <div class="switch-field">
+                <input type="radio" id="in" ng-change="eventStatusChanged(s)" ng-model="s.eventStatus" name="switch_3" value="CheckedIn" checked />
+                <label for="in">In</label>
+
+                <input type="radio" id="admitted" ng-change="eventStatusChanged(s)" ng-model="s.eventStatus" ng-click="alert('asdads')" name="switch_3" value="Admitted" />
+                <label for="admitted">Admitted</label>
+
+                <input type="radio" id="out" ng-change="eventStatusChanged(s)" ng-model="s.eventStatus" name="switch_3" value="CheckedOut" />
+                <label for="out">Out</label>
+
+                <input type="radio" id="canceled"  ng-change="eventStatusChanged(s)" ng-model="s.eventStatus" name="switch_3" value="Canceled" />
+                <label for="canceled">Canceled</label>
+            </div>
+            <div class="row" style="border-top:1px solid #e4e5e7">
                 <div class="col-md-4 border-right-p">
                     <div class="contact-stat-p text-warning cursor-p" ><strong tooltip="Delete visit reservation ?" ng-click="remove(s._id,s.id)" >Delete</strong>
                     </div>
                 </div>
                 <div class="col-md-4 border-right-p">
-                    <div class="contact-stat-p cursor-p"><span></span> <strong>Visit</strong>
+                    <div class="contact-stat-p cursor-p" ng-if="s.patientId" >
+                        <a target="_blank" ng-href="/#/consultation/consultation_list/{{s.patientId}}"><strong>Visits</strong></a> 
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="contact-stat-p cursor-p">
-                        <span ng-if="s.existingPatient==true" ui-sref="patient.view_patient({patientid: s.patientId})"><strong>Profile</strong></span>
-                        <span ng-if="!s.existingPatient" ui-sref="patient.new_patient"><strong>New-File</strong></span>
+                <div class="col-md-4" style="border-left:1px solid #e4e5e7;">
+                    <div class="contact-stat-p cursor-p" >
+                        <a ng-if="s.existingPatient==true" target="_blank" ng-href="/#/patient/view_patient/{{s.patientId}}"><strong>Profile</strong></a>
+                        <a ng-if="!s.existingPatient" target="_blank" ng-href="/#/patient/new_patient" ><strong>New-File</strong></a>
                     </div>
                 </div>
             </div>

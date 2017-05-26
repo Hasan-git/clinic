@@ -12,7 +12,7 @@ namespace Clinic.Infrastructure.Migrations
         {
             AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = true;
-            //ContextKey = "Clinic.Infrastructure.Data.ClinicContext";
+            ContextKey = "Clinic.Infrastructure.Data.ClinicContext";
         }
 
         protected override void Seed(Clinic.Infrastructure.Data.ClinicContext context)

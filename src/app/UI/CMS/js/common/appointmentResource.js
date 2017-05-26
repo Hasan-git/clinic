@@ -7,7 +7,22 @@
             appointments: $resource(appSettings.serverPath + "/api/Appointments/:id", null,
             {
                 'get': { method: 'GET', isArray: false},
-                'update': { method: 'PUT' }
+                'update': { method: 'PUT' },
+                'updateStatus': {
+                    method: 'POST',
+                    url: appSettings.serverPath + "/api/Appointments/UpdateStatus",
+                    params: {
+                        id: '@id',
+                        status: '@status'
+                    }
+                },
+                'delete': {
+                    method: 'POST',
+                    url: appSettings.serverPath + "/api/Appointments/delete",
+                    params: {
+                        id: '@id',
+                    }
+                }
             }),
             doctor: $resource(appSettings.serverPath + "/api/Appointments/:id/Doctor", null,
             {

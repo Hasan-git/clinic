@@ -2,6 +2,7 @@
 angular
     .module('inspinia')
     .controller('MainCtrl', MainCtrl)
+    .filter('timeAgo', timeAgo)
 ;
 
 function MainCtrl(patientResource, $scope,$rootScope) {
@@ -304,4 +305,19 @@ function MainCtrl(patientResource, $scope,$rootScope) {
     //    postfix: " $"
     //};
 
+};
+
+function timeAgo() {
+    return function (x) {
+        var res = x;
+        if (moment(x).isValid()) {
+            if (moment.isDate(new Date(x)) && x && moment(new Date(x)).isValid()) {
+                var date = moment(new Date(x));
+                res = moment(date, "YYYYMMDD").fromNow();
+            }
+        }
+
+
+        return res;
+    };
 };

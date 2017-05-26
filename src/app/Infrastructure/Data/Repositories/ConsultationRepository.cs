@@ -44,10 +44,16 @@ namespace Clinic.Infrastructure.Data.Repositories
         public async Task<List<Consultation>> GetByPatientId(Guid doctorId, Guid patientId)
         {
             var consultations = await DbSet
+                .Where(p => p.PatientId == patientId && p.DoctorId == doctorId && p.IsDeleted == false)
                 .Include( f => f.FollowUps)
                 .Include(x => x.Images)
-                .Where(p => p.PatientId == patientId && p.DoctorId == doctorId && p.IsDeleted ==false)
+                .OrderBy(u => u.EntryDate)
                 .ToListAsync();
+
+            foreach (var consultation in consultations)
+            {
+                consultation.FollowUps = consultation.FollowUps.OrderBy(u => u.EntryDate).ToList();
+            }
 
             if (consultations == null)
                 return null;
@@ -64,13 +70,13 @@ namespace Clinic.Infrastructure.Data.Repositories
                 .FirstOrDefaultAsync()
                 ;
 
-            var consultations2 = await DbSet
-                .Where(p => p.PatientId == patientId && p.IsDeleted == false)
-                .Include(f => f.FollowUps)
-                .Select(x=>x.FollowUps.OrderByDescending(o=>o.EntryDate).FirstOrDefault())
-                //.FirstOrDefaultAsync()
-                .ToListAsync()
-                ;
+            //var consultations2 = await DbSet
+            //    .Where(p => p.PatientId == patientId && p.IsDeleted == false)
+            //    .Include(f => f.FollowUps)
+            //    .Select(x=>x.FollowUps.OrderByDescending(o=>o.EntryDate).FirstOrDefault())
+            //    //.FirstOrDefaultAsync()
+            //    .ToListAsync()
+            //    ;
 
             return consultation;
         }

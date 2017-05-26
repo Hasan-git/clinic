@@ -4,10 +4,12 @@ angular
     .controller('viewPatient', viewPatient)
 ;
 
-function viewPatient($stateParams, patientdetails, $modal, patientResource, $scope, $state) {
+function viewPatient($stateParams, patientdetails, $modal, patientResource, $scope, $state, resolvedConsultations) {
     //alert(angular.toJson(patientdetails));
     var patdetails = this;
 
+    console.log(resolvedConsultations)
+    $scope.consultations = resolvedConsultations;
     $scope.patientdetails = patientdetails;
 
     console.log(patientdetails)
@@ -19,6 +21,7 @@ function viewPatient($stateParams, patientdetails, $modal, patientResource, $sco
             scope: $scope,
             size: 'lg',
         });
+
 
         $scope.yes = function () {
 

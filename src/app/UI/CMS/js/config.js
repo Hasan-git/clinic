@@ -48,6 +48,17 @@ function config($stateProvider, $urlRouterProvider) {
                     } else {
                         return null;
                     }
+                },
+                resolvedConsultations: function (consultationResource, $stateParams, $rootScope) {
+                    if ($stateParams.patientid) {
+                        var patientid = $stateParams.patientid;
+                        return consultationResource.factory.GetConsultations({doctorId: $rootScope.main.doctorId , patientId: patientid }).$promise.then(function (data) {
+                            return JSON.parse(angular.toJson(data));
+                        });
+
+                    } else {
+                        return null;
+                    }
                 }
             }
         })

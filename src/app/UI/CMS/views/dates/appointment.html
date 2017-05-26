@@ -1,3 +1,5 @@
+
+
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-8">
         <h2>Calendar</h2>
@@ -18,24 +20,42 @@
                 <div class="ibox-title ">
                     <h5>Events List</h5>
                     <div ibox-tools></div>
-
                 </div>
-
                 <div class="ibox-content">
-                    
                     <div id='external-events'>
                         <strong>Click, Drop or Resize event on calendar!</strong>
                         <br/>
                         <div popover-template="dynamicPopover.templateUrl" class='external-event new' title="New">New Consultation</div>
-                        <div class='external-event followup'>Follow Up</div>
+                        <!--<div class='external-event followup'>Follow Up</div>-->
                         <!--</p>-->
                     </div>
                 </div>
             </div>
             <div class="ibox float-e-margins">
-                
+            </div>
+
+            <div class="ibox float-e-margins">
+                <div class="ibox-title ">
+                    <h5>Events Status</h5>
+                    <div ibox-tools></div>
+                </div>
+                <div class="ibox-content">
+                    <div id='external-events'>
+                        <strong>Colored event status !</strong>
+                        <br />
+                        <div class="calendar-states" style="background-color:#19b394;">Checked-In</div>
+                        <div class="calendar-states" style="background-color:#f8ac59;">Admitted</div>
+                        <div class="calendar-states" style="background-color:#bbbbbb;">Checked-Out</div>
+                        <div class="calendar-states" style="background-color:#cb5656;">Canceled</div>
+
+                        
+                        <!--<div class='external-event followup'>Follow Up</div>-->
+                        <!--</p>-->
+                    </div>
+                </div>
             </div>
         </div>
+
         <div class="col-lg-9">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">

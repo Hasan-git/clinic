@@ -68,20 +68,39 @@ namespace Api.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var latestConsultation = await Uow.ConsultationRepository.GetLastConditionByPatientId(Guid.Parse("a5b8737b-fdc3-438e-b5b7-e054c46fbbbc"));
-                var latestFollowUp = await Uow.FollowUpRepository.GetLastFollowUpByPatientId(Guid.Parse("a5b8737b-fdc3-438e-b5b7-e054c46fbbbc"));
-                if (latestConsultation.EntryDate > latestFollowUp.EntryDate)
+                if (appointment.PatientId.HasValue)
                 {
-                    appointment.LastVisit = latestConsultation.EntryDate.ToString();
-                    appointment.LastVisitId = latestConsultation.Id;
-                    appointment.LastVisitType = "consultation";
+                    var latestConsultation = await Uow.ConsultationRepository.GetLastConditionByPatientId(appointment.PatientId ?? Guid.Empty);
+                    var latestFollowUp = await Uow.FollowUpRepository.GetLastFollowUpByPatientId(appointment.PatientId ?? Guid.Empty);
 
-                }
-                else
-                {
-                    appointment.LastVisit = latestFollowUp.EntryDate.ToString();
-                    appointment.LastVisitId = latestFollowUp.Id;
-                    appointment.LastVisitType = "followup";
+
+                    if ( latestFollowUp !=null && latestConsultation != null ) {
+
+                        if ((latestConsultation.EntryDate > latestFollowUp.EntryDate) )
+                        {
+                            appointment.LastVisit = latestConsultation.EntryDate.ToString();
+                            appointment.LastVisitId = latestConsultation.Id;
+                            appointment.LastVisitType = "consultation";
+
+                        }
+                        else if (latestConsultation.EntryDate < latestFollowUp.EntryDate )
+                        {
+                            appointment.LastVisit = latestFollowUp.EntryDate.ToString();
+                            appointment.LastVisitId = latestFollowUp.Id;
+                            appointment.LastVisitType = "followup";
+                        }
+
+                    } else if ( latestFollowUp == null && latestConsultation != null ) {
+                            appointment.LastVisit = latestConsultation.EntryDate.ToString();
+                            appointment.LastVisitId = latestConsultation.Id;
+                            appointment.LastVisitType = "consultation";
+                    }
+                    else if (latestFollowUp != null && latestConsultation == null  ) {
+                            appointment.LastVisit = latestFollowUp.EntryDate.ToString();
+                            appointment.LastVisitId = latestFollowUp.Id;
+                            appointment.LastVisitType = "followup";
+                    }
+
                 }
 
                 Uow.AppointmentRepository.Add(appointment);

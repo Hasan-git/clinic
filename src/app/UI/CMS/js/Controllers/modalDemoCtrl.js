@@ -68,7 +68,7 @@ function modalDemoCtrl($scope, $modal) {
         });
     };
 
-    $scope.openModal = function (state) {
+    $scope.openModal = function (state, date) {
 
         var modalInstance = $modal.open({
             templateUrl: 'views/modal/add_task.html',
@@ -76,6 +76,9 @@ function modalDemoCtrl($scope, $modal) {
             resolve: {
                 statetype: function () {
                     return state;
+                },
+                initialDate: function () {
+                    return date;
                 },
                 patientRepo: function (patientsData) {
                     var patients = [];

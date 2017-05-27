@@ -5,6 +5,40 @@
 
 function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $compile, $templateCache, patientsData, toaster, $rootScope) {
 
+    function isOverlapping(event) {
+
+        var start = new Date(event.start);
+        var end = new Date(event.end);
+
+        var overlap = uiCalendarConfig.calendars.myCalendar1.fullCalendar('clientEvents', function (ev) {
+            if (ev == event)
+                return false;
+            var estart = new Date(ev.start);
+            var eend = new Date(ev.end);
+
+            return (Math.round(estart) / 1000 < Math.round(end) / 1000 && Math.round(eend) > Math.round(start));
+        });
+
+        if (overlap.length > 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+        ////var array = calendars.fullCalendar('clientEvents');
+        //var array = uiCalendarConfig.calendars.myCalendar1.fullCalendar('clientEvents');
+        //console.log(array)
+        //for (i in array) {
+        //    if (array[i]._id != event._id) {
+        //        if (    !(array[i].start.format() >= event.end.format() || array[i].end.format() <= event.start.format())   ) {
+        //            return true;
+        //        }
+        //    }
+        //}
+        //return false;
+    }
+
+
     var utcToLocal = function (date) {
 
         var stillUtc = moment.utc(date).toDate();
@@ -85,7 +119,7 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
         $scope.calendarLoading(false);
     }, function () {
         $scope.calendarLoading(false);
-        toaster.pop('warning', "Notification", "An error occured", 4000);
+        toaster.pop('warning', "Notification", "An error occured", 1000);
     });
     $scope.events = eventsCall;
 
@@ -110,8 +144,9 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
 
         // state used to dismis time field of appointment in popup modal , if month dismis time field
         var state = resourceId.type === "month" ? true : false;
+        //console.log(date)
 
-        $scope.openModal(state).result
+        $scope.openModal(state, date).result
         .then(function (result) {
             $scope.calendarLoading(true);
             var elementClass = jsEvent.target.textContent;
@@ -153,20 +188,28 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
             $scope.newAppointment.reason = result[0].reason;
             // console.log(result[0].clinicId);
             //Create appointment
-            $scope.newAppointment.$save(function (data) {
-                $scope.calendarLoading(false);
-                //$scope.events.push($scope.newAppointment);
-                data.start = utcToLocal(data.start)
-                data.end = utcToLocal(data.end)
-                data.lastVisit = utcToLocal(data.lastVisit)
-                $scope.events.push(data);
-                toaster.pop('success', "Notification", "Appointment added successfully", 4000);
-            },
-        function () {
-            //error || check for overlap 
-            $scope.calendarLoading(false);
-            toaster.pop('warning', "Notification", "An error occured", 4000);
-        });
+
+            if (isOverlapping(event)) {
+                toaster.pop('warning', "Notification", "Time overlap, please choose another time !", 1000);
+                return false;
+            } else {
+                $scope.newAppointment.$save(function (data) {
+                    $scope.calendarLoading(false);
+                    //$scope.events.push($scope.newAppointment);
+                    data.start = utcToLocal(data.start)
+                    data.end = utcToLocal(data.end)
+                    data.lastVisit = utcToLocal(data.lastVisit)
+                    $scope.events.push(data);
+                    toaster.pop('success', "Notification", "Appointment added successfully", 1000);
+                },
+                function () {
+                    //error || check for overlap 
+                    $scope.calendarLoading(false);
+                    toaster.pop('warning', "Notification", "An error occured", 1000);
+                });
+            }
+
+
             //}
         });// End Modal 
     };// ExternalDrop
@@ -280,21 +323,24 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
             $scope.resizedEvent.$update({ id: event.id },
                     function (data) {
                         $scope.calendarLoading(false);
-                        toaster.pop('success', "Notification", "Appointment updated successfully", 4000);
+                        toaster.pop('success', "Notification", "Appointment updated successfully", 1000);
                     }, function (error) {
                         $scope.calendarLoading(false);
                         revertFunc();
-                        toaster.pop('warning', "Notification", "An error occured", 4000);
+                        toaster.pop('warning', "Notification", "An error occured", 1000);
                     });
         }, function (error) {
             $scope.calendarLoading(false);
             revertFunc();
-            toaster.pop('warning', "Notification", "An error occured", 4000);
+            toaster.pop('warning', "Notification", "An error occured", 1000);
         });
 
 
 
     };
+
+
+
     $scope.eventDrop = function (event, delta, revertFunc, jsEvent, ui, view) {
         console.log("Moved")
         $scope.calendarLoading(true);
@@ -309,16 +355,16 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
             $scope.droppedEvent.$update({ id: event.id },
                     function (data) {
                         $scope.calendarLoading(false);
-                        toaster.pop('success', "Notification", "Appointment updated successfully", 4000);
+                        toaster.pop('success', "Notification", "Appointment updated successfully", 1000);
                     }, function (error) {
                         $scope.calendarLoading(false);
                         revertFunc();
-                        toaster.pop('warning', "Notification", "An error occured !", 4000);
+                        toaster.pop('warning', "Notification", "An error occured !", 1000);
                     });
         }, function (error) {
             $scope.calendarLoading(false);
             revertFunc();
-            toaster.pop('warning', "Notification", "An error occured !!", 4000);
+            toaster.pop('warning', "Notification", "An error occured !!", 1000);
         });// end Get Method
     }//end event drop
 
@@ -364,11 +410,11 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
                         $scope.events.push(data);
 
                         //$scope.events.push($scope.newAppointment);
-                        toaster.pop('success', "Notification", "Appointment added successfully", 4000);
+                        toaster.pop('success', "Notification", "Appointment added successfully", 1000);
                     },
                 function () {
                     $scope.calendarLoading(false);
-                    toaster.pop('error', "Notification", "Failed to create new appointment", 4000);
+                    toaster.pop('error', "Notification", "Failed to create new appointment", 1000);
                     //error || check for overlap 
                 });
                 }

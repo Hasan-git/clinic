@@ -3,7 +3,7 @@ function popEvent($http, $templateCache) {
     this.callToPopCache = function () {
         return $http({
             method: 'GET',
-            url: 'http://localhost:16322/templates/popover.html'
+            url: '../../templates/popover.html'
         }).then(function successCallback(response) {
             if (response.status == "200") {
                 $templateCache.put('POPEVENT', response.data);

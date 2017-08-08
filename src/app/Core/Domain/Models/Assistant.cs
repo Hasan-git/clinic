@@ -30,7 +30,7 @@ namespace Clinic.Core.Domain.Models
         public string LastName { get; set; }
         public string Mobile { get; set; }
         public string Phone { get; set; }
-        public string Email { get; set; }
+        public string Email { get; set; }        
         public string AdditionalInformation { get; set; }
         [DefaultValue(false)]
         public bool IsDeleted { get; set; }

@@ -93,8 +93,7 @@ function ModalInstanceCtrl2($scope, $modalInstance, $filter, statetype, patientR
             description: thiss.task.description,
             clinicId: $rootScope.main.clinicId
         });
-        console.log(response)
-        //$modalInstance.close(response);
+        $modalInstance.close(response);
     };
 
     $scope.cancel = function () {

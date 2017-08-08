@@ -119,6 +119,14 @@
     <Compile Include="Helpers\RepositoryProvider.cs" />
     <Compile Include="InfrastructureBootstrapper.cs" />
     <Compile Include="InfrastructureModule.cs" />
+    <Compile Include="Migrations\201706241608347_patTest.cs" />
+    <Compile Include="Migrations\201706241608347_patTest.Designer.cs">
+      <DependentUpon>201706241608347_patTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706241615472_refresh.cs" />
+    <Compile Include="Migrations\201706241615472_refresh.Designer.cs">
+      <DependentUpon>201706241615472_refresh.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -137,6 +145,14 @@
       <Project>{4a77b511-e687-4f81-9052-895efe74a33e}</Project>
       <Name>Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201706241608347_patTest.resx">
+      <DependentUpon>201706241608347_patTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706241615472_refresh.resx">
+      <DependentUpon>201706241615472_refresh.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

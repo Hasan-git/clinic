@@ -208,6 +208,8 @@ namespace Api.Controllers
 
                 Uow.AppointmentRepository.Delete(appointment);
 
+                await Uow.Commit();
+
                 return Ok();
             }
             catch (Exception ex)

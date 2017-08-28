@@ -438,6 +438,9 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
             },
             allDaySlot: false,
             droppable: true,
+            minTime: "12:00:00",
+            maxTime: "21:00:00",
+            contentHeight: 740,
             viewRender: $scope.viewRender,
             // timezone: 'Europe/Copenhagen',
             eventDragStart: $scope.eventDragStart,
@@ -448,6 +451,7 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
             eventClick: $scope.alertOnEventClick,
             eventDrop: $scope.eventDrop,
             eventResize: $scope.alertOnResize,
+            hiddenDays: [ 0,2,4,6 ],
             drop: $scope.externalDrop,
             selectable: true,
             selectHelper: true,
@@ -474,9 +478,9 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
             events: {
                 data: eventsCall
             },
-            slotDuration: '00:15:00',
-            snapDuration: '00:1:00',//Event Time // Vertical movement 1 min
-            defaultTimedEventDuration: "00:30:00",
+            slotDuration: '00:20:00',
+            snapDuration: '00:20:00',//Event Time // Vertical movement 1 min
+            defaultTimedEventDuration: "00:20:00",
             timezone:'local',
             eventLimit: true,
             views: {

@@ -31,14 +31,20 @@
                 </ul>
             </li>
 
-            <li ng-class="{active: $state.includes('patient'),active: $state.includes('consultation')}">
+            <!--<li ng-class="{active: $state.includes('patient'),active: $state.includes('consultation')}">
                 <a href=""><i class="fa fa-user"></i> <span class="nav-label">Patient</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" ng-class="{in: $state.includes('patient'),in: $state.includes('consultation')}">
                     <li ui-sref-active="active"><a ui-sref="patient.new_patient">New Patient</a></li>
                     
                     <li ui-sref-active="active"><a ui-sref="patient.patients_list">Patients list</a></li>
                 </ul>
+            </li>-->
+
+            <li ng-class="{active: $state.includes('patient'),active: $state.includes('consultation')}">
+                <a href="" ui-sref="patient.new_patient" ui-sref-active="active"><i class="fa fa-user"></i> <span class="nav-label">New Patient</span></a>
+                <a href="" ui-sref="patient.patients_list" ui-sref-active="active"><i class="fa fa-users"></i> <span class="nav-label">Patients list</span></a>
             </li>
+
            <!-- Assistant Zone -->
             <!--<li ng-class="{active: $state.includes('assistant')}">
                 <a href=""><i class="fa fa-male"></i> <span class="nav-label">Assistant</span><span class="fa arrow"></span></a>
@@ -48,12 +54,18 @@
               
                 </ul>
             </li>-->
-            <li ng-class="{active: $state.includes('dates')}">
+            <!--<li ng-class="{active: $state.includes('dates')}">
                 <a href=""><i class="fa fa-calendar-o"></i> <span class="nav-label">Appointment</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" ng-class="{in: $state.includes('dates')}">
                     <li ui-sref-active="active"><a ui-sref="dates.appointment">Appointment</a></li>
                 </ul>
+            </li>-->
+
+            <li ng-class="{active: $state.includes('dates')}">
+                <a href="" ui-sref="dates.appointment" ui-sref-active="active"><i class="fa fa-calendar-o"></i> <span class="nav-label">Appointments</span></a>
             </li>
+
+
             <li ng-class="{active: $state.includes('extra')}" ng-show="false">
                 <a href=""><i class="fa fa-flask"></i> <span class="nav-label">Extra</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" ng-class="{in: $state.includes('extra')}">

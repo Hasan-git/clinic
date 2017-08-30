@@ -36,6 +36,8 @@ namespace Clinic.Core.Domain.Models
         public string LastVisit { get; set; }
         public string LastVisitType { get; set; }
         public string EventStatus { get; set; }
+        public string Payment { get; set; }
+        public bool? IsPaid { get; set; }
         public Guid? PatientId { get; set; }
         public Guid? LastVisitId { get; set; }
         public Guid DoctorId { get; set; }

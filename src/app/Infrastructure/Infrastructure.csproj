@@ -127,6 +127,10 @@
     <Compile Include="Migrations\201706241615472_refresh.Designer.cs">
       <DependentUpon>201706241615472_refresh.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201708282232102_BillableAppoitment.cs" />
+    <Compile Include="Migrations\201708282232102_BillableAppoitment.Designer.cs">
+      <DependentUpon>201708282232102_BillableAppoitment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -152,6 +156,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706241615472_refresh.resx">
       <DependentUpon>201706241615472_refresh.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708282232102_BillableAppoitment.resx">
+      <DependentUpon>201708282232102_BillableAppoitment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

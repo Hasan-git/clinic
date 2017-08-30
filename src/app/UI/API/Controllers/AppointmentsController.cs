@@ -137,6 +137,28 @@ namespace Api.Controllers
                 return InternalServerError(ex);
             }
         }
+        [Route("api/Appointments/updateAppointment"), HttpPost]
+        public async Task<IHttpActionResult> updateAppointment( [FromBody]Appointment appointment)
+        {
+            try
+            {
+
+                if (appointment == null)
+                    return BadRequest("appointment cannot be null");
+
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                Uow.AppointmentRepository.Update(appointment);
+                await Uow.Commit();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
 
         [Route("api/Appointments/UpdateStatus"), HttpPost]
         public async Task<IHttpActionResult> Put(Guid id, string status)

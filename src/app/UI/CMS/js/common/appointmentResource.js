@@ -8,6 +8,10 @@
             {
                 'get': { method: 'GET', isArray: false},
                 'update': { method: 'PUT' },
+                'updateAppointment': {
+                    url: appSettings.serverPath + "/api/Appointments/updateAppointment",
+                    method: 'POST'
+                },
                 'updateStatus': {
                     method: 'POST',
                     url: appSettings.serverPath + "/api/Appointments/UpdateStatus",

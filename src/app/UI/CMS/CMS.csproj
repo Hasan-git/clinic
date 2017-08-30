@@ -214,6 +214,7 @@
     <Content Include="js\Controllers\MainCtrl.js" />
     <Content Include="js\Controllers\modalDemoCtrl.js" />
     <Content Include="js\Controllers\ModalInstanceCtrl.js" />
+    <Content Include="js\Controllers\ModalCtrlNewPatient.js" />
     <Content Include="js\Controllers\ModalInstanceCtrl2.js" />
     <Content Include="js\Controllers\newAssistant.js" />
     <Content Include="js\Controllers\newConsultation.js" />
@@ -846,6 +847,7 @@
     <Content Include="views\modal\add_task.html" />
     <Content Include="views\modal\edit_note.html" />
     <Content Include="views\modal\mission.html" />
+    <Content Include="views\modal\newPatient.html" />
     <Content Include="views\modal_example.html" />
     <Content Include="views\modal_example1.html" />
     <Content Include="views\modal_example2.html" />

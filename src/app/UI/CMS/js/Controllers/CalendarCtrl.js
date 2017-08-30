@@ -3,7 +3,68 @@
     .controller('CalendarCtrl', CalendarCtrl)
 ;
 
-function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $compile, $templateCache, patientsData, toaster, $rootScope) {
+function CalendarCtrl($scope,$modal, $filter, appointmentResource, uiCalendarConfig, $compile, $templateCache, patientsData, toaster, $rootScope) {
+
+    // function called to open a new patient file using modal, when an appointment is not for existing patient 
+    $scope.newPatientModal = function (event,eventId,appointmentId) {
+
+        $('.popover').remove();
+        console.log("Event > ", $scope.eventSources)
+
+
+        var modalInstance = $modal.open({
+            templateUrl: 'views/modal/newPatient.html',
+            controller: 'ModalCtrlNewPatient',
+            size: 'lg',
+            resolve: {
+                resolvedIds: function () {
+                    return { eventId: eventId, appointmentId: appointmentId };
+                }
+            }
+        });
+
+
+        modalInstance.result.then(function (response) {
+
+            appointmentResource.appointments.get({ id: appointmentId }).$promise.then(function (appointment_) {
+
+                var appointment = angular.copy(JSON.parse(angular.toJson(appointment_)));
+                appointmentConfig = {
+                    existingPatient : true,
+                    patientId : response.patient.id,
+                    mobile : response.patient.mobile,
+                    patientName : response.patient.firstName + " " + response.patient.middelName + " " + response.patient.lastName,
+                    title: response.patient.firstName + " " + response.patient.middelName + " " + response.patient.lastName
+                }
+
+                appointment = angular.extend(appointment, appointmentConfig);
+                event = angular.extend(event, appointmentConfig);
+
+                appointmentResource.appointments.updateAppointment(appointment).$promise.then(function () {
+
+                    toaster.pop('success', "Notification", "Patient Created", 1000);
+                    $scope.events.map(function (event, key) {
+                        if (event.id == appointmentId) {
+                            $scope.events[key] = angular.extend($scope.events[key],appointmentConfig)
+                        }
+                    })
+                    uiCalendarConfig.calendars.myCalendar1.fullCalendar('updateEvent', event)
+
+                });
+
+            });
+
+                   
+                
+            
+
+            //var appointment = 
+            
+        }, function () {
+            console.log('Modal dismissed at: ' + new Date());
+        });
+    };
+
 
     function isOverlapping(event) {
 
@@ -231,6 +292,7 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
             $scope.s = [];
             $scope.s = event;
             //console.log(event, element, view)
+            //checked-in - admitted - out - canceled
             $scope.eventStatusChanged = function (event) {
 
                 appointmentResource.appointments.updateStatus({ id: event.id, status: event.eventStatus })
@@ -246,12 +308,21 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
                     });
             }
             $scope.remove = function (index, appoitnemtnId) {
+                $('.popover').remove();
                 appointmentResource.appointments.delete({ id: appoitnemtnId })
                     .$promise.then(function (data) {
                         event.backgroundColor = eventBgColor(event.eventStatus)
                         event.borderColor = eventBgColor(event.eventStatus)
 
                         toaster.pop('success', "Notification", "Appointment deleted", 1000);
+
+                        $scope.events.map(function (event, key) {
+                            if (event.id == appoitnemtnId) {
+                                $scope.events.splice(key, 1)
+                            }
+                        })
+                       
+
                         uiCalendarConfig.calendars.myCalendar1.fullCalendar('removeEvents', function (e) {
                             return e._id === index;
                         });
@@ -273,7 +344,7 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
         //element.popover({ placement: 'top', html: true, content: $compile($templateCache.get('POPEVENT'))($scope), container: 'body'});
 
         element.popover({
-            // container: 'body',
+            container: 'body',
             content: compileContent,
             template: popoverTemplate,
             placement: "top",
@@ -498,6 +569,7 @@ function CalendarCtrl($scope, $filter, appointmentResource, uiCalendarConfig, $c
             }
         }
     };
+
 
     /* Event sources array */
     $scope.eventSources = [$scope.events];

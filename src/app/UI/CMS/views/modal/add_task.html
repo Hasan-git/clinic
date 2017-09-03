@@ -13,7 +13,7 @@
                 <input type="hidden" ng-model="existingPatient"/>
                 <input type="hidden" ng-model="task.patientId" />
                 <div class="col-sm-8" >
-                    <input type="text" class="form-control" ng-model="task.patientName" ng-hide="checkbox" tabindex="0" />
+                    <input type="text" class="form-control" ng-model="task.patientName" ng-hide="checkbox" tabindex="0" autofocus />
                     <input type="text" class="form-control" ng-model="task.patientName" ng-show="checkbox" tabindex="-1"  typeahead="state as state.displayName for state in patients | filter:{displayName:$viewValue}" typeahead-template-url="customTemplate.html" typeahead-on-select="onSelect($item, $model, $label)"/>
                 </div>
                 
@@ -90,7 +90,7 @@
                     Start
                 </label>
                 <div class="col-sm-8">
-                    <timepicker ng-model="task.tasktime" ng-change="checkAvailability()" show-meridian="true"></timepicker>
+                    <timepicker ng-model="task.tasktime" ng-change="checkAvailability()" min="min" max="max" show-meridian="true"></timepicker>
                     <span ng-show="timeWarning" class="text-danger">This time is already reserved</span>
                 </div>
             </div>

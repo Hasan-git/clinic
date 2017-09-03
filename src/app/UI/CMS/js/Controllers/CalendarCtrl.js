@@ -3,15 +3,17 @@
     .controller('CalendarCtrl', CalendarCtrl)
 ;
 
-function CalendarCtrl($scope,$modal, $filter, appointmentResource, uiCalendarConfig, $compile, $templateCache, patientsData, toaster, $rootScope) {
+function CalendarCtrl(Hub,$scope, $modal, $filter, appointmentResource, uiCalendarConfig, $compile, $templateCache, patientsData, toaster, $rootScope) {
+
+    // Render event 
+    //$('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+
 
     // function called to open a new patient file using modal, when an appointment is not for existing patient 
     $scope.newPatientModal = function (event,eventId,appointmentId) {
 
         $('.popover').remove();
-        console.log("Event > ", $scope.eventSources)
-
-
+        
         var modalInstance = $modal.open({
             templateUrl: 'views/modal/newPatient.html',
             controller: 'ModalCtrlNewPatient',
@@ -22,7 +24,6 @@ function CalendarCtrl($scope,$modal, $filter, appointmentResource, uiCalendarCon
                 }
             }
         });
-
 
         modalInstance.result.then(function (response) {
 
@@ -49,17 +50,9 @@ function CalendarCtrl($scope,$modal, $filter, appointmentResource, uiCalendarCon
                         }
                     })
                     uiCalendarConfig.calendars.myCalendar1.fullCalendar('updateEvent', event)
-
                 });
-
             });
 
-                   
-                
-            
-
-            //var appointment = 
-            
         }, function () {
             console.log('Modal dismissed at: ' + new Date());
         });
@@ -151,9 +144,10 @@ function CalendarCtrl($scope,$modal, $filter, appointmentResource, uiCalendarCon
     appointmentResource.appointments.query().$promise.then(function (data) {
 
         angular.forEach(data, function (value, key) {
+            
             eventsCall.push({
                 id: value.id,
-                title: value.title,
+                title:  value.title ,
                 start:utcToLocal(value.start) ,
                 end: utcToLocal(value.end),
                 allDay: value.allDay,
@@ -227,6 +221,7 @@ function CalendarCtrl($scope,$modal, $filter, appointmentResource, uiCalendarCon
             var startminute = resourceId.type == "month" ? result[0].minute : thisdate.getMinutes();
             //start: new Date(y1, m1, d1, starthour, startminute).add(4,'days'),
             //end: new Date(y1, m1, d1, starthour, startminute + result[0].duration)
+           
             $scope.newAppointment = {};
             //////////////
             $scope.newAppointment = new appointmentResource.appointments;
@@ -260,7 +255,8 @@ function CalendarCtrl($scope,$modal, $filter, appointmentResource, uiCalendarCon
                     data.start = utcToLocal(data.start)
                     data.end = utcToLocal(data.end)
                     data.lastVisit = utcToLocal(data.lastVisit)
-                    $scope.events.push(data);
+                    uiCalendarConfig.calendars.myCalendar1.fullCalendar('renderEvent', data, true)
+                    //$scope.events.push(data);
                     toaster.pop('success', "Notification", "Appointment added successfully", 1000);
                 },
                 function () {
@@ -270,7 +266,6 @@ function CalendarCtrl($scope,$modal, $filter, appointmentResource, uiCalendarCon
                 });
             }
 
-
             //}
         });// End Modal 
     };// ExternalDrop
@@ -279,16 +274,30 @@ function CalendarCtrl($scope,$modal, $filter, appointmentResource, uiCalendarCon
 
     //redirect calendar to the day agenda on day press ( month agenda )
     $scope.dayClick = function (dateDayClick, jsEvent, view) {
+        //var toThatDay = dateDayClick.format();
+        //uiCalendarConfig.calendars.myCalendar1.fullCalendar('changeView', 'agendaDay');
+        //uiCalendarConfig.calendars.myCalendar1.fullCalendar("gotoDate", toThatDay);
+    };
 
-        var toThatDay = dateDayClick.format();
-        uiCalendarConfig.calendars.myCalendar1.fullCalendar('changeView', 'agendaDay');
-        uiCalendarConfig.calendars.myCalendar1.fullCalendar("gotoDate", toThatDay);
+    $scope.rightDayClick = function (dateDayClick, jsEvent, view) {
+        if (view.name == "month") {
+            
+            var toThatDay = dateDayClick.format();
+            uiCalendarConfig.calendars.myCalendar1.fullCalendar('changeView', 'agendaDay');
+            uiCalendarConfig.calendars.myCalendar1.fullCalendar("gotoDate", toThatDay);
+        }
     };
 
     //render each event when page and events are ready
     $scope.eventRender = function (event, element, view) {
+        
+        //Prevent right click browser menu
+        $('#calendar').on('contextmenu', function (e) {
+            e.preventDefault();
+            //element.contextmenu(false);
+        })
+
         var compileContent = function () {
-            //console.log(event);
             $scope.s = [];
             $scope.s = event;
             //console.log(event, element, view)
@@ -301,12 +310,13 @@ function CalendarCtrl($scope,$modal, $filter, appointmentResource, uiCalendarCon
                         event.borderColor = eventBgColor(event.eventStatus)
 
                         toaster.pop('success', "Notification", "Appointment updated", 1000);
-                        uiCalendarConfig.calendars.myCalendar1.fullCalendar('updateEvent', event)
-
+                        uiCalendarConfig.calendars.myCalendar1.fullCalendar('updateEvent', event);
+                        $('.popover').hide()
                     }, function () {
                         toaster.pop('error', "Notification", "Unable to change status", 3000);
                     });
-            }
+            };
+
             $scope.remove = function (index, appoitnemtnId) {
                 $('.popover').remove();
                 appointmentResource.appointments.delete({ id: appoitnemtnId })
@@ -318,15 +328,15 @@ function CalendarCtrl($scope,$modal, $filter, appointmentResource, uiCalendarCon
 
                         $scope.events.map(function (event, key) {
                             if (event.id == appoitnemtnId) {
-                                $scope.events.splice(key, 1)
+                                //$scope.events.splice(key, 1)
                             }
                         })
-                       
 
-                        uiCalendarConfig.calendars.myCalendar1.fullCalendar('removeEvents', function (e) {
-                            return e._id === index;
-                        });
+                        uiCalendarConfig.calendars.myCalendar1.fullCalendar('removeEvents', index)
 
+                        //uiCalendarConfig.calendars.myCalendar1.fullCalendar('removeEvents', function (e) {
+                        //    return e._id === index;
+                        //});
                         }, function () {
                             toaster.pop('error', "Notification", "Unable to delete this appointment", 3000);
                         });
@@ -342,14 +352,16 @@ function CalendarCtrl($scope,$modal, $filter, appointmentResource, uiCalendarCon
             '</div>'].join('');
 
         //element.popover({ placement: 'top', html: true, content: $compile($templateCache.get('POPEVENT'))($scope), container: 'body'});
-
         element.popover({
             container: 'body',
             content: compileContent,
             template: popoverTemplate,
             placement: "top",
-            html: true
+            html: true,
+            trigger: "click",
+            //appendToBody: true
         });
+       
 
         element.attr({
             'tooltip': event.title,
@@ -384,7 +396,6 @@ function CalendarCtrl($scope,$modal, $filter, appointmentResource, uiCalendarCon
     };
 
     $scope.alertOnResize = function (event, delta, revertFunc, jsEvent, ui, view) {
-        console.log("asd")
         $scope.calendarLoading(true);
         $scope.resizedEvent = {};
         appointmentResource.appointments.get({ id: event.id }).$promise.then(function (data) {
@@ -405,15 +416,11 @@ function CalendarCtrl($scope,$modal, $filter, appointmentResource, uiCalendarCon
             revertFunc();
             toaster.pop('warning', "Notification", "An error occured", 1000);
         });
-
-
-
     };
 
 
 
     $scope.eventDrop = function (event, delta, revertFunc, jsEvent, ui, view) {
-        console.log("Moved")
         $scope.calendarLoading(true);
         $scope.droppedEvent = {};
         appointmentResource.appointments.get({ id: event.id }).$promise.then(function (data) {
@@ -439,7 +446,7 @@ function CalendarCtrl($scope,$modal, $filter, appointmentResource, uiCalendarCon
         });// end Get Method
     }//end event drop
 
-    $scope.select = function (start, end, allDay, ev) {
+    $scope.select = function (start, end, allDay, ev) {        
 
         // if condition -> Prevent select method on month agenda & prevent select to run on dayclick in month agenda
         if (ev.name !== 'month') {
@@ -447,10 +454,6 @@ function CalendarCtrl($scope,$modal, $filter, appointmentResource, uiCalendarCon
             $scope.openModal(state).result
             .then(function (result) {
                 $scope.calendarLoading(true);
-                //console.log(result);
-                // alert(angular.toJson(result));
-
-                
 
                 //appointmentResource.appointments.get({ id: 0 }).$promise.then(function (data) {
                 //    $scope.newAppointment = data;
@@ -478,7 +481,9 @@ function CalendarCtrl($scope,$modal, $filter, appointmentResource, uiCalendarCon
                         data.start = utcToLocal(data.start)
                         data.end = utcToLocal(data.end)
                         data.lastVisit = utcToLocal(data.lastVisit)
-                        $scope.events.push(data);
+
+                        uiCalendarConfig.calendars.myCalendar1.fullCalendar('renderEvent', data,true)
+                        //$scope.events.push(data);
 
                         //$scope.events.push($scope.newAppointment);
                         toaster.pop('success', "Notification", "Appointment added successfully", 1000);
@@ -524,9 +529,23 @@ function CalendarCtrl($scope,$modal, $filter, appointmentResource, uiCalendarCon
             eventResize: $scope.alertOnResize,
             hiddenDays: [ 0,2,4,6 ],
             drop: $scope.externalDrop,
+            dayRightclick: $scope.rightDayClick,
+            reportSelection: function (start, end, ev) {
+                console.log("reportSelection")
+                this.isSelected = true;
+                this.trigger('select', null, start, end, ev);
+            },
+            //weekends:false,
+            //eventConstraint: {
+            //    // days of week. an array of zero-based day of week integers (0=Sunday)
+            //    dow: [ 1, 3, 5 ], // Monday - Thursday
+            //    start: "12:00", // a start time (10am in this example)
+            //    end: '21:00', // an end time (6pm in this example)
+            //},
             selectable: true,
             selectHelper: true,
             select: $scope.select,
+            selectLongPressDelay: 3000,// delay for touch devies
             selectOverlap: function (event) {
                 //get current view name  
                 var view = uiCalendarConfig.calendars.myCalendar1.fullCalendar('getView');
@@ -547,7 +566,7 @@ function CalendarCtrl($scope,$modal, $filter, appointmentResource, uiCalendarCon
                 }
             },
             events: {
-                data: eventsCall
+                data: $scope.events
             },
             slotDuration: '00:20:00',
             snapDuration: '00:20:00',//Event Time // Vertical movement 1 min
@@ -573,4 +592,142 @@ function CalendarCtrl($scope,$modal, $filter, appointmentResource, uiCalendarCon
 
     /* Event sources array */
     $scope.eventSources = [$scope.events];
+
+    var hub = new Hub('AppointmentHub',
+      {
+          rootPath: "http://localhost:63392/signalr",
+          jsonp: true,
+          logging: false,
+          transport: ['webSockets', 'longPolling'],
+          //client side methods
+          listeners: {
+              'newConnection': function (id) {
+                  console.log(id)
+              },
+              'removeConnection': function (id) {
+                  console.log(id)
+              },
+              'updatedAppointment': function (appointment) {
+                  console.log(appointment)
+                  var events = uiCalendarConfig.calendars.myCalendar1.fullCalendar('clientEvents')
+                  console.log(events)
+                  events.map(function (val, key) {
+                      if (val.id == appointment.id) {
+                          var ev = {};
+                          ev = {
+                              id: appointment.id,
+                              title: appointment.title,
+                              start: utcToLocal(appointment.start),
+                              end: utcToLocal(appointment.end),
+                              allDay: appointment.allDay,
+                              added: appointment.added,
+                              patientName: appointment.patientName,
+                              patientId: appointment.patientId,
+                              mobile: appointment.mobile,
+                              existingPatient: appointment.existingPatient,
+                              description: appointment.description,
+                              reason: appointment.reason,
+                              address: appointment.address,
+                              lastVisit: utcToLocal(appointment.lastVisit),
+                              eventStatus: appointment.eventStatus,
+                              lastVisit: appointment.lastVisit,
+                              lastVisitId: appointment.lastVisitId,
+                              lastVisitType: appointment.lastVisitType,
+                              //color: "red",
+                              backgroundColor: eventBgColor(appointment.eventStatus),
+                              borderColor: eventBgColor(appointment.eventStatus)
+                          }
+                          events[key] = angular.extend(events[key], ev);
+                          $scope.events[key] = angular.extend($scope.events[key], ev);
+                          uiCalendarConfig.calendars.myCalendar1.fullCalendar('updateEvent', events[key])
+                      }
+                  })
+
+              },
+              'newAppointment': function (appointment) {
+
+                  var events = uiCalendarConfig.calendars.myCalendar1.fullCalendar('clientEvents')
+
+
+                  var isExistingEvent = events.some(function (ev) {
+                        return ev.id == appointment.id
+                  })
+                  if (isExistingEvent == false) {
+                      var event = {
+                          id: appointment.id,
+                          title: appointment.title,
+                          start: utcToLocal(appointment.start),
+                          end: utcToLocal(appointment.end),
+                          allDay: appointment.allDay,
+                          added: appointment.added,
+                          patientName: appointment.patientName,
+                          patientId: appointment.patientId,
+                          mobile: appointment.mobile,
+                          existingPatient: appointment.existingPatient,
+                          description: appointment.description,
+                          reason: appointment.reason,
+                          address: appointment.address,
+                          lastVisit: utcToLocal(appointment.lastVisit),
+                          eventStatus: appointment.eventStatus,
+                          lastVisit: appointment.lastVisit,
+                          lastVisitId: appointment.lastVisitId,
+                          lastVisitType: appointment.lastVisitType,
+                          //color: "red",
+                          backgroundColor: eventBgColor(appointment.eventStatus),
+                          borderColor: eventBgColor(appointment.eventStatus)
+                      }
+                      //$scope.events.push(event);
+                      uiCalendarConfig.calendars.myCalendar1.fullCalendar('renderEvent', event,true)
+                  }
+                      
+              },
+              'eventStatus': function (appointment) {
+
+                  var events = uiCalendarConfig.calendars.myCalendar1.fullCalendar('clientEvents')
+
+                  events.map(function (val, key) {
+                      if (val.id == appointment.id) {
+                          events[key].eventStatus = appointment.status
+                          events[key].backgroundColor = eventBgColor(appointment.status)
+                          events[key].borderColor = eventBgColor(appointment.status)
+                          uiCalendarConfig.calendars.myCalendar1.fullCalendar('updateEvent', events[key])
+                      }
+                  })
+              },
+              'removed': function (id) {
+                  var events = uiCalendarConfig.calendars.myCalendar1.fullCalendar('clientEvents')
+                  events.map(function (val, key) {
+                      if (val.id == id) {
+                          //$scope.events.splice(key, 1)
+                          uiCalendarConfig.calendars.myCalendar1.fullCalendar('removeEvents', val._id)
+                      }
+                  })
+              },
+          },
+
+          //server side methods
+          methods: ['tell'],
+          //handle connection error
+          errorHandler: function (error) {
+              console.error(error);
+          },
+
+          stateChanged: function (state) {
+              switch (state.newState) {
+                  case $.signalR.connectionState.connecting:
+                      //your code here
+                      break;
+                  case $.signalR.connectionState.connected:
+                      //your code here
+                      break;
+                  case $.signalR.connectionState.reconnecting:
+                      //your code here
+                      break;
+                  case $.signalR.connectionState.disconnected:
+                      //your code here
+                      break;
+              }
+          }
+      });
+    hub.connect()
 } //  +++++ END Calendar Controller ++++

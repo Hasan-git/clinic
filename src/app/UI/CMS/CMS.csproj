@@ -235,6 +235,9 @@
     <Content Include="js\jquery\moment.min.js" />
     <Content Include="js\orders\order.js" />
     <Content Include="js\plugins\angular-notify\angular-notify.min.js" />
+    <Content Include="js\plugins\angular-signalr-hub\jquery.signalR-2.2.1.min.js" />
+    <Content Include="js\plugins\angular-signalr-hub\signalr-hub.js" />
+    <Content Include="js\plugins\angular-signalr-hub\signalr-hub.min.js" />
     <Content Include="js\plugins\chartJs\angles.js" />
     <Content Include="js\plugins\chartJs\Chart.min.js" />
     <Content Include="js\plugins\chosen\chosen.jquery.js" />
@@ -800,6 +803,7 @@
     <Content Include="login.html" />
     <Content Include="ngmessages.html" />
     <Content Include="register.html" />
+    <Content Include="js\plugins\fullcalendar\rightClickPlugin.js" />
     <Content Include="templates\daterange.html" />
     <Content Include="templates\popover.html" />
     <Content Include="templates\tasks.html" />

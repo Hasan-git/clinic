@@ -1,25 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
-using Api.Models;
-using Clinic.Common.Core.Extensions;
 using Clinic.Common.Core.Services;
 using Clinic.Core.Domain.Models;
-using Clinic.Core.Domain.Repositories;
-using Clinic.Infrastructure.Data;
-using Clinic.Infrastructure.Data.Repositories;
-using Newtonsoft.Json;
-using System.Web;
-using System.Net.Http;
-using System.Net;
-using Clinic.Common.Core;
 using Api.Models.Mappers;
+using Api.Hubs;
+using Microsoft.AspNet.SignalR;
 
 namespace Api.Controllers
 {

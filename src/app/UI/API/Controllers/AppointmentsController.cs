@@ -6,6 +6,8 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using Clinic.Core.Domain.Models;
+using Api.Hubs;
+using System.Web;
 
 namespace Api.Controllers
 {
@@ -105,7 +107,9 @@ namespace Api.Controllers
 
                 Uow.AppointmentRepository.Add(appointment);
                 await Uow.Commit();
-              
+
+                MainHub.newAppointment(appointment);
+
                 return Ok(appointment);
             }
             catch (Exception ex)
@@ -129,7 +133,9 @@ namespace Api.Controllers
                
                 Uow.AppointmentRepository.Update(appointment);
                 await Uow.Commit();
-                
+
+                MainHub.updatedAppointment(appointment);
+
                 return Ok();
             }
             catch (Exception ex)
@@ -152,6 +158,7 @@ namespace Api.Controllers
                 Uow.AppointmentRepository.Update(appointment);
                 await Uow.Commit();
 
+                MainHub.updatedAppointment(appointment);
                 return Ok();
             }
             catch (Exception ex)
@@ -179,6 +186,7 @@ namespace Api.Controllers
                 Uow.AppointmentRepository.Update(appointment);
                 await Uow.Commit();
 
+                MainHub.eventStatus(id, appointment.EventStatus);
                 return Ok();
             }
             catch (Exception ex)
@@ -231,6 +239,8 @@ namespace Api.Controllers
                 Uow.AppointmentRepository.Delete(appointment);
 
                 await Uow.Commit();
+
+                MainHub.removed(id);
 
                 return Ok();
             }

@@ -18,13 +18,8 @@ namespace Api.Controllers
         [ResponseType(typeof(Appointment))]
         public async Task<IHttpActionResult> Get()
         {
-
             try
             {
-              
-                // var user = new User();
-                // Uow.UserRepository.Add(user);
-                //Uow.Commit();
                 var appointments = await Uow.AppointmentRepository.GetAll();
                 return Ok(appointments);
             }
@@ -50,6 +45,27 @@ namespace Api.Controllers
                     return NotFound();
                 
                     return Ok(appointment);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("api/Appointments/patient/{id}"), HttpGet]
+        public async Task<IHttpActionResult> TodayPatientEvent(Guid id)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var appointment = await Uow.AppointmentRepository.GetBypatientId(id);
+
+                if (appointment == null)
+                    return NotFound();
+
+                return Ok(appointment);
             }
             catch (Exception ex)
             {
@@ -118,6 +134,38 @@ namespace Api.Controllers
             }
         }
 
+        [Route("api/Appointments/payment/{id}/{payment}"), HttpPost]
+        public async Task<IHttpActionResult> Payment(Guid id, string payment)
+        {
+            try
+            {
+
+                if (id == null)
+                    return BadRequest("id cannot be null");
+
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var appointment = await Uow.AppointmentRepository.GetById(id);
+
+                if (appointment == null)
+                    return NotFound();
+
+                appointment.Payment = payment;
+                Uow.AppointmentRepository.Update(appointment);
+
+                await Uow.Commit();
+
+                MainHub.paymentReleased(appointment);
+
+                return Ok(appointment);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
 
         // PUT: api/Appointments/5
         public async Task<IHttpActionResult> Put(Guid id, [FromBody]Appointment appointment)
@@ -143,6 +191,7 @@ namespace Api.Controllers
                 return InternalServerError(ex);
             }
         }
+
         [Route("api/Appointments/updateAppointment"), HttpPost]
         public async Task<IHttpActionResult> updateAppointment( [FromBody]Appointment appointment)
         {

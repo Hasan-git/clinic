@@ -8,6 +8,13 @@
             {
                 'get': { method: 'GET', isArray: false},
                 'update': { method: 'PUT' },
+                'GetByPatientId': {
+                    method: 'GET',
+                    url: appSettings.serverPath + "/api/Appointments/patient/:id",
+                    params: {
+                        id: '@id',
+                    }
+                },
                 'updateAppointment': {
                     url: appSettings.serverPath + "/api/Appointments/updateAppointment",
                     method: 'POST'
@@ -18,6 +25,14 @@
                     params: {
                         id: '@id',
                         status: '@status'
+                    }
+                },
+                'paymentReleased': {
+                    method: 'POST',
+                    url: appSettings.serverPath + "/api/Appointments/payment/:id/:payment",
+                    params: {
+                        id: '@id',
+                        payment: '@payment'
                     }
                 },
                 'delete': {

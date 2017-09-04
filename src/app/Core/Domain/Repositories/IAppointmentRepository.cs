@@ -12,5 +12,7 @@ namespace Clinic.Core.Domain.Repositories
         new Task<List<Appointment>> GetAll();
         new Task<Appointment> GetById(Guid id);
         Task<List<Appointment>> GetByDoctorId(Guid id);
+
+        Task<Appointment> GetBypatientId(Guid id);
     }
 }

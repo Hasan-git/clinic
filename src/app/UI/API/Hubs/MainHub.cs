@@ -41,7 +41,10 @@ namespace Api.Hubs
         {
             hubContext.Clients.All.removed(id);
         }
-
+        public static void paymentReleased(Appointment content)
+        {
+            hubContext.Clients.All.paymentReleased(content);
+        }
 
 
     }

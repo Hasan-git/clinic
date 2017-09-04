@@ -4,11 +4,12 @@
             <li class="nav-header">
 
                 <div class="dropdown profile-element">
-                    <img alt="image" class="img-circle" src="img/profile_small.jpg"/>
+                    <!--<img alt="image" class="img-circle" src="img/profile_small.jpg"/>-->
+                    <i class="fa fa-3x fa-user-md text-white"></i>
                     <a class="dropdown-toggle" href>
                             <span class="clear">
                                 <span class="block m-t-xs">
-                                    <strong class="font-bold">Dr. David Williams</strong>
+                                    <strong class="font-bold">Dr. Haithem Al-Rifaii</strong>
                              </span>
                                 <span class="text-muted text-xs block">Doctor/Assistant <b class="caret"></b></span>
                             </span>
@@ -40,8 +41,11 @@
                 </ul>
             </li>-->
 
-            <li ng-class="{active: $state.includes('patient'),active: $state.includes('consultation')}">
+            <li ng-class="{active: $state.includes('patient.new_patient')}">
                 <a href="" ui-sref="patient.new_patient" ui-sref-active="active"><i class="fa fa-user"></i> <span class="nav-label">New Patient</span></a>
+            </li>
+
+            <li ng-class="{active: $state.includes('patient.patients_list')}">
                 <a href="" ui-sref="patient.patients_list" ui-sref-active="active"><i class="fa fa-users"></i> <span class="nav-label">Patients list</span></a>
             </li>
 

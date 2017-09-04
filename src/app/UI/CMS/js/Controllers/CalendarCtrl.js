@@ -162,6 +162,7 @@ function CalendarCtrl(Hub,$scope, $modal, $filter, appointmentResource, uiCalend
                 lastVisit: utcToLocal(value.lastVisit) ,
                 eventStatus: value.eventStatus,
                 lastVisit: value.lastVisit,
+                payment: value.payment,
                 lastVisitId: value.lastVisitId,
                 lastVisitType: value.lastVisitType,
                 //color: "red",
@@ -246,7 +247,7 @@ function CalendarCtrl(Hub,$scope, $modal, $filter, appointmentResource, uiCalend
             //Create appointment
 
             if (isOverlapping(event)) {
-                toaster.pop('warning', "Notification", "Time overlap, please choose another time !", 1000);
+                toaster.pop('warning', "Notification", "Time overlap, please choose another time !", 3000);
                 return false;
             } else {
                 $scope.newAppointment.$save(function (data) {
@@ -362,9 +363,9 @@ function CalendarCtrl(Hub,$scope, $modal, $filter, appointmentResource, uiCalend
             //appendToBody: true
         });
        
-
+        var pay = event.payment ? "Pay : " + event.payment : "";
         element.attr({
-            'tooltip': event.title,
+            'tooltip': pay,
             'tooltip-append-to-body': true
         });
         $('.fc-button').click(function () { $('.popover').remove(); });
@@ -447,7 +448,6 @@ function CalendarCtrl(Hub,$scope, $modal, $filter, appointmentResource, uiCalend
     }//end event drop
 
     $scope.select = function (start, end, allDay, ev) {        
-
         // if condition -> Prevent select method on month agenda & prevent select to run on dayclick in month agenda
         if (ev.name !== 'month') {
             var state = "selection";
@@ -610,7 +610,7 @@ function CalendarCtrl(Hub,$scope, $modal, $filter, appointmentResource, uiCalend
               'updatedAppointment': function (appointment) {
                   console.log(appointment)
                   var events = uiCalendarConfig.calendars.myCalendar1.fullCalendar('clientEvents')
-                  console.log(events)
+
                   events.map(function (val, key) {
                       if (val.id == appointment.id) {
                           var ev = {};
@@ -703,10 +703,23 @@ function CalendarCtrl(Hub,$scope, $modal, $filter, appointmentResource, uiCalend
                       }
                   })
               },
+              'paymentReleased': function (appointment) {
+                  console.log(appointment)
+                  var events = uiCalendarConfig.calendars.myCalendar1.fullCalendar('clientEvents')
+
+                  events.map(function (val, key) {
+                      if (val.id == appointment.id) {
+                          events[key].payment = appointment.payment 
+                          uiCalendarConfig.calendars.myCalendar1.fullCalendar('renderEvent', events[key], true)
+
+                          toaster.pop('info', "Payment Released", appointment.patientName +" should pay : " + appointment.payment, 50000);
+                      }
+                  })
+              }
           },
 
           //server side methods
-          methods: ['tell'],
+          methods: ['tell', 'payment'],
           //handle connection error
           errorHandler: function (error) {
               console.error(error);
@@ -729,5 +742,6 @@ function CalendarCtrl(Hub,$scope, $modal, $filter, appointmentResource, uiCalend
               }
           }
       });
-    hub.connect()
+    //hub.connect()
+
 } //  +++++ END Calendar Controller ++++

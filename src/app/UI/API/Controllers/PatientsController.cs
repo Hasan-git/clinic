@@ -6,8 +6,6 @@ using System.Web.Http.Description;
 using Clinic.Common.Core.Services;
 using Clinic.Core.Domain.Models;
 using Api.Models.Mappers;
-using Api.Hubs;
-using Microsoft.AspNet.SignalR;
 
 namespace Api.Controllers
 {
@@ -152,8 +150,8 @@ namespace Api.Controllers
         }
 
         //// DELETE: api/Patients/5
-        [Route("api/Patients/delete"),HttpDelete]
-        public async Task<IHttpActionResult> Delete(Guid id)
+        [Route("api/Patients/delete"),HttpGet]
+        public async Task<IHttpActionResult> DeletePatient(Guid id)
         {
             if (id == null)
                 return BadRequest("Patient id cannot be null");

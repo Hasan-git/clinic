@@ -3,7 +3,7 @@
     .controller('CalendarCtrl', CalendarCtrl)
 ;
 
-function CalendarCtrl(appSettings,hub, $scope, $modal, $filter, appointmentResource, uiCalendarConfig, $compile, $templateCache, patientsData, toaster, $rootScope) {
+function CalendarCtrl(appSettings,Hub, $scope, $modal, $filter, appointmentResource, uiCalendarConfig, $compile, $templateCache, patientsData, toaster, $rootScope) {
 
     // Render event 
     //$('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
@@ -107,7 +107,7 @@ function CalendarCtrl(appSettings,hub, $scope, $modal, $filter, appointmentResou
                 break;
 
             case 'CheckedOut':
-                return 'rgba(207, 207, 207, 0.53)';
+                return 'rgba(49, 49, 49, 0.53)';
                 //return '#bbbbbb';
                 break;
 
@@ -251,6 +251,7 @@ function CalendarCtrl(appSettings,hub, $scope, $modal, $filter, appointmentResou
                 return false;
             } else {
                 $scope.newAppointment.$save(function (data) {
+                    $scope.hub.newApp(data)
                     $scope.calendarLoading(false);
                     //$scope.events.push($scope.newAppointment);
                     data.start = utcToLocal(data.start)
@@ -476,6 +477,7 @@ function CalendarCtrl(appSettings,hub, $scope, $modal, $filter, appointmentResou
                     $scope.newAppointment.reason = result[0].reason;
 
                     $scope.newAppointment.$save(function (data) {
+                        $scope.hub.newApp(data);
                         $scope.calendarLoading(false);
 
                         data.start = utcToLocal(data.start)
@@ -527,7 +529,9 @@ function CalendarCtrl(appSettings,hub, $scope, $modal, $filter, appointmentResou
             eventClick: $scope.alertOnEventClick,
             eventDrop: $scope.eventDrop,
             eventResize: $scope.alertOnResize,
-            hiddenDays: [ 0,2,4,6 ],
+            defaultView: 'agendaWeek',
+            hiddenDays: [0, 2, 4, 6],
+            //hiddenDays: [],
             drop: $scope.externalDrop,
             dayRightclick: $scope.rightDayClick,
             reportSelection: function (start, end, ev) {
@@ -568,9 +572,9 @@ function CalendarCtrl(appSettings,hub, $scope, $modal, $filter, appointmentResou
             events: {
                 data: $scope.events
             },
-            slotDuration: '00:20:00',
-            snapDuration: '00:20:00',//Event Time // Vertical movement 1 min
-            defaultTimedEventDuration: "00:20:00",
+            slotDuration: '00:15:00',
+            snapDuration: '00:15:00',//Event Time // Vertical movement 1 min
+            defaultTimedEventDuration: "00:15:00",
             timezone:'local',
             eventLimit: true,
             views: {
@@ -593,7 +597,7 @@ function CalendarCtrl(appSettings,hub, $scope, $modal, $filter, appointmentResou
     /* Event sources array */
     $scope.eventSources = [$scope.events];
 
-    var hub = new Hub('AppointmentHub',
+    $scope.hub = new Hub('AppointmentHub',
       {
           //rootPath: "http://localhost:63392/signalr",
           rootPath: appSettings.serverPath + "/signalr",
@@ -604,6 +608,7 @@ function CalendarCtrl(appSettings,hub, $scope, $modal, $filter, appointmentResou
           listeners: {
               'newConnection': function (id) {
                   console.log(id)
+                  
               },
               'removeConnection': function (id) {
                   console.log(id)
@@ -613,6 +618,7 @@ function CalendarCtrl(appSettings,hub, $scope, $modal, $filter, appointmentResou
 
                   events.map(function (val, key) {
                       if (val.id == appointment.id) {
+                          $('.popover').remove();
                           var ev = {};
                           ev = {
                               id: appointment.id,
@@ -644,15 +650,16 @@ function CalendarCtrl(appSettings,hub, $scope, $modal, $filter, appointmentResou
                   })
 
               },
-              'newAppointment': function (appointment) {
+              'newApp': function (appointment) {
 
                   var events = uiCalendarConfig.calendars.myCalendar1.fullCalendar('clientEvents')
 
-
+                  console.log("newAppointment")
                   var isExistingEvent = events.some(function (ev) {
                         return ev.id == appointment.id
                   })
                   if (isExistingEvent == false) {
+                      $('.popover').remove();
                       var event = {
                           id: appointment.id,
                           title: appointment.title,
@@ -687,6 +694,7 @@ function CalendarCtrl(appSettings,hub, $scope, $modal, $filter, appointmentResou
 
                   events.map(function (val, key) {
                       if (val.id == appointment.id) {
+                          $('.popover').remove();
                           events[key].eventStatus = appointment.status
                           events[key].backgroundColor = eventBgColor(appointment.status)
                           events[key].borderColor = eventBgColor(appointment.status)
@@ -697,6 +705,7 @@ function CalendarCtrl(appSettings,hub, $scope, $modal, $filter, appointmentResou
               'removed': function (id) {
                   var events = uiCalendarConfig.calendars.myCalendar1.fullCalendar('clientEvents')
                   events.map(function (val, key) {
+                      $('.popover').remove();
                       if (val.id == id) {
                           //$scope.events.splice(key, 1)
                           uiCalendarConfig.calendars.myCalendar1.fullCalendar('removeEvents', val._id)
@@ -707,18 +716,19 @@ function CalendarCtrl(appSettings,hub, $scope, $modal, $filter, appointmentResou
                   var events = uiCalendarConfig.calendars.myCalendar1.fullCalendar('clientEvents')
 
                   events.map(function (val, key) {
+                      $('.popover').remove();
                       if (val.id == appointment.id) {
+                          toaster.pop('info', "Payment Released", appointment.patientName + " should pay : " + appointment.payment, 900000);
                           events[key].payment = appointment.payment 
                           uiCalendarConfig.calendars.myCalendar1.fullCalendar('renderEvent', events[key], true)
 
-                          toaster.pop('info', "Payment Released", appointment.patientName +" should pay : " + appointment.payment, 50000);
                       }
                   })
-              }
+              },
           },
 
           //server side methods
-          methods: ['tell', 'payment'],
+          methods: ['tell', 'newApp'],
           //handle connection error
           errorHandler: function (error) {
               console.error(error);
@@ -741,6 +751,11 @@ function CalendarCtrl(appSettings,hub, $scope, $modal, $filter, appointmentResou
               }
           }
       });
+    
+    $scope.callback = function () {
+        console.log("asdasd")
+        $scope.hub.newApp("aaa")
+    }
     //hub.connect()
 
 } //  +++++ END Calendar Controller ++++

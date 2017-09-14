@@ -33,7 +33,7 @@ namespace Clinic.Infrastructure.Data.Repositories
        // Get specific doctors's consultation by consultation Id
         public new async Task<Consultation> GetById(Guid consultationId)
         {
-                var consultation = await DbSet.Include(f=>f.FollowUps).Where(f=>f.IsDeleted==false).Include(x => x.Images).FirstOrDefaultAsync(p => p.Id == consultationId );
+                var consultation = await DbSet.Include(f=>f.FollowUps).Include(x=>x.FollowUps.Select(e=>e.Images)).Where(f=>f.IsDeleted==false).Include(x => x.Images).FirstOrDefaultAsync(p => p.Id == consultationId );
                 if (consultation == null)
                     return null;
 
@@ -46,6 +46,7 @@ namespace Clinic.Infrastructure.Data.Repositories
             var consultations = await DbSet
                 .Where(p => p.PatientId == patientId && p.DoctorId == doctorId && p.IsDeleted == false)
                 .Include( f => f.FollowUps)
+                .Include( f => f.FollowUps.Select(c=>c.Images))
                 .Include(x => x.Images)
                 .OrderBy(u => u.EntryDate)
                 .ToListAsync();

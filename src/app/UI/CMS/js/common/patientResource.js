@@ -11,7 +11,7 @@
                 'get': { method: 'GET'},
                 'update': { method: 'PUT' },
                 'deletePatient': {
-                    method: "DELETE",
+                    method: "GET",
                     url: appSettings.serverPath + "/api/Patients/delete",
                 }
             }),

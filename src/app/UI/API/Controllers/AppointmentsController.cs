@@ -124,7 +124,7 @@ namespace Api.Controllers
                 Uow.AppointmentRepository.Add(appointment);
                 await Uow.Commit();
 
-                MainHub.newAppointment(appointment);
+                //MainHub.newAppointment(appointment);
 
                 return Ok(appointment);
             }

@@ -21,9 +21,13 @@ namespace Api.Hubs
             Clients.All.newConnection(Context.ConnectionId);
             return base.OnConnected();
         }
-
+        public void newApp(Appointment content)
+        {
+            Clients.Others.newApp(content);
+        }
         public static void newAppointment(Appointment content)
         {
+            //Not used anymore
             hubContext.Clients.All.newAppointment(content);
         }
         public static void updatedAppointment(Appointment content)

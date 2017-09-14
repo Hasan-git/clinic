@@ -91,6 +91,7 @@ namespace Api.Controllers
         }
 
         // PUT: api/Patients/5
+        [Route("api/Patients/update"), HttpPost]
         [ResponseType(typeof(Patient))]
         public async Task<IHttpActionResult> Put( [FromBody]Patient patient)
         {

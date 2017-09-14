@@ -9,7 +9,10 @@
             {
                 'post': { method: 'POST' },
                 'get': { method: 'GET'},
-                'update': { method: 'PUT' },
+                'update': {
+                    method: 'POST',
+                    url: appSettings.serverPath + "/api/Patients/update",
+                },
                 'deletePatient': {
                     method: "GET",
                     url: appSettings.serverPath + "/api/Patients/delete",

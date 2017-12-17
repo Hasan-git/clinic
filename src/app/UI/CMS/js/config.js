@@ -84,7 +84,7 @@ function config($stateProvider, $urlRouterProvider) {
             url: "/patients_list",
             templateUrl: "views/patient/patients_list.html",
             controller: patientList,
-            controllerAs: "patlist",
+            //controllerAs: "patlist",
             data: { pageTitle: 'Patients list' },
             resolve: {
                 resolvedData: function (patientResource, $rootScope) {
@@ -92,7 +92,12 @@ function config($stateProvider, $urlRouterProvider) {
                     return patientResource.doctor.doctorPatient({ id: $rootScope.rootDoctorId }).$promise.then(function (data) {
                         var res = JSON.parse(angular.toJson(data));
                         console.log(res);
-                        return JSON.parse(angular.toJson(data));
+                        res.map(function (patient) {
+                            patient.firstName = angular.lowercase(patient.firstName)
+                            patient.middelName = angular.lowercase(patient.middelName)
+                            patient.lastName = angular.lowercase(patient.lastName)
+                        })
+                        return JSON.parse(angular.toJson(res));
                     });
                 }
             }

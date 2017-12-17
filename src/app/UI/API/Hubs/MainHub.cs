@@ -34,11 +34,12 @@ namespace Api.Hubs
         {
             hubContext.Clients.All.updatedAppointment(content);
         }
-        public static void eventStatus(Guid id,string status)
+        public static void eventStatus(Guid id,string status,string patientName)
         {
             dynamic Jobject = new JObject();
             Jobject.id = id;
             Jobject.status = status;
+            Jobject.patientName = patientName;
             hubContext.Clients.All.eventStatus(Jobject);
         }
         public static void removed(Guid id)

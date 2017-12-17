@@ -224,6 +224,7 @@
     <Content Include="js\Controllers\newDoctor.js" />
     <Content Include="js\Controllers\newFollowUp.js" />
     <Content Include="js\Controllers\newPatient.js" />
+    <Content Include="js\Controllers\patientList - original.js" />
     <Content Include="js\Controllers\patientList.js" />
     <Content Include="js\Controllers\viewFollowUp.js" />
     <Content Include="js\Controllers\viewPatient.js" />
@@ -236,6 +237,7 @@
     <Content Include="js\jquery\jquery-ui-1.10.4.min.js" />
     <Content Include="js\jquery\jquery-ui.custom.min.js" />
     <Content Include="js\jquery\moment.min.js" />
+    <Content Include="js\notification.mp3" />
     <Content Include="js\orders\order.js" />
     <Content Include="js\plugins\angular-filter\angular-filter.js" />
     <Content Include="js\plugins\angular-filter\angular-filter.min.js" />
@@ -244,6 +246,7 @@
     <Content Include="js\plugins\angular-signalr-hub\jquery.signalR-2.2.1.min.js" />
     <Content Include="js\plugins\angular-signalr-hub\signalr-hub.js" />
     <Content Include="js\plugins\angular-signalr-hub\signalr-hub.min.js" />
+    <Content Include="js\plugins\angular-sounds\anguar.audio.js" />
     <Content Include="js\plugins\chartJs\angles.js" />
     <Content Include="js\plugins\chartJs\Chart.min.js" />
     <Content Include="js\plugins\chosen\chosen.jquery.js" />
@@ -800,6 +803,7 @@
     <Content Include="js\plugins\x-editable\xeditable.js" />
     <Content Include="js\plugins\x-editable\xeditable.min.js" />
     <Content Include="js\services\services.js" />
+    <Content Include="js\soft-bells.mp3" />
     <Content Include="js\toaster-0.4.16.min.js" />
     <Content Include="js\toastr.min.css" />
     <Content Include="js\toastr.min.js" />
@@ -869,6 +873,7 @@
     <Content Include="views\patient\edit_patient.html" />
     <Content Include="views\patient\new_patient - Copy.html" />
     <Content Include="views\patient\new_patient.html" />
+    <Content Include="views\patient\patients_list_original.html" />
     <Content Include="views\patient\patients_list.html" />
     <Content Include="views\patient\view_patient.html" />
     <Content Include="views\skin-config.html" />

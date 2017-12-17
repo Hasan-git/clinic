@@ -5,7 +5,7 @@ angular
     .filter('timeAgo', timeAgo)
 ;
 
-function MainCtrl(patientResource, $scope, $rootScope, Hub) {
+function MainCtrl(patientResource, $scope, $rootScope, Hub, appSettings, toaster, notify) {
 
     $rootScope.main = {
         clinicId: "0AA75235-15D1-11E6-9663-005056C00111",
@@ -148,7 +148,45 @@ function MainCtrl(patientResource, $scope, $rootScope, Hub) {
         right: false
     };
 
-  
+    this.hub = new Hub('AppointmentHub',
+        {
+            //rootPath: "http://localhost:63392/signalr",
+            rootPath: appSettings.serverPath + "/signalr",
+            jsonp: true,
+            logging: false,
+            transport: ['webSockets', 'longPolling'],
+            //client side methods
+            listeners: {
+                'eventStatus': function (appointment) {
+                    notify({ message: appointment.patientName + ' has been ' + appointment.status});
+                    //toaster.pop('success', "Appointment", "asdas", 4000);
+                }
+            },
+
+            //server side methods
+            methods: ['tell', 'newApp'],
+            //handle connection error
+            errorHandler: function (error) {
+                console.error(error);
+            },
+
+            stateChanged: function (state) {
+                switch (state.newState) {
+                    case $.signalR.connectionState.connecting:
+                        //your code here
+                        break;
+                    case $.signalR.connectionState.connected:
+                        //your code here
+                        break;
+                    case $.signalR.connectionState.reconnecting:
+                        //your code here
+                        break;
+                    case $.signalR.connectionState.disconnected:
+                        //your code here
+                        break;
+                }
+            }
+        });
 
     //ionSlider
 

@@ -235,7 +235,7 @@ namespace Api.Controllers
                 Uow.AppointmentRepository.Update(appointment);
                 await Uow.Commit();
 
-                MainHub.eventStatus(id, appointment.EventStatus);
+                MainHub.eventStatus(id, appointment.EventStatus,appointment.PatientName);
                 return Ok();
             }
             catch (Exception ex)

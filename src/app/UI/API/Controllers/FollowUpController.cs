@@ -52,6 +52,36 @@ namespace Api.Controllers
             }
         }
 
+        // GET: api/FollowUp/getlastVisitByConsultationId
+        [HttpGet]
+        [ResponseType(typeof(FollowUp))]
+        [Route("api/FollowUp/getlastVisitByConsultationId/{id}")]
+        public async Task<IHttpActionResult> getlastVisitByConsultationId(Guid id)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            try
+            {
+                var consultation = await Uow.ConsultationRepository.GetById(id);
+
+                var followUp = await Uow.FollowUpRepository.GetLastvisitByConsultationId(id);
+
+                if (followUp == null)
+                {
+                    return Ok(consultation);
+                }
+                else if(consultation == null && followUp == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(followUp);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
 
         // POST: api/FollowUp
         [ResponseType(typeof(FollowUp))]
@@ -80,7 +110,8 @@ namespace Api.Controllers
 
 
         // PUT: api/FollowUp/5
-        public async Task<IHttpActionResult> Put([FromBody]FollowUp followUp)
+        [Route("api/FollowUp/update"), HttpPost]
+        public async Task<IHttpActionResult> Update([FromBody]FollowUp followUp)
         {
             if (followUp == null)
                 return BadRequest("followUp cannot be null");
@@ -213,8 +244,10 @@ namespace Api.Controllers
                 var followup = await Uow.FollowUpRepository.GetById(id);
                 if (followup == null)
                     return NotFound();
-                followup.IsDeleted = true;
-                Uow.FollowUpRepository.Update(followup);
+
+                Uow.FollowUpRepository.Delete(followup);
+                //followup.IsDeleted = true;
+                //Uow.FollowUpRepository.Update(followup);
                 await Uow.Commit();
                 return Ok("Deleted");
 

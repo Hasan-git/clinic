@@ -5,8 +5,9 @@ angular
     .filter('timeAgo', timeAgo)
 ;
 
-function MainCtrl(patientResource, $scope, $rootScope, Hub, appSettings, toaster, notify) {
+function MainCtrl(ngAudio,patientResource, $scope, $rootScope, Hub, appSettings, toaster, notify) {
 
+    
     $rootScope.main = {
         clinicId: "0AA75235-15D1-11E6-9663-005056C00111",
         doctorId: "0AA75235-15D1-11E6-9663-005056C00112"
@@ -158,7 +159,11 @@ function MainCtrl(patientResource, $scope, $rootScope, Hub, appSettings, toaster
             //client side methods
             listeners: {
                 'eventStatus': function (appointment) {
-                    notify({ message: appointment.patientName + ' has been ' + appointment.status});
+                    var alert_ = ngAudio.load("js/echo.mp3");
+
+                    alert_.play();
+
+                    notify({ message: appointment.patientName + ' has been ' + appointment.status });
                     //toaster.pop('success', "Appointment", "asdas", 4000);
                 }
             },

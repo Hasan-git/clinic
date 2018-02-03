@@ -25,6 +25,7 @@
     <SccProvider>SAK</SccProvider>
     <UseGlobalApplicationHostFile />
     <TargetFrameworkProfile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -228,7 +229,9 @@
     <Content Include="js\Controllers\patientList.js" />
     <Content Include="js\Controllers\viewFollowUp.js" />
     <Content Include="js\Controllers\viewPatient.js" />
+    <Content Include="js\definite.mp3" />
     <Content Include="js\directives.js" />
+    <Content Include="js\echo.mp3" />
     <Content Include="js\footable.all.min.js" />
     <Content Include="js\inspinia.js" />
     <Content Include="js\jquery\es5-sham.min.js" />

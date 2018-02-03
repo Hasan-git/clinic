@@ -20,7 +20,7 @@ namespace Api.Controllers
         {
             try
             {
-                var appointments = await Uow.AppointmentRepository.GetAll();
+                var appointments = await Uow.AppointmentRepository.GetAppointments();
                 return Ok(appointments);
             }
             catch (Exception ex)
@@ -168,6 +168,7 @@ namespace Api.Controllers
 
 
         // PUT: api/Appointments/5
+        [ HttpPost]
         public async Task<IHttpActionResult> Put(Guid id, [FromBody]Appointment appointment)
         {
             try

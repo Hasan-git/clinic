@@ -10,6 +10,7 @@ namespace Clinic.Core.Domain.Repositories
     public interface IAppointmentRepository : IRepository<Appointment>
     {
         new Task<List<Appointment>> GetAll();
+        Task<List<Appointment>> GetAppointments();
         new Task<Appointment> GetById(Guid id);
         Task<List<Appointment>> GetByDoctorId(Guid id);
 

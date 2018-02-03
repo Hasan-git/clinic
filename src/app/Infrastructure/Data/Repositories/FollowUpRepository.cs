@@ -40,5 +40,19 @@ namespace Clinic.Infrastructure.Data.Repositories
             return followUp;
         }
 
+        public async Task<FollowUp> GetLastvisitByConsultationId(Guid consultationId)
+        {
+            var db = DbContext.Set<Consultation>();
+
+            var followUp = await db
+                .Where(p => p.Id == consultationId && p.IsDeleted == false)
+                .Include(f => f.FollowUps)
+                .Select(x => x.FollowUps.OrderByDescending(o => o.EntryDate).FirstOrDefault())
+                .FirstOrDefaultAsync()
+                ;
+
+            return followUp;
+        }
+
     }
 }

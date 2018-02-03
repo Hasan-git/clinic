@@ -646,7 +646,6 @@ function CalendarCtrl(appSettings, Hub, ngAudio, $scope, $modal, $filter, appoin
                           uiCalendarConfig.calendars.myCalendar1.fullCalendar('updateEvent', events[key])
                       }
                   })
-
               },
               'newApp': function (appointment) {
 
@@ -754,7 +753,7 @@ function CalendarCtrl(appSettings, Hub, ngAudio, $scope, $modal, $filter, appoin
       });
     
     $scope.callback = function () {
-        console.log("asdasd")
+        console.log("Connect..")
         $scope.hub.newApp("aaa")
     }
     //hub.connect()

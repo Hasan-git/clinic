@@ -20,6 +20,12 @@ namespace Clinic.Infrastructure.Data.Repositories
         {
             return await DbSet.ToListAsync();
         }
+        public async Task<List<Appointment>> GetAppointments()
+        {
+            DateTime past = DateTime.Now.AddMonths(-2);
+            return await DbSet.Where(a => a.Start >= past).ToListAsync();
+        }
+
         //Get all Doctor's Appointments 
         public async Task<List<Appointment>> GetByDoctorId(Guid id)
         {

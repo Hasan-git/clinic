@@ -141,9 +141,9 @@ namespace Api.Controllers
 
 
 
-        // PUT: api/Appointments/5
-        [System.Web.Http.ActionName("update")]
-        public async Task<IHttpActionResult> Put(ConsultationModel model)
+        // POST: api/Appointments/5
+        [Route("api/consultations/edit"), HttpPost]
+        public async Task<IHttpActionResult> Edit(ConsultationModel model)
         {
             if (model == null)
                 return BadRequest("Consultation cannot be null");
